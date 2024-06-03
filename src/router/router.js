@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import StartScreen from '../components/StartScreen/StartScreen.vue';
+import GeminiScreen from '../components/GeminiScreen/GeminiScreen.vue';
 import NotFound from '../components/NotFound.vue';
 
 const routes = [
@@ -7,6 +8,11 @@ const routes = [
     path: '/',
     name: 'Start',
     component: StartScreen
+  },
+  {
+    path: '/gemini',
+    name: 'Gemini',
+    component: GeminiScreen
   },
   {
     path: '/404',
