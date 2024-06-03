@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import StartScreen from '../components/StartScreen/StartScreen.vue';
 import GeminiScreen from '../components/GeminiScreen.vue';
 import TrademarkScreen from '../components/TrademarkScreen.vue';
+import TrendScreen from '../components/TrendScreen/TrendScreen.vue';
+
 import NotFound from '../components/NotFound.vue';
 
 const routes = [
@@ -14,6 +16,11 @@ const routes = [
     path: '/gemini',
     name: 'Gemini',
     component: GeminiScreen
+  },
+  {
+    path: '/trends',
+    name: 'Trends',
+    component: TrendScreen
   },
   {
     path: '/trademark',
