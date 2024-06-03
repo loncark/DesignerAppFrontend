@@ -10,6 +10,3 @@ export default {
 };
 </script>
 
-<style>
-/* Global styles can be added here */
-</style>
