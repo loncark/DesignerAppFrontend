@@ -1,5 +1,5 @@
 <template>
-    <div id="card">
+    <div id="designCard">
         <img src="C:\Users\Kristina\Documents\Diplomski rad\DesignerAppFrontend\src\assets\person.png">
         <h1>Idea Title</h1>
         <Button>Edit</Button>
@@ -12,12 +12,12 @@ import Button from 'primevue/button';
 </script>
 
 <style scoped>
-img {
+#designCard>img {
     width: 100px;
     height: 100px;
 }
 
-#card {
+#designCard {
     width: fit-content
 }
 </style>
