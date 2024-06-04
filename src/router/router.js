@@ -5,6 +5,8 @@ import TrademarkScreen from '../components/TrademarkScreen.vue';
 import TrendScreen from '../components/TrendScreen/TrendScreen.vue';
 import EtsyScreen from '../components/EtsyScreen/EtsyScreen.vue';
 import ProductScreen from '../components/ProductScreen.vue';
+import DesignScreen from '../components/DesignScreen/DesignScreen.vue';
+
 
 import NotFound from '../components/NotFound.vue';
 
@@ -13,6 +15,11 @@ const routes = [
     path: '/',
     name: 'Start',
     component: StartScreen
+  },
+  {
+    path: '/design',
+    name: 'Design',
+    component: DesignScreen
   },
   {
     path: '/gemini',
