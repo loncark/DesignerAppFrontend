@@ -6,7 +6,7 @@ import TrendScreen from '../components/TrendScreen/TrendScreen.vue';
 import EtsyScreen from '../components/EtsyScreen/EtsyScreen.vue';
 import ProductScreen from '../components/ProductScreen.vue';
 import DesignScreen from '../components/DesignScreen/DesignScreen.vue';
-
+import StableDiffusionScreen from '../components/StableDiffusionScreen.vue';
 
 import NotFound from '../components/NotFound.vue';
 
@@ -20,6 +20,11 @@ const routes = [
     path: '/design',
     name: 'Design',
     component: DesignScreen
+  },
+  {
+    path: '/sd',
+    name: 'StableDiffusion',
+    component: StableDiffusionScreen
   },
   {
     path: '/gemini',
