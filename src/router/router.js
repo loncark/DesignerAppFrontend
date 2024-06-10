@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import StartScreen from '../components/StartScreen/StartScreen.vue';
 import GeminiScreen from '../components/GeminiScreen.vue';
-import TrademarkScreen from '../components/TrademarkScreen.vue';
+import TrademarkScreen from '../components/TrademarkScreen/TrademarkScreen.vue';
 import TrendScreen from '../components/TrendScreen/TrendScreen.vue';
 import EtsyScreen from '../components/EtsyScreen/EtsyScreen.vue';
 import ProductScreen from '../components/ProductScreen.vue';

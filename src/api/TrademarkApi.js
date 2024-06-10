@@ -1,7 +1,8 @@
-import query from '../utils/requestService'
+import { query } from '../utils/requestService';
 
-async function queryTESS(prompt) {
-    body = JSON.stringify({ prompt: prompt })
-
-    return await query('tess', 'POST', body);
+export async function queryTESS(prompt) {
+    const body = JSON.stringify({ prompt });
+    const response = await query('tess', 'POST', body);
+    
+    return response;  
 }
