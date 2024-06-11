@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import StartScreen from '../components/StartScreen/StartScreen.vue';
+import CreateScreen from '../components/CreateScreen/CreateScreen.vue';
 import GeminiScreen from '../components/GeminiScreen.vue';
 import TrademarkScreen from '../components/TrademarkScreen/TrademarkScreen.vue';
 import TrendScreen from '../components/TrendScreen/TrendScreen.vue';
@@ -13,13 +13,13 @@ import NotFound from '../components/NotFound.vue';
 const routes = [
   {
     path: '/',
-    name: 'Start',
-    component: StartScreen
+    name: 'Designs',
+    component: DesignScreen
   },
   {
-    path: '/design',
-    name: 'Design',
-    component: DesignScreen
+    path: '/create',
+    name: 'Create',
+    component: CreateScreen
   },
   {
     path: '/sd',
