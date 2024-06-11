@@ -1,12 +1,19 @@
 <template>
     <div id="trendCard">
         <img src="C:\Users\Kristina\Documents\Diplomski rad\DesignerAppFrontend\src\assets\person.png"/>
-        <p id="trendTime">Trend Time</p>
-        <p id="trendSource">Trend Source</p>
-        <p id="trendTitle">Title of the trend</p>
-        <p id="trendSummary">Summary of the trend</p>
+        <p id="trendTime">{{ article.date }}</p>
+        <p id="trendSource">{{ article.source }}</p>
+        <p id="trendTitle">{{ article.title }}</p>
+        <p id="trendSummary">{{ article.snippet }}</p>
     </div>
 </template>
+
+<script setup>
+import { ref } from 'vue';
+
+const props = defineProps(["search_item"])
+const article = ref(props.search_item.articles[0])
+</script>
 
 <style scoped>
 #trendCard {

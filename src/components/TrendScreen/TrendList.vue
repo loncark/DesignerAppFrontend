@@ -1,12 +1,12 @@
 <template>
     <div id="trendList">
-        <TrendCard v-for="num in array" :key="num" />
+        <TrendCard v-for="(search_item, index) in props.searches" :key="index" :search_item="search_item" />
     </div>
 </template>
 
 <script setup>
 import TrendCard from "./TrendCard.vue"
-const array = [1, 2, 3, 4, 5]
+const props = defineProps(["searches"])
 </script>
 
 <style scoped>
