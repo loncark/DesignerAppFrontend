@@ -15,14 +15,17 @@
             <label>Custom prompt</label>
             <Textarea></Textarea>
 
-            <Button label="Generate"></Button>
+            <Button label="Generate" @click="executeQuery"></Button>
         </div>
 
-        <div id="imagePart">
-            <img src="C:\Users\Kristina\Documents\Diplomski rad\DesignerAppFrontend\src\assets\person.png">
+        <p v-if="loading">Loading...</p>
+        <div v-else id="imagePart">
+            <img v-if="base64Image" :src="base64Image">
+            <img v-else src="C:\Users\Kristina\Documents\Diplomski rad\DesignerAppFrontend\src\assets\person.png"/>
             <Button id="acceptButton" label="Accept"></Button>
             <Button id="discardButton" label="Discard"></Button>
         </div>
+        
     </div>
 </template>
 
@@ -30,6 +33,26 @@
 import InputText from "primevue/inputtext";
 import Button from 'primevue/button';
 import Textarea from "primevue/textarea";
+import { querySDtxt2img } from '../api/StableDiffusionApi'
+import { ref, computed } from "vue";
+
+const loading = ref(false);
+const base64String = ref(null);
+
+const base64Image = computed(() => {
+    return base64String.value ? `data:image/png;base64,${base64String.value}` : '';
+});
+
+const executeQuery = async () => {
+    try {
+        loading.value = true;
+        const response = await querySDtxt2img();
+        base64String.value = response.images[0]
+        loading.value = false;
+    } catch (error) {
+        console.log(`Error: ${error.message}`); 
+    }
+};
 </script>
 
 <style scoped>

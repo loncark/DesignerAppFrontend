@@ -40,7 +40,7 @@ const executeQuery = async () => {
         items.value = response.items
 
     } catch (error) {
-        response.value = `Error: ${error.message}`;
+        console.log(`Error: ${error.message}`); 
     }
 
 }

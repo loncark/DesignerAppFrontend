@@ -30,7 +30,7 @@ const executeQuery = async () => {
         const result = await queryGemini(inputText.value);
         response.value = result;
     } catch (error) {
-        response.value = `Error: ${error.message}`;
+        console.log(`Error: ${error.message}`); 
     }
 };
 
