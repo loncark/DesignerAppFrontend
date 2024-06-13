@@ -3,19 +3,17 @@
         <h1>Stable Diffusion</h1>
 
         <div id="sdScreenInputFields">
-            <label>No iterations</label>
-            <InputText></InputText>
             <label>Steps</label>
-            <InputText></InputText>
+            <InputText v-model="noSteps"></InputText>
             <label>Width</label>
-            <InputText></InputText>
+            <InputText v-model="width"></InputText>
             <label>Height</label>
-            <InputText></InputText>
+            <InputText v-model="height"></InputText>
 
             <label>Custom prompt</label>
-            <Textarea></Textarea>
+            <Textarea v-model="customPrompt"></Textarea>
 
-            <Button label="Generate" @click="executeQuery"></Button>
+            <Button :label="generateBtnLabel" @click="handleGenerateClick"></Button>
         </div>
 
         <p v-if="loading">Loading...</p>
@@ -23,7 +21,7 @@
             <img v-if="base64Image" :src="base64Image">
             <img v-else src="C:\Users\Kristina\Documents\Diplomski rad\DesignerAppFrontend\src\assets\person.png"/>
             <Button id="acceptButton" label="Accept"></Button>
-            <Button id="discardButton" label="Discard"></Button>
+            <Button id="discardButton" label="Discard" @click="discardImg"></Button>
         </div>
         
     </div>
@@ -33,26 +31,80 @@
 import InputText from "primevue/inputtext";
 import Button from 'primevue/button';
 import Textarea from "primevue/textarea";
-import { querySDtxt2img } from '../api/StableDiffusionApi'
+import { querySDtxt2img, querySDimg2img } from '../api/StableDiffusionApi'
 import { ref, computed } from "vue";
 
 const loading = ref(false);
 const base64String = ref(null);
 
+const noSteps = ref(1)
+const width = ref(64)
+const height = ref(64)
+const customPrompt = ref('a yellow triangle')
+
+const generateBtnLabel = computed(() => {
+    return base64String.value ? 'Modify' : 'Generate';
+});
 const base64Image = computed(() => {
     return base64String.value ? `data:image/png;base64,${base64String.value}` : '';
 });
 
-const executeQuery = async () => {
+const handleGenerateClick = () => {
+    if (base64String.value === null) {
+        executeTxt2Img();
+    } else {
+        executeImg2Img();
+    }
+};
+
+const executeTxt2Img = async () => {
     try {
         loading.value = true;
-        const response = await querySDtxt2img();
+        let params = {
+        "prompt": customPrompt.value,
+        "batch_size": 1,
+        "steps": noSteps.value,
+        "cfg_scale": 1,
+        "width": width.value,
+        "height": height.value,
+        "restore_faces": false,
+        "tiling": false,  
+    }
+        const response = await querySDtxt2img(params);
         base64String.value = response.images[0]
         loading.value = false;
     } catch (error) {
         console.log(`Error: ${error.message}`); 
     }
 };
+
+const executeImg2Img = async () => {
+    try {
+        loading.value = true;
+        let params = {
+        "prompt": customPrompt.value,
+        "batch_size": 1,
+        "steps": noSteps.value,
+        "cfg_scale": 1,
+        "width": width.value,
+        "height": height.value,
+        "restore_faces": false,
+        "tiling": false,  
+        "init_images": [
+            base64String.value
+        ],
+    }
+        const response = await querySDimg2img(params);
+        base64String.value = response.images[0]
+        loading.value = false;
+    } catch (error) {
+        console.log(`Error: ${error.message}`); 
+    }
+};
+
+const discardImg = () => {
+    base64String.value = null;
+}
 </script>
 
 <style scoped>
