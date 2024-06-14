@@ -14,6 +14,7 @@
             <Textarea></Textarea>
         </div>
 
+        <h1>Images</h1>
         <ImageList/>
     </div>
 </template>
@@ -26,22 +27,16 @@ import ImageList from './ImageList.vue'
 
 <style scoped>
 #designScreen {
-    display: grid;
-    grid-auto-columns: 2;
-    grid-auto-rows: 2;
+    display: flex;
+    flex-direction: column;
 }
 
 #designScreenTopBar {
-    grid-row: 1;
-    grid-column: 1 / 3;
     display: flex;
     flex-direction: row;
 }
 
 #designScreenInputFields {
-    grid-row: 2;
-    grid-column: 1;
-
     display: grid;
     grid-template-rows: auto auto auto;
     grid-template-columns: auto auto;

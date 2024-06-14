@@ -1,12 +1,11 @@
 <template>
     <div id="imageList">
-        <h1>Images</h1>
+        <div id="image" v-for="(imgUrl, index) in imageArray" :key="index">
+            <img :src="imgUrl">
+            <Button label="E"></Button> 
+        </div>
         <div id="newImage">
             <p>+ New</p>
-        </div>
-        <div id="images"  v-for="num in array" :key="num">
-            <img src="C:\Users\Kristina\Documents\Diplomski rad\DesignerAppFrontend\src\assets\person.png">
-            <Button label="E"></Button> 
         </div>
      
     </div>
@@ -14,7 +13,8 @@
 
 <script setup>
 import Button from 'primevue/button';
-const array = [1, 2, 3, 4, 5]
+import { ref } from 'vue';
+const imageArray = ref([])
 
 </script>
 
@@ -29,7 +29,7 @@ const array = [1, 2, 3, 4, 5]
     grid-column: 1 / 4;
 }
 
-#images>img {
+#image>img {
     height: 100px;
     width: 100px;
 }

@@ -8,7 +8,7 @@
 
 <script setup>
 import Button from 'primevue/button';
-
+const props = defineProps(["design"])
 </script>
 
 <style scoped>
