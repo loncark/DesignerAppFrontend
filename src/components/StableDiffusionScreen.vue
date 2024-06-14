@@ -20,7 +20,7 @@
         <div v-else id="imagePart">
             <img v-if="base64Image" :src="base64Image">
             <img v-else src="C:\Users\Kristina\Documents\Diplomski rad\DesignerAppFrontend\src\assets\person.png"/>
-            <Button id="acceptButton" label="Accept"></Button>
+            <Button id="acceptButton" label="Accept" @click="uploadImage"></Button>
             <Button id="discardButton" label="Discard" @click="discardImg"></Button>
         </div>
         
@@ -32,6 +32,7 @@ import InputText from "primevue/inputtext";
 import Button from 'primevue/button';
 import Textarea from "primevue/textarea";
 import { querySDtxt2img, querySDimg2img } from '../api/StableDiffusionApi'
+import { uploadImgToFirebaseStorage } from '../api/FirebaseApi'
 import { ref, computed } from "vue";
 
 const loading = ref(false);
@@ -104,6 +105,15 @@ const executeImg2Img = async () => {
 
 const discardImg = () => {
     base64String.value = null;
+}
+
+const uploadImage = async () => {
+    if (!base64String.value) {
+        console.log("No image provided");
+        return;
+    }
+    let downloadUrl = await uploadImgToFirebaseStorage(base64String.value);
+    console.log("Image successfully uploaded: " + downloadUrl);
 }
 </script>
 
