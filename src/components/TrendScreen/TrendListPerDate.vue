@@ -2,7 +2,7 @@
     <div id="trendListPerDate">
         <div v-for="(search_item, index) in props.searches" :key="index" id="trendCard">
             <img src="C:\Users\Kristina\Documents\Diplomski rad\DesignerAppFrontend\src\assets\person.png"/>
-            <p id="trendTime">{{ search_item.articles[0].date }}</p>
+            <p id="trendTraffic">{{ search_item.traffic }} views</p>
             <p id="trendSource">{{ search_item.articles[0].source }}</p>
             <p id="trendTitle">{{ search_item.articles[0].title }}</p>
             <p id="trendSummary">{{ search_item.articles[0].snippet }}</p>
