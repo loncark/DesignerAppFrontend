@@ -14,6 +14,7 @@
 </template>
 
 <script setup>
+// trendovi mogu samo unazad mjesec dana
 import Calendar from 'primevue/calendar';
 import DateList from './DateList.vue';
 import { queryTrends } from '../../api/TrendsApi';
