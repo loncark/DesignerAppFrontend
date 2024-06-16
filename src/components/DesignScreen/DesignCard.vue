@@ -1,18 +1,21 @@
 <template>
     <div id="designCard">
-        <img src="C:\Users\Kristina\Documents\Diplomski rad\DesignerAppFrontend\src\assets\person.png">
-        <h1>Idea Title</h1>
+        <img v-if="images.length > 0" :src="images[0]" alt="img">
+        <p v-else>No image present</p>
+        <h1>{{ props.design.design_name }}</h1>
         <Button>Edit</Button>
     </div>
 </template>
 
 <script setup>
 import Button from 'primevue/button';
-const props = defineProps(["design"])
+import { ref } from 'vue';
+const props = defineProps(["design"]);
+const images = ref(props.design.image_links);
 </script>
 
 <style scoped>
-#designCard>img {
+#designCard>img, #designCard>p {
     width: 100px;
     height: 100px;
 }

@@ -1,21 +1,23 @@
 <template>
     <div id="topBar">
       <h1>Designs</h1>
-      <Button label="New" icon="pi pi-plus" @click="getAllDesigns"></Button>
+      <Button label="New" icon="pi pi-plus"></Button>
     </div>
-    <div id="designCardList">
-        <DesignCard v-for="(design, index) in array" :key="index" :design="design"/>    
+    <p v-if="loading">Loading...</p>
+    <div v-else id="designCardList">
+        <DesignCard v-for="(design, index) in designArray" :key="index" :design="design"/>    
     </div>
+    
 </template>
   
 <script setup>
   import Button from 'primevue/button';
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
   import { getAllDesignsFromStorage } from '../../api/FirebaseApi';
   import DesignCard from './DesignCard.vue';
 
   const loading = ref(false);
-  const designArray = ref([1,2,3,4,5])
+  const designArray = ref([])
 
   const getAllDesigns = async () => {
     loading.value = true;
@@ -23,6 +25,10 @@
     designArray.value = response;
     loading.value = false;
   }
+
+  onMounted(() => {
+    getAllDesigns();
+});
 </script>
 
 <style scoped>
