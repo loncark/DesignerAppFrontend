@@ -2,7 +2,7 @@
     <div id="createScreen">
         <div id="createScreenTopBar">
             <InputText v-model="design.design_name" placeholder="Design name"></InputText>
-            <Button label="Save"></Button>
+            <Button label="Save" @click="saveToFirebase"></Button>
         </div>
 
         <div id="createScreenInputFields">
@@ -25,7 +25,7 @@
                     <InputText v-model="newLink" placeholder="Paste url and click 'Add'"></InputText>
                     <Button label="Add" @click="addLink"></Button>
                 </div>
-                <Chip v-for="(link, index) in design.image_links" :key="link" :label="link" removable @remove="removeLink(index)" class="flex-row"/>
+                <Chip v-for="(link, index) in design.related_links" :key="link" :label="link" removable @remove="removeLink(index)" class="flex-row"/>
             </div>
         </div>
 
@@ -42,6 +42,7 @@ import { useDesignStore } from '../../store/DesignStore';
 import { ref, onMounted } from 'vue';
 import Chip from 'primevue/chip';
 import { nullDesign } from '../../utils/constants';
+import { uploadDesignToRealtimeDb } from '../../api/FirebaseApi'
 
 const design = ref(nullDesign);
 const designStore = useDesignStore();
@@ -62,12 +63,18 @@ const addTag = () => {
 }
 
 const removeLink = (index) => {
-    design.value.image_links.splice(index, 1);
+    design.value.related_links.splice(index, 1);
 }
 
 const addLink = () => {
-    design.value.image_links.push(newLink.value);
+    design.value.related_links.push(newLink.value);
     newLink.value = "";
+}
+
+const saveToFirebase = async () => {
+    console.log(JSON.stringify(design.value))
+    const response = await uploadDesignToRealtimeDb(design.value);
+    console.log(response);
 }
 </script>
 

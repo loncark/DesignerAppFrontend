@@ -4,7 +4,8 @@ export const TITLE_PROMPT = "Generate me a list of synonyms I could use in the t
 export const IDEA_PROMPT = "Generate me a list of ideas about 'INSERT TREND HERE' that are funny and could be put on a t-shirt."
 export const nullDesign = {
       "design_name": "",
-      "id": null,
+      "design_id": null,
+      "related_links": [],
       "image_links": [],
       "tags": [],
       "title": ""

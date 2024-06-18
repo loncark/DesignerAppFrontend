@@ -1,5 +1,6 @@
 import { BACKEND_BASE_URL } from '../utils/constants'
 import { query } from '../utils/requestService';
+import { base64ToBlob } from '../utils/functions';
 
 export const uploadImgToFirebaseStorage = async (base64String) => {
     let formData = new FormData();
@@ -29,16 +30,29 @@ export const uploadImgToFirebaseStorage = async (base64String) => {
     }
 }
 
-function base64ToBlob(base64) {
-    let byteChars = atob(base64);
-    let byteNumbers = new Array(byteChars.length);
-    for (let i = 0; i < byteChars.length; i++) {
-        byteNumbers[i] = byteChars.charCodeAt(i);
-    }
-    let byteArray = new Uint8Array(byteNumbers);
-    return new Blob([byteArray], {type: "image/png"});
-}
-
 export const getAllDesignsFromStorage = async () => {
     return await query('db/allDesigns', 'GET', null);
 }
+
+export const uploadDesignToRealtimeDb = async (design) => {
+    try {
+        let response = await fetch(BACKEND_BASE_URL + 'db/saveDesign', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(design)
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        return await response.text();
+
+    } catch (error) {
+        console.error('Error:', error);
+        return null;
+    }
+}
+
