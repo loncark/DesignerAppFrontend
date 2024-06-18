@@ -2,10 +2,10 @@
     <div id="imageList">
         <div class="imageListImage" v-for="imgUrl in props.images" :key="imgUrl">
             <img :src="imgUrl">
-            <Button label="E"></Button> 
+            <Button label="Modify" @click="goToSDScreen(imgUrl)"></Button> 
         </div>
-        <div id="newImage">
-            <p>+ New</p>
+        <div id="newImage" @click="goToSDScreen">
+            <p @click="goToSDScreen(null)">+ New</p>
         </div>
      
     </div>
@@ -13,8 +13,15 @@
 
 <script setup>
 import Button from 'primevue/button';
+import { useRouter } from 'vue-router';
 
 const props = defineProps(["images"])
+const router = useRouter();
+
+const goToSDScreen = (url) => {
+    designStore.setImgUrl(url);
+    router.push('/sd');
+}
 
 </script>
 

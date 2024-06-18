@@ -72,7 +72,6 @@ const addLink = () => {
 }
 
 const saveToFirebase = async () => {
-    console.log(JSON.stringify(design.value))
     const response = await uploadDesignToRealtimeDb(design.value);
     console.log(response);
 }

@@ -20,7 +20,7 @@
         <div v-else id="imagePart">
             <img v-if="base64Image" :src="base64Image">
             <img v-else src="C:\Users\Kristina\Documents\Diplomski rad\DesignerAppFrontend\src\assets\person.png"/>
-            <Button id="acceptButton" label="Accept" @click="uploadImage"></Button>
+            <Button id="acceptButton" label="Accept" @click="acceptImage"></Button>
             <Button id="discardButton" label="Discard" @click="discardImg"></Button>
         </div>
         
@@ -33,10 +33,12 @@ import Button from 'primevue/button';
 import Textarea from "primevue/textarea";
 import { querySDtxt2img, querySDimg2img } from '../api/StableDiffusionApi'
 import { uploadImgToFirebaseStorage } from '../api/FirebaseApi'
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
+import { useDesignStore } from '../store/DesignStore';
 
 const loading = ref(false);
 const base64String = ref(null);
+const designStore = useDesignStore();
 
 const noSteps = ref(1)
 const width = ref(64)
@@ -49,6 +51,16 @@ const generateBtnLabel = computed(() => {
 const base64Image = computed(() => {
     return base64String.value ? `data:image/png;base64,${base64String.value}` : '';
 });
+
+onMounted(() => {
+    if(designStore.imgUrl) {
+        base64String.value = loadImg(designStore.imgUrl);
+    }
+});
+
+const loadImg = async (imgUrl) => {
+    return await convertImageToBase64(imgUrl);
+}
 
 const handleGenerateClick = () => {
     if (base64String.value === null) {
@@ -107,13 +119,20 @@ const discardImg = () => {
     base64String.value = null;
 }
 
+const acceptImage = async () => {
+    let downloadUrl = await uploadImage();
+    designStore.addImgUrl(downloadUrl);
+    router.back();
+}
+
 const uploadImage = async () => {
     if (!base64String.value) {
         console.log("No image provided");
         return;
     }
     let downloadUrl = await uploadImgToFirebaseStorage(base64String.value);
-    console.log("Image successfully uploaded: " + downloadUrl);
+    console.log("Image successfully uploaded");
+    return downloadUrl
 }
 </script>
 
