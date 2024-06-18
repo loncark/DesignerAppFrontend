@@ -1,6 +1,6 @@
 <template>
     <div id="imageList">
-        <div id="image" v-for="(imgUrl, index) in imageArray" :key="index">
+        <div class="imageListImage" v-for="imgUrl in props.images" :key="imgUrl">
             <img :src="imgUrl">
             <Button label="E"></Button> 
         </div>
@@ -13,8 +13,8 @@
 
 <script setup>
 import Button from 'primevue/button';
-import { ref } from 'vue';
-const imageArray = ref([])
+
+const props = defineProps(["images"])
 
 </script>
 
@@ -29,7 +29,7 @@ const imageArray = ref([])
     grid-column: 1 / 4;
 }
 
-#image>img {
+.imageListImage>img {
     height: 100px;
     width: 100px;
 }

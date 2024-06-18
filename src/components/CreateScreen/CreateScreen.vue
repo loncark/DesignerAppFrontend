@@ -1,18 +1,18 @@
 <template>
     <div id="createScreen">
         <div id="createScreenTopBar">
-            <h1>{{ design.design_name }}</h1>
+            <InputText v-model="design.design_name" placeholder="Design name"></InputText>
             <Button label="Save"></Button>
         </div>
 
         <div id="createScreenInputFields">
             <label>Title</label>
-            <InputText>{{ design.title }}</InputText>
+            <InputText v-model="design.title" placeholder="Listing title"></InputText>
 
             <label>Tags</label>
             <div>
                 <div class="flex-row">
-                    <InputText v-model="newTag"></InputText>
+                    <InputText v-model="newTag" placeholder="Type tag and click 'Add'"></InputText>
                     <Button label="Add" @click="addTag"></Button>
                 </div>
                 <!-- DO NOT USE INDEX AS KEY WHEN DELETING ITEMS IN V-FOR! -->
@@ -22,7 +22,7 @@
             <label>Related links</label>
             <div>
                 <div class="flex-row">
-                    <InputText v-model="newLink"></InputText>
+                    <InputText v-model="newLink" placeholder="Paste url and click 'Add'"></InputText>
                     <Button label="Add" @click="addLink"></Button>
                 </div>
                 <Chip v-for="(link, index) in design.image_links" :key="link" :label="link" removable @remove="removeLink(index)" class="flex-row"/>
@@ -30,7 +30,7 @@
         </div>
 
         <h1>Images</h1>
-        <ImageList/>
+        <ImageList :images="design.image_links"/>
     </div>
 </template>
 

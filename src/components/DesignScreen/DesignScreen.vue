@@ -1,7 +1,7 @@
 <template>
     <div id="topBar">
       <h1>Designs</h1>
-      <Button label="New" icon="pi pi-plus"></Button>
+      <Button label="New" icon="pi pi-plus" @click="goToCreateScreen"></Button>
     </div>
     <p v-if="loading">Loading...</p>
     <div v-else id="designCardList">
@@ -15,9 +15,14 @@
   import { ref, onMounted } from 'vue';
   import { getAllDesignsFromStorage } from '../../api/FirebaseApi';
   import DesignCard from './DesignCard.vue';
+  import { useRouter } from 'vue-router';
+  import { useDesignStore } from '../../store/DesignStore';
 
   const loading = ref(false);
   const designArray = ref([])
+
+  const router = useRouter();
+  const designStore = useDesignStore();
 
   const getAllDesigns = async () => {
     loading.value = true;
@@ -29,6 +34,11 @@
   onMounted(() => {
     getAllDesigns();
 });
+
+const goToCreateScreen = () => {
+  designStore.resetDesign();
+  router.push('/create');
+};
 </script>
 
 <style scoped>
