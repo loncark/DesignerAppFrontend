@@ -1,4 +1,4 @@
-import { query } from '../utils/requestService'
+import { query } from '../utils/functions'
 
 export async function queryTrends(date, country_code) {
     const body = JSON.stringify({ date: date, country_code: country_code })

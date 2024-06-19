@@ -1,14 +1,22 @@
-import './style.css'
-import { createApp } from 'vue'; 
+import './style.css';
+import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router/router.js';
 import PrimeVue from 'primevue/config';
 import { createPinia } from 'pinia';
+import { initializeFirebase } from './utils/FirebaseConfig';
 
-const app = createApp(App);
-const pinia = createPinia();
+async function startApp() {
+  await initializeFirebase();
 
-app.use(pinia);
-app.use(router);
-app.use(PrimeVue);
-app.mount('#app');
+  const app = createApp(App);
+  const pinia = createPinia();
+
+  app.use(pinia);
+  app.use(router);
+  app.use(PrimeVue);
+
+  app.mount('#app');
+}
+
+startApp();

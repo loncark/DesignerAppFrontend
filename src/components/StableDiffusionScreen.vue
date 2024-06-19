@@ -32,13 +32,15 @@ import InputText from "primevue/inputtext";
 import Button from 'primevue/button';
 import Textarea from "primevue/textarea";
 import { querySDtxt2img, querySDimg2img } from '../api/StableDiffusionApi'
-import { uploadImgToFirebaseStorage } from '../api/FirebaseApi'
+import { uploadImgToFirebaseStorage, convertImageUrlToBase64 } from '../api/FirebaseApi'
 import { ref, computed, onMounted } from "vue";
 import { useDesignStore } from '../store/DesignStore';
+import { useRouter } from 'vue-router';
 
 const loading = ref(false);
 const base64String = ref(null);
 const designStore = useDesignStore();
+const router = useRouter();
 
 const noSteps = ref(1)
 const width = ref(64)
@@ -59,7 +61,7 @@ onMounted(() => {
 });
 
 const loadImg = async (imgUrl) => {
-    return await convertImageToBase64(imgUrl);
+    return await convertImageUrlToBase64(imgUrl);
 }
 
 const handleGenerateClick = () => {

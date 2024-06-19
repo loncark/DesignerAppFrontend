@@ -1,6 +1,7 @@
 import { BACKEND_BASE_URL } from '../utils/constants'
-import { query } from '../utils/requestService';
-import { base64ToBlob } from '../utils/functions';
+import { base64ToBlob, blobToBase64, query } from '../utils/functions';
+import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+
 
 export const uploadImgToFirebaseStorage = async (base64String) => {
     let formData = new FormData();
@@ -56,3 +57,20 @@ export const uploadDesignToRealtimeDb = async (design) => {
     }
 }
 
+export async function convertImageUrlToBase64(imagePath) {
+  try {
+    const storage = getStorage();
+    const imageRef = ref(storage, imagePath);
+    const url = await getDownloadURL(imageRef);
+
+    const response = await fetch(url);
+    const blob = await response.blob();
+
+    const base64String = await blobToBase64(blob);
+
+    return base64String;
+  } catch (error) {
+    console.error("Error fetching image:", error);
+    throw error; 
+  }
+}

@@ -14,9 +14,11 @@
 <script setup>
 import Button from 'primevue/button';
 import { useRouter } from 'vue-router';
+import { useDesignStore } from '../../store/DesignStore';
 
 const props = defineProps(["images"])
 const router = useRouter();
+const designStore = useDesignStore();
 
 const goToSDScreen = (url) => {
     designStore.setImgUrl(url);

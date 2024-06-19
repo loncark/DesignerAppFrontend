@@ -1,4 +1,4 @@
-import { query } from '../utils/requestService';
+import { query } from '../utils/functions';
 
 export async function queryTESS(prompt) {
     const body = JSON.stringify({ prompt });
