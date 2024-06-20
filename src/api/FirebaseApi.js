@@ -55,6 +55,7 @@ export const uploadDesignToRealtimeDb = async (design) => {
     }
 }
 
+// CORS HAS TO BE ENABLED IN GOOGLE CLOUD! SEE https://stackoverflow.com/questions/37760695/firebase-storage-and-access-control-allow-origin
 export const convertImageUrlToBase64 = async (imagePath) => {
   try {
     const response = await fetch(imagePath);

@@ -56,7 +56,12 @@ const base64Image = computed(() => {
 
 onMounted(async () => {
     if(designStore.imgUrl) {
-        base64String.value = await loadImg(designStore.imgUrl);
+        try {
+            base64String.value = await loadImg(designStore.imgUrl);
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
 });
 
