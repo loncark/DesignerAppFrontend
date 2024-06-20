@@ -55,7 +55,7 @@ export const uploadDesignToRealtimeDb = async (design) => {
     }
 }
 
-export async function convertImageUrlToBase64(imagePath) {
+export const convertImageUrlToBase64 = async (imagePath) => {
   try {
     const response = await fetch(imagePath);
     const blob = await response.blob();
@@ -67,4 +67,20 @@ export async function convertImageUrlToBase64(imagePath) {
     console.error("Error fetching image:", error);
     throw error; 
   }
+}
+
+export const deleteImageFromStorage = async (url) => {
+    const response = await query('storageDelete', 'DELETE', JSON.stringify({ 'imgUrl' : url }));
+    if (response.ok) {
+        return true;
+    }
+    return false;
+}
+
+export const deleteDesignFromDb = async (id) => {
+    const response = await query('db/deleteDesign', 'DELETE', JSON.stringify({ 'design_id' : id }));
+    if (response.ok) {
+        return true;
+    }
+    return false;
 }

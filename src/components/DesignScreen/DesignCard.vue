@@ -3,7 +3,8 @@
         <img v-if="images.length > 0" :src="images[0]" alt="img">
         <p v-else>No image present</p>
         <h1>{{ props.design.design_name }}</h1>
-        <Button @click="goToCreateScreen">Edit</Button>
+        <Button label="Edit" @click="goToCreateScreen"></Button>
+        <Button label="Delete" @click="deleteDesign(props.design.id)"></Button>
     </div>
 </template>
 
@@ -12,6 +13,7 @@ import Button from 'primevue/button';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useDesignStore } from '../../store/DesignStore';
+import { deleteImageFromStorage, deleteDesignFromDb } from '../../api/FirebaseApi';
 
 const props = defineProps(["design"]);
 const images = ref(props.design.image_links);
@@ -23,6 +25,26 @@ const goToCreateScreen = () => {
   designStore.setDesign(props.design);
   router.push('/create');
 };
+
+const deleteDesign = async (id) => {
+    try {
+        for (let i = 0; i < images.length; i++) {
+            let boolean = await deleteImageFromStorage(images[i]);
+            if (boolean) {
+                let temp = images[i];
+                props.design.image_links = props.design.image_links.filter(link => link !== temp)
+            }
+        }
+
+        let boolean = await deleteDesignFromDb(id);
+        if (boolean) {
+            console.log("Design deleted successfully");
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
 </script>
 
 <style scoped>
