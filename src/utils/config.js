@@ -7,4 +7,7 @@ export const firebaseConfig = {
     messagingSenderId: "914955508951",
     appId: "1:914955508951:web:460454f29a2ae74c5da492"
 };
+
+export const adminEmail = 'admin@admin.com';
+export const adminPassword = 'password';
   

@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
-import { firebaseConfig } from './config';
+import { firebaseConfig, adminEmail, adminPassword } from './config';
 
 export async function initializeFirebase() {
   const firebaseApp = initializeApp(firebaseConfig);
@@ -9,11 +9,8 @@ export async function initializeFirebase() {
   const storage = getStorage(firebaseApp);
 
   try {
-    const email = 'admin@admin.com';
-    const password = 'password';
-
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    console.log('User authenticated:', userCredential.user);
+    const userCredential = await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
+    console.log('Admin authenticated');
 
   } catch (error) {
     console.error('Error authenticating:', error);

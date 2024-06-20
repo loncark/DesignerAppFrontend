@@ -20,7 +20,7 @@
         <div v-else id="imagePart">
             <img v-if="base64Image" :src="base64Image">
             <img v-else src="C:\Users\Kristina\Documents\Diplomski rad\DesignerAppFrontend\src\assets\person.png"/>
-            <Button id="acceptButton" label="Accept" @click="acceptImage"></Button>
+            <Button id="acceptButton" label="Accept" @click="acceptImage" :disabled="!base64String"></Button>
             <Button id="discardButton" label="Discard" @click="discardImg"></Button>
         </div>
         
@@ -122,16 +122,16 @@ const discardImg = () => {
 }
 
 const acceptImage = async () => {
+    if (!base64String.value) {
+        console.log("No image provided");
+        return;
+    }
     let downloadUrl = await uploadImage();
     designStore.addImgUrl(downloadUrl);
     router.back();
 }
 
 const uploadImage = async () => {
-    if (!base64String.value) {
-        console.log("No image provided");
-        return;
-    }
     let downloadUrl = await uploadImgToFirebaseStorage(base64String.value);
     console.log("Image successfully uploaded");
     return downloadUrl

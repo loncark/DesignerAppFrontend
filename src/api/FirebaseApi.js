@@ -1,7 +1,5 @@
 import { BACKEND_BASE_URL } from '../utils/constants'
 import { base64ToBlob, blobToBase64, query } from '../utils/functions';
-import { getStorage, ref, getDownloadURL } from 'firebase/storage';
-
 
 export const uploadImgToFirebaseStorage = async (base64String) => {
     let formData = new FormData();
