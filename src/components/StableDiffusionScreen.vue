@@ -54,14 +54,14 @@ const base64Image = computed(() => {
     return base64String.value ? `data:image/png;base64,${base64String.value}` : '';
 });
 
-onMounted(() => {
+onMounted(async () => {
     if(designStore.imgUrl) {
-        base64String.value = loadImg(designStore.imgUrl);
+        base64String.value = await loadImg(designStore.imgUrl);
     }
 });
 
 const loadImg = async (imgUrl) => {
-    return await convertImageUrlToBase64(imgUrl);
+    return await convertImageUrlToBase64(imgUrl); 
 }
 
 const handleGenerateClick = () => {

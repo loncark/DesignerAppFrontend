@@ -57,13 +57,10 @@ export const uploadDesignToRealtimeDb = async (design) => {
     }
 }
 
+// if CORS blocks storage -> https://stackoverflow.com/questions/37760695/firebase-storage-and-access-control-allow-origin
 export async function convertImageUrlToBase64(imagePath) {
   try {
-    const storage = getStorage();
-    const imageRef = ref(storage, imagePath);
-    const url = await getDownloadURL(imageRef);
-
-    const response = await fetch(url);
+    const response = await fetch(imagePath);
     const blob = await response.blob();
 
     const base64String = await blobToBase64(blob);
