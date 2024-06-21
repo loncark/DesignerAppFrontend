@@ -98,14 +98,31 @@ export const deleteImageFromStorage = async (url) => {
     }
     catch (error) {
         console.log(error);
+        console.log("Failed to delete image at " + url);
         return false;
     }
 }
 
 export const deleteDesignFromDb = async (id) => {
-    const response = await query('db/deleteDesign', 'DELETE', JSON.stringify({ 'design_id' : id }));
-    if (response.ok) {
-        return true;
+    try {
+        let response = await fetch(BACKEND_BASE_URL + 'db/deleteDesign', {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 'design_id' : id })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        console.log("Design deleted successfully");
+        return await response.text();
+
+    } catch (error) {
+        console.error('Error:', error);
+        console.log("Failed to delete design with id " + id);
+        return false;
     }
-    return false;
 }

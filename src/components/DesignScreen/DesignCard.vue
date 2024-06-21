@@ -4,7 +4,7 @@
         <p v-else>No image present</p>
         <h1>{{ props.design.design_name }}</h1>
         <Button label="Edit" @click="goToCreateScreen"></Button>
-        <Button label="Delete" @click="deleteDesign(props.design.id)"></Button>
+        <Button label="Delete" @click="deleteDesign(props.design.design_id)"></Button>
     </div>
 </template>
 
@@ -29,17 +29,12 @@ const goToCreateScreen = () => {
 const deleteDesign = async (id) => {
     try {
         for (let i = 0; i < images.length; i++) {
-            let boolean = await deleteImageFromStorage(images[i]);
-            if (boolean) {
-                let temp = images[i];
-                props.design.image_links = props.design.image_links.filter(link => link !== temp)
-            }
+            await deleteImageFromStorage(images[i]);
+            let temp = images[i];
+            props.design.image_links = props.design.image_links.filter(link => link !== temp)
         }
 
-        let boolean = await deleteDesignFromDb(id);
-        if (boolean) {
-            console.log("Design deleted successfully");
-        }
+        await deleteDesignFromDb(id);
     }
     catch (error) {
         console.log(error);
