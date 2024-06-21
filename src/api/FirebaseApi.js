@@ -1,9 +1,10 @@
 import { BACKEND_BASE_URL } from '../utils/constants'
 import { base64ToBlob, blobToBase64, query } from '../utils/functions';
 
-export const uploadImgToFirebaseStorage = async (base64String) => {
+export const uploadImgToFirebaseStorage = async (base64String, design_id) => {
     let formData = new FormData();
     formData.append("image", base64ToBlob(base64String), "image.png");
+    formData.append("design_id", design_id);
 
     try {
         let response = await fetch(BACKEND_BASE_URL + 'storage', {
@@ -26,6 +27,7 @@ export const uploadImgToFirebaseStorage = async (base64String) => {
         return null;
     }
 }
+
 
 export const getAllDesignsFromStorage = async () => {
     return await query('db/allDesigns', 'GET', null);

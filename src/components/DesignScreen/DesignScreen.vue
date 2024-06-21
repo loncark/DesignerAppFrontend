@@ -5,7 +5,7 @@
     </div>
     <p v-if="loading">Loading...</p>
     <div v-else id="designCardList">
-        <DesignCard v-for="(design, index) in designArray" :key="index" :design="design"/>    
+        <DesignCard v-for="(design, index) in designArray" :key="index" :design="design" @design-deleted="getAllDesigns"/>    
     </div>
     
 </template>

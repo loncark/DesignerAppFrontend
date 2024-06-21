@@ -14,9 +14,11 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useDesignStore } from '../../store/DesignStore';
 import { deleteImageFromStorage, deleteDesignFromDb } from '../../api/FirebaseApi';
+import { defineProps, defineEmits } from 'vue';
 
 const props = defineProps(["design"]);
 const images = ref(props.design.image_links);
+const emit = defineEmits(['design-deleted']);
 
 const router = useRouter();
 const designStore = useDesignStore();
@@ -35,6 +37,7 @@ const deleteDesign = async (id) => {
         }
 
         await deleteDesignFromDb(id);
+        emit('design-deleted');
     }
     catch (error) {
         console.log(error);

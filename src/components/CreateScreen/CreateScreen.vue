@@ -2,7 +2,7 @@
     <div id="createScreen">
         <div id="createScreenTopBar">
             <InputText v-model="design.design_name" placeholder="Design name"></InputText>
-            <Button label="Save" @click="saveDesignToFirebase"></Button>
+            <Button label="Save" @click="handleSaveClick"></Button>
         </div>
 
         <div id="createScreenInputFields">
@@ -43,14 +43,29 @@ import { ref, onMounted } from 'vue';
 import Chip from 'primevue/chip';
 import { nullDesign } from '../../utils/constants';
 import { uploadDesignToRealtimeDb } from '../../api/FirebaseApi'
+import { v4 as uuidv4 } from 'uuid';
+import { useRouter } from 'vue-router';
 
 const design = ref(nullDesign);
 const designStore = useDesignStore();
+const router = useRouter();
 const newTag = ref('');
 const newLink = ref('');
 
-onMounted(() => {
-    design.value = designStore.design;
+onMounted(async () => {
+    if (design.value.design_id === null) {
+        design.value.design_id = uuidv4();
+        try {
+            await uploadDesignToRealtimeDb(design.value);
+            designStore.design.design_id = design.value.design_id;
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+    else {
+        design.value = designStore.design;
+    }
 });
 
 const removeTag = (index) => {
@@ -71,9 +86,20 @@ const addLink = () => {
     newLink.value = "";
 }
 
-const saveDesignToFirebase = async () => {
-    const response = await uploadDesignToRealtimeDb(design.value);
-    console.log(response);
+const handleSaveClick = async () => {
+    try {
+        await uploadDesignToRealtimeDb(design.value);
+
+        designStore.resetDesign();
+        design.value = nullDesign;
+        newTag.value = '';
+        newLink.value = '';
+        
+        router.back();
+    }
+    catch (error) {
+        console.log(error);
+    }
 }
 </script>
 

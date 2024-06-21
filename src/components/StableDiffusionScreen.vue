@@ -58,7 +58,9 @@ const base64Image = computed(() => {
 onMounted(async () => {
     if(designStore.imgUrl) {
         try {
+            loading.value = true;
             base64String.value = await loadImg(designStore.imgUrl);
+            loading.value = false;
         }
         catch (error) {
             console.log(error);
@@ -152,7 +154,7 @@ const acceptImage = async () => {
 
 const uploadImage = async () => {
     try {
-        let downloadUrl = await uploadImgToFirebaseStorage(base64String.value);
+        let downloadUrl = await uploadImgToFirebaseStorage(base64String.value, designStore.design.design_id);
         console.log("Image successfully uploaded");
         return downloadUrl
     }
