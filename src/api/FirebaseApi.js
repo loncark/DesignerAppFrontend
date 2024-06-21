@@ -91,12 +91,14 @@ export const convertImageUrlToBase64 = async (imagePath) => {
 }
 
 export const deleteImageFromStorage = async (url) => {
-    const response = await query('storageDelete', 'DELETE', JSON.stringify({ 'imgUrl' : url }));
-    if (response.ok) {
-        return "Image deleted succesfully";
+    try {
+        const response = await query('storageDelete', 'DELETE', JSON.stringify({ 'imgUrl' : url }));
+        console.log("Image deleted successfully");
+        return true;
     }
-    else {
-        return "Error:" + response.msg;
+    catch (error) {
+        console.log(error);
+        return false;
     }
 }
 

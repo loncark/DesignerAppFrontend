@@ -29,14 +29,13 @@ const goToSDScreen = (url) => {
 
 const deleteImage = async (imgUrl) => {
     try {
-        let response = await deleteImageFromStorage(imgUrl);
-        console.log(response)
+        await deleteImageFromStorage(imgUrl);
             
         let tempImageLinks = designStore.design.image_links.filter(link => link !== imgUrl); 
         let response2 = await updateImageLinksOnDesignWithId(tempImageLinks, designStore.design.design_id);
         console.log(response2);
 
-        designStore.design.image_links = tempImageLinks;    //unneccessary?
+        designStore.design.image_links = tempImageLinks;
     }
     catch (error) {
         console.log(error);
