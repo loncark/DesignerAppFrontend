@@ -16,8 +16,6 @@ export const uploadImgToFirebaseStorage = async (base64String) => {
         }
 
         let data = await response.json();
-        console.log(data);
-
         if (data.url) {
             return data.url;
         } else {
@@ -55,6 +53,28 @@ export const uploadDesignToRealtimeDb = async (design) => {
     }
 }
 
+export const updateImageLinksOnDesignWithId = async (image_links, design_id) => {
+    try {
+        let response = await fetch(BACKEND_BASE_URL + 'db/updateImageLinks', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 'design_id' : design_id, 'image_links' : image_links })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        return await response.text();
+
+    } catch (error) {
+        console.error('Error:', error);
+        return null;
+    }
+}
+
 // CORS HAS TO BE ENABLED IN GOOGLE CLOUD! SEE https://stackoverflow.com/questions/37760695/firebase-storage-and-access-control-allow-origin
 export const convertImageUrlToBase64 = async (imagePath) => {
   try {
@@ -73,9 +93,11 @@ export const convertImageUrlToBase64 = async (imagePath) => {
 export const deleteImageFromStorage = async (url) => {
     const response = await query('storageDelete', 'DELETE', JSON.stringify({ 'imgUrl' : url }));
     if (response.ok) {
-        return true;
+        return "Image deleted succesfully";
     }
-    return false;
+    else {
+        return "Error:" + response.msg;
+    }
 }
 
 export const deleteDesignFromDb = async (id) => {

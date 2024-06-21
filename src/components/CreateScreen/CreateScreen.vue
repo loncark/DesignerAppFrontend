@@ -2,7 +2,7 @@
     <div id="createScreen">
         <div id="createScreenTopBar">
             <InputText v-model="design.design_name" placeholder="Design name"></InputText>
-            <Button label="Save" @click="saveToFirebase"></Button>
+            <Button label="Save" @click="saveDesignToFirebase"></Button>
         </div>
 
         <div id="createScreenInputFields">
@@ -71,7 +71,7 @@ const addLink = () => {
     newLink.value = "";
 }
 
-const saveToFirebase = async () => {
+const saveDesignToFirebase = async () => {
     const response = await uploadDesignToRealtimeDb(design.value);
     console.log(response);
 }

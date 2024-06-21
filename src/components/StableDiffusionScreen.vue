@@ -36,6 +36,7 @@ import { uploadImgToFirebaseStorage, convertImageUrlToBase64 } from '../api/Fire
 import { ref, computed, onMounted } from "vue";
 import { useDesignStore } from '../store/DesignStore';
 import { useRouter } from 'vue-router';
+import { updateImageLinksOnDesignWithId } from '../api/FirebaseApi';
 
 const loading = ref(false);
 const base64String = ref(null);
@@ -124,6 +125,7 @@ const executeImg2Img = async () => {
 
 const discardImg = () => {
     base64String.value = null;
+    router.back();
 }
 
 const acceptImage = async () => {
@@ -131,15 +133,32 @@ const acceptImage = async () => {
         console.log("No image provided");
         return;
     }
-    let downloadUrl = await uploadImage();
-    designStore.addImgUrl(downloadUrl);
-    router.back();
+
+    try {
+        let downloadUrl = await uploadImage();
+
+        let tempImageLinks = designStore.design.image_links;
+        tempImageLinks.push(downloadUrl); 
+        let response = await updateImageLinksOnDesignWithId(tempImageLinks, designStore.design.design_id);
+        console.log(response);
+
+        //designStore.addImgUrl(downloadUrl); apparently unneccessary
+        router.back();
+    }
+    catch (error) {
+        console.log(error);
+    }
 }
 
 const uploadImage = async () => {
-    let downloadUrl = await uploadImgToFirebaseStorage(base64String.value);
-    console.log("Image successfully uploaded");
-    return downloadUrl
+    try {
+        let downloadUrl = await uploadImgToFirebaseStorage(base64String.value);
+        console.log("Image successfully uploaded");
+        return downloadUrl
+    }
+    catch (error) {
+        console.log(error);
+    }
 }
 </script>
 

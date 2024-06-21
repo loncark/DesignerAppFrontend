@@ -16,7 +16,7 @@
 import Button from 'primevue/button';
 import { useRouter } from 'vue-router';
 import { useDesignStore } from '../../store/DesignStore';
-import { deleteImageFromStorage } from '../../api/FirebaseApi';
+import { deleteImageFromStorage, updateImageLinksOnDesignWithId } from '../../api/FirebaseApi';
 
 const props = defineProps(["images"])
 const router = useRouter();
@@ -30,9 +30,13 @@ const goToSDScreen = (url) => {
 const deleteImage = async (imgUrl) => {
     try {
         let response = await deleteImageFromStorage(imgUrl);
-        if (response.ok) {
-            design.value.image_links = design.value.image_links.filter(link => link !== imgUrl);   
-        }
+        console.log(response)
+            
+        let tempImageLinks = designStore.design.image_links.filter(link => link !== imgUrl); 
+        let response2 = await updateImageLinksOnDesignWithId(tempImageLinks, designStore.design.design_id);
+        console.log(response2);
+
+        designStore.design.image_links = tempImageLinks;    //unneccessary?
     }
     catch (error) {
         console.log(error);
