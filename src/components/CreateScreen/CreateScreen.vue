@@ -46,9 +46,10 @@ import { uploadDesignToRealtimeDb } from '../../api/FirebaseApi'
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'vue-router';
 
-const design = ref(nullDesign);
 const designStore = useDesignStore();
+const design = ref(designStore.design);
 const router = useRouter();
+
 const newTag = ref('');
 const newLink = ref('');
 
@@ -91,7 +92,6 @@ const handleSaveClick = async () => {
         await uploadDesignToRealtimeDb(design.value);
 
         designStore.resetDesign();
-        design.value = nullDesign;
         newTag.value = '';
         newLink.value = '';
         

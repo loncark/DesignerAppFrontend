@@ -3,7 +3,7 @@ import { nullDesign } from '../utils/constants';
 
 export const useDesignStore = defineStore('design', {
   state: () => ({
-    design: nullDesign,
+    design: JSON.parse(JSON.stringify(nullDesign)),
     imgUrl: null,
   }),
   actions: {
@@ -11,7 +11,7 @@ export const useDesignStore = defineStore('design', {
       this.design = design;
     },
     resetDesign() {
-      this.design = nullDesign;
+      this.design = JSON.parse(JSON.stringify(nullDesign));
     },
     addImgUrl(url) {
       this.design.image_links.push(url);
