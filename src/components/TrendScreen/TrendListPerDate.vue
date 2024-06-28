@@ -1,11 +1,11 @@
 <template>
     <div id="trendListPerDate">
-        <div v-for="(search_item, index) in props.searches" :key="index" id="trendCard">
+        <div v-for="(search_item, index) in props.searches" :key="index" class="trendCard">
             <img :src="search_item.articles[0].thumbnail"/>
-            <p id="trendTraffic">{{ search_item.traffic }} views</p>
-            <p id="trendSource">{{ search_item.articles[0].source }}</p>
-            <p id="trendTitle">{{ search_item.articles[0].title }}</p>
-            <p id="trendSummary">{{ search_item.articles[0].snippet }}</p>
+            <span id="trendTraffic">{{ search_item.traffic }} views</span>
+            <span id="trendSource">{{ search_item.articles[0].source }}</span>
+            <span id="trendTitle">{{ search_item.articles[0].title }}</span>
+            <span id="trendSummary">{{ search_item.articles[0].snippet }}</span>
         </div>
     </div>
 </template>
@@ -20,13 +20,13 @@ const props = defineProps(["searches"])
     grid-auto-columns: auto auto auto;
 }
 
-#trendCard {
+.trendCard {
     display: grid;
     grid-auto-columns: auto auto auto;
     grid-auto-rows: auto auto auto;
 }
 
-#trendCard>img {
+.trendCard>img {
     width: 100px;
     height: 100px;
     grid-column: 1;

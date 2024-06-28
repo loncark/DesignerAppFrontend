@@ -9,7 +9,7 @@
 
         <p v-if="loading">Loading...</p>
         <div id="dateList" v-else-if="!notFound">
-            <div v-for="(date_item, index) in daily_searches" :key="index" id="dateItem">
+            <div v-for="(date_item, index) in daily_searches" :key="index" class="dateItem">
                 <p>{{ date_item.date }}</p>
                 <TrendListPerDate :searches="date_item.searches"/>
             </div>
@@ -81,7 +81,7 @@ onMounted(() => {
     flex-direction: column;
 }
 
-#dateItem {
+.dateItem {
     display: flex;
     flex-direction: column;
 }
