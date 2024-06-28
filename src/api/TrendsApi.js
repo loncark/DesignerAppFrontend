@@ -6,3 +6,11 @@ export async function queryTrends(date, country_code) {
     
     return response;
 }
+
+export async function queryRelatedQueries(keyword) {
+    const body = JSON.stringify({ keyword: keyword })
+    const response = await query('relatedQueries', 'POST', body);
+    
+    return response;
+}
+
