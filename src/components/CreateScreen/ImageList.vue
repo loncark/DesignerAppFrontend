@@ -6,7 +6,7 @@
             <Button label="Delete" @click="deleteImage(imgUrl)"></Button>
         </div>
         <div id="newImage" @click="goToSDScreen">
-            <p @click="goToSDScreen(null)">+ New</p>
+            <span @click="goToSDScreen(null)">+ New</span>
         </div>
      
     </div>

@@ -1,9 +1,9 @@
 <template>
     <div id="trademarkResultCard">
-        <p class="item1">{{ keyword }}</p>
-        <p class="item2">{{ status }}</p>
-        <p class="item3">{{ owner }}</p>
-        <p class="item4">{{ description }}</p>
+        <span class="item1">{{ keyword }}</span>
+        <span class="item2">{{ status }}</span>
+        <span class="item3">{{ owner }}</span>
+        <span class="item4">{{ description }}</span>
     </div>
 </template>
 

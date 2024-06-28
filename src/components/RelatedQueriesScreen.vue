@@ -5,7 +5,7 @@
             <Button label="Search" @click="executeQuery"></Button>
         </div>
 
-        <p v-if="loading">Loading...</p>
+        <span v-if="loading">Loading...</span>
         <div id="relatedQueryList" v-else-if="!notFound">
             <div class="relatedQueryItem" v-for="(query, index) in related_queries" :key="index">
                 <span>{{ index }}</span>
@@ -13,7 +13,7 @@
                 <span>+{{ query.extracted_value }}%</span>
             </div>
         </div>
-        <p v-else>No results found for given keyword.</p>
+        <span v-else>No results found for given keyword.</span>
     </div>
 </template>
 

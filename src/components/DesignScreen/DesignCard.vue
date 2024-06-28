@@ -1,8 +1,8 @@
 <template>
     <div id="designCard">
         <img v-if="images.length > 0" :src="images[0]" alt="img">
-        <p v-else>No image present</p>
-        <h1>{{ props.design.design_name }}</h1>
+        <span v-else>No image present</span>
+        <span>{{ props.design.design_name }}</span>
         <Button label="Edit" @click="goToCreateScreen"></Button>
         <Button label="Delete" @click="deleteDesign(props.design.design_id)"></Button>
     </div>
@@ -46,7 +46,7 @@ const deleteDesign = async (id) => {
 </script>
 
 <style scoped>
-#designCard>img, #designCard>p {
+#designCard>img {
     width: 100px;
     height: 100px;
 }

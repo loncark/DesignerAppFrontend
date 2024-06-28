@@ -6,11 +6,11 @@
         </div>
 
         <div v-if="!queryExecuted" id="trademarkResultPlaceholder">
-            <p>Type in the keywords you would like to search the database for.</p>
+            <span>Type in the keywords you would like to search the database for.</span>
         </div>
 
         <div v-else id="trademarkResults">
-            <p>Returned {{ count }} results for query "{{ keyword }}":</p>
+            <span>Returned {{ count }} results for query "{{ keyword }}":</span>
             <ResultCard v-for="(item, index) in items" :key="index" 
                 :keyword="item.keyword"
                 :owner="item.owners && item.owners.length > 0 ? item.owners[0].name : 'Unknown'"

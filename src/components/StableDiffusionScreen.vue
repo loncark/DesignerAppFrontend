@@ -16,7 +16,7 @@
             <Button :label="generateBtnLabel" @click="handleGenerateClick"></Button>
         </div>
 
-        <p v-if="loading">Loading...</p>
+        <span v-if="loading">Loading...</span>
         <div v-else id="imagePart">
             <img v-if="base64Image" :src="base64Image">
             <img v-else src="C:\Users\Kristina\Documents\Diplomski rad\DesignerAppFrontend\src\assets\person.png"/>

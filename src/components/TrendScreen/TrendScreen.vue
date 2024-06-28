@@ -7,14 +7,14 @@
             <Button label="Search" @click="executeQuery"></Button>
         </div>
 
-        <p v-if="loading">Loading...</p>
+        <span v-if="loading">Loading...</span>
         <div id="dateList" v-else-if="!notFound">
             <div v-for="(date_item, index) in daily_searches" :key="index" class="dateItem">
-                <p>{{ date_item.date }}</p>
+                <span>{{ date_item.date }}</span>
                 <TrendListPerDate :searches="date_item.searches"/>
             </div>
         </div>
-        <p v-else>No results found for given date.</p>
+        <span v-else>No results found for given date.</span>
     </div>
 </template>
 

@@ -3,7 +3,7 @@
       <h1>Designs</h1>
       <Button label="New" icon="pi pi-plus" @click="goToCreateScreen"></Button>
     </div>
-    <p v-if="loading">Loading...</p>
+    <span v-if="loading">Loading...</span>
     <div v-else id="designCardList">
         <DesignCard v-for="(design, index) in designArray" :key="index" :design="design" @design-deleted="getAllDesigns"/>    
     </div>

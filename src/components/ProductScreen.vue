@@ -2,9 +2,9 @@
     <div id="productScreen">
         <h1>Product title</h1>
         <img src="C:\Users\Kristina\Documents\Diplomski rad\DesignerAppFrontend\src\assets\person.png">
-        <p>Listed on</p>
-        <p>Price</p>
-        <p>Tags: ...</p>
+        <span>Listed on</span>
+        <span>Price</span>
+        <span>Tags: ...</span>
         <Button>Copy link to clipboard</Button>
     </div>
 </template>
