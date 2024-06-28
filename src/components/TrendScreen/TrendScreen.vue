@@ -8,7 +8,12 @@
         </div>
 
         <p v-if="loading">Loading...</p>
-        <DateList id= "dateList" v-else-if="!notFound" :daily_searches="daily_searches"/>
+        <div id="dateList" v-else-if="!notFound">
+            <div v-for="(date_item, index) in daily_searches" :key="index" id="dateItem">
+                <p>{{ date_item.date }}</p>
+                <TrendListPerDate :searches="date_item.searches"/>
+            </div>
+        </div>
         <p v-else>No results found for given date.</p>
     </div>
 </template>
@@ -16,7 +21,7 @@
 <script setup>
 // trendovi mogu samo unazad mjesec dana
 import Calendar from 'primevue/calendar';
-import DateList from './DateList.vue';
+import TrendListPerDate from './TrendListPerDate.vue';
 import { queryTrends } from '../../api/TrendsApi';
 import { ref, onMounted } from 'vue';
 import InputText from 'primevue/inputtext';
@@ -69,5 +74,15 @@ onMounted(() => {
 #trendScreen>.searchBar {
     display: flex;
     flex-direction: row;
+}
+
+#dateList {
+    display: flex;
+    flex-direction: column;
+}
+
+#dateItem {
+    display: flex;
+    flex-direction: column;
 }
 </style>

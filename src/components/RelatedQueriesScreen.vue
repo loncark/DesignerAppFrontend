@@ -20,7 +20,7 @@
 <script setup>
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
-import { queryRelatedQueries } from '../../api/TrendsApi';
+import { queryRelatedQueries } from '../api/TrendsApi';
 import { ref } from 'vue';
 
 const keyword = ref('');

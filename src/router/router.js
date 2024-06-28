@@ -7,7 +7,7 @@ import EtsyScreen from '../components/EtsyScreen/EtsyScreen.vue';
 import ProductScreen from '../components/ProductScreen.vue';
 import DesignScreen from '../components/DesignScreen/DesignScreen.vue';
 import StableDiffusionScreen from '../components/StableDiffusionScreen.vue';
-import RelatedQueriesScreen from '../components/RelatedQueriesScreen/RelatedQueriesScreen.vue';
+import RelatedQueriesScreen from '../components/RelatedQueriesScreen.vue';
 
 import NotFound from '../components/NotFound.vue';
 
