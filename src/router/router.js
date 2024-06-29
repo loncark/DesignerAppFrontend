@@ -7,10 +7,9 @@ import EtsyScreen from '../components/EtsyScreen/EtsyScreen.vue';
 import ProductScreen from '../components/ProductScreen.vue';
 import DesignScreen from '../components/DesignScreen/DesignScreen.vue';
 import StableDiffusionScreen from '../components/StableDiffusionScreen.vue';
-import RelatedQueriesScreen from '../components/KeywordSearchScreen.vue';
-
-import NotFound from '../components/NotFound.vue';
 import KeywordSearchScreen from '../components/KeywordSearchScreen.vue';
+import DockMenu from '../components/DockMenu.vue';
+import NotFound from '../components/NotFound.vue';
 
 const routes = [
   {
@@ -54,12 +53,17 @@ const routes = [
     component: ProductScreen
   },
   {
-    path: '/related',
+    path: '/keywordSearch',
     name: 'KeywordSearch',
     component: KeywordSearchScreen
   },
   {
-    path: '/404',
+    path: '/dock',
+    name: 'Dock',
+    component: DockMenu
+  },
+  {
+    path: '/:catchAll(.*)',
     name: 'NotFound',
     component: NotFound
   },
