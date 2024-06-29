@@ -14,3 +14,10 @@ export async function queryRelatedQueries(keyword) {
     return response;
 }
 
+export async function queryInterestByRegion(keyword) {
+    const body = JSON.stringify({ keyword: keyword })
+    const response = await query('interestByRegion', 'POST', body);
+    
+    return response;
+}
+
