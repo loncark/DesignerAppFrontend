@@ -1,17 +1,23 @@
 <template>
     <div id="trendListPerDate">
-        <div v-for="(search_item, index) in props.searches" :key="index" class="trendCard">
-            <img :src="search_item.articles[0].thumbnail"/>
-            <span id="trendTraffic">{{ search_item.traffic }} views</span>
-            <span id="trendSource">{{ search_item.articles[0].source }}</span>
-            <span id="trendTitle">{{ search_item.articles[0].title }}</span>
-            <span id="trendSummary">{{ search_item.articles[0].snippet }}</span>
+        <div v-for="(search_item, index) in props.searches" :key="index" @click="navigateToUrl(search_item.articles[0].link)">
+            <a :href="search_item.articles[0].link" target="_blank" class="trendCard">
+                <img :src="search_item.articles[0].thumbnail? search_item.articles[0].thumbnail : 'placeholder.svg'" />
+                <span id="trendTraffic">{{ search_item.traffic }} views</span>
+                <span id="trendSource">{{ search_item.articles[0].source }}</span>
+                <span id="trendTitle">{{ search_item.articles[0].title }}</span>
+                <span id="trendSummary">{{ search_item.articles[0].snippet }}</span>
+            </a>
         </div>
     </div>
 </template>
 
 <script setup>
 const props = defineProps(["searches"])
+
+const navigateToUrl = (url) => {
+    window.location.href = url;
+}
 </script>
 
 <style scoped>
@@ -24,6 +30,10 @@ const props = defineProps(["searches"])
     display: grid;
     grid-auto-columns: auto auto auto;
     grid-auto-rows: auto auto auto;
+
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
 }
 
 .trendCard>img {
