@@ -4,7 +4,6 @@ import GeminiScreen from '../components/GeminiScreen.vue';
 import TrademarkScreen from '../components/TrademarkScreen/TrademarkScreen.vue';
 import TrendScreen from '../components/TrendScreen/TrendScreen.vue';
 import EtsyScreen from '../components/EtsyScreen/EtsyScreen.vue';
-import ProductScreen from '../components/ProductScreen.vue';
 import DesignScreen from '../components/DesignScreen/DesignScreen.vue';
 import StableDiffusionScreen from '../components/StableDiffusionScreen.vue';
 import KeywordSearchScreen from '../components/KeywordSearchScreen.vue';
@@ -46,11 +45,6 @@ const routes = [
     path: '/etsy',
     name: 'Etsy',
     component: EtsyScreen
-  },
-  {
-    path: '/product',
-    name: 'Product',
-    component: ProductScreen
   },
   {
     path: '/keywordSearch',

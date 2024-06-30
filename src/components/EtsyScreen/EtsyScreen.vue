@@ -1,54 +1,57 @@
 <template>
     <div id="etsyScreen">
-        <h1>Etsy</h1>
-        <div id="etsyQuery">
-            <InputText></InputText>
-            <Button label="Search" icon="pi pi-search"></Button>
+        <div class="searchBar">
+            <InputText v-model="keyword"></InputText>
+            <Button label="Search" icon="pi pi-search" @click="getProductsByKeyword"></Button>
         </div>
-        <p>Search results for query</p>
-        <Dropdown id="etsyDropdown" placeholder="Filter by"></Dropdown>
+
+        <span v-if="loading">Loading...</span>
+
+        <div v-else-if="productArray.length > 0">
+            <div class="flex-row">
+                <span>Search results for query "{{ keyword }}":</span>
+                <Dropdown placeholder="Filter by"></Dropdown>
+            </div>
+            
+            <div id="productList">
+                <Product v-for="(product, index) in productArray" :key="index" :product="product"/>    
+            </div>
+        </div>
+
+        <span v-else>No results have been found for the given keyword.</span>
     </div>
-    <ProductList/>
 </template>
 
 <script setup>
-import ProductList from './ProductList.vue'
+import Product from './Product.vue';
 import Dropdown from 'primevue/dropdown';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
+import { queryEtsy } from '../../api/EtsyApi';
+import { ref } from 'vue';
+
+const loading = ref(false);
+const productArray = ref([]);
+const keyword = ref('');
+
+const getProductsByKeyword = async () => {
+    loading.value = true;
+    const response = await queryEtsy(keyword.value);
+    productArray.value = response.products;
+    loading.value = false;
+  }
 
 </script>
 
 <style scoped>
-#etsyScreen {
-    display: grid;
-    grid-template-columns: auto auto auto;
-}
 
-#etsyQuery {
+#etsyScreen>.searchBar {
     display: flex;
     flex-direction: row;
 }
 
-#etsyScreen>h1 {
-    grid-row: 1;
-    grid-column: 1;
+#productList {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
 }
-
-#etsyQuery {
-    grid-column: 2 / 4;
-    grid-row: 1;
-}
-
-#etsyScreen>p {
-    grid-row: 2;
-    grid-column: 1 / 3;
-}
-
-#etsyDropdown {
-    grid-column: 3 / 4;
-    grid-row: 2;
-}
-
-
 </style>

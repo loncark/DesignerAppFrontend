@@ -1,43 +1,43 @@
 <template>
-    <div id="productCard">
-        <img src="C:\Users\Kristina\Documents\Diplomski rad\DesignerAppFrontend\src\assets\person.png">
-        <h1>Product name</h1>
-        <p id="timesBasketed">Times basketed</p>
-        <p id="productPrice">Price</p>
-    </div>
+        <a :href="product.link" target="_blank" class="productCard">
+            <img :src="product.thumbnail">
+            <span class="productName">{{ product.name }}</span>
+            <span class="productPrice">${{ product.price }}</span>
+        </a>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 
+const props = defineProps(["product"]);
+const product = ref(props.product);
 </script>
 
 <style scoped>
-#productCard {
+.productCard {
     width: fit-content;
+
     display: grid;
     grid-auto-columns: auto auto;
     grid-auto-rows: auto auto auto;
+
+    text-decoration: none;
+    color: inherit;
 }
 
-#productCard>img {
+.productCard>img {
     grid-row: 1;
     grid-column: 1 / 3;
-    width: 100px;
-    height: 100px;
+    height: 200px;
 }
 
-#productCard>h1 {
+.productName {
     grid-row: 2;
     grid-column: 1 / 3;
 }
 
-#timesBasketed {
+.productPrice {
     grid-row: 3;
-    grid-column: 1 / 3;
-}
-
-#productPrice {
-    grid-row: 3;
-    grid-column: 3;
+    grid-column: 2;
 }
 </style>
