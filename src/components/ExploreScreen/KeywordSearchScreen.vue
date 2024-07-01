@@ -35,9 +35,9 @@
 <script setup>
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
-import { queryRelatedQueries, queryInterestByRegion } from '../api/TrendsApi';
+import { queryRelatedQueries, queryInterestByRegion } from '../../api/TrendsApi';
 import { ref } from 'vue';
-import { useDesignStore } from '../store/DesignStore';
+import { useDesignStore } from '../../store/DesignStore';
 
 const designStore = useDesignStore();
 const keyword = ref(designStore.keyword_search_keyword);

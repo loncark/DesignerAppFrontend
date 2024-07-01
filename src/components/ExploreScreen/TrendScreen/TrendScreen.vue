@@ -21,11 +21,11 @@
 // trendovi mogu samo unazad mjesec dana
 import Calendar from 'primevue/calendar';
 import TrendListPerDate from './TrendListPerDate.vue';
-import { queryTrends } from '../../api/TrendsApi';
+import { queryTrends } from '../../../api/TrendsApi';
 import { ref, onMounted } from 'vue';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
-import { useDesignStore } from '../../store/DesignStore';
+import { useDesignStore } from '../../../store/DesignStore';
 
 const designStore = useDesignStore();
 const date = ref(new Date());

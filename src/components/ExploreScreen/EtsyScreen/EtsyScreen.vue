@@ -28,9 +28,9 @@ import Product from './Product.vue';
 import Dropdown from 'primevue/dropdown';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
-import { queryEtsy } from '../../api/EtsyApi';
+import { queryEtsy } from '../../../api/EtsyApi';
 import { ref } from 'vue';
-import { useDesignStore } from '../../store/DesignStore';
+import { useDesignStore } from '../../../store/DesignStore';
 
 const designStore = useDesignStore();
 const loading = ref(false);

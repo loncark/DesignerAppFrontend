@@ -22,9 +22,9 @@
 </template>
 
 <script setup>
-import TrendScreen from './TrendScreen/TrendScreen.vue';
+import TrendScreen from '../ExploreScreen/TrendScreen/TrendScreen.vue';
 import KeywordSearchScreen from './KeywordSearchScreen.vue';
-import EtsyScreen from './EtsyScreen/EtsyScreen.vue';
+import EtsyScreen from '../ExploreScreen/EtsyScreen/EtsyScreen.vue';
 import { ref } from 'vue';
 
 const active = ref('trends');
