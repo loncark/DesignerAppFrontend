@@ -7,14 +7,14 @@
 
         <span v-if="loading">Loading...</span>
 
-        <div v-else-if="productArray.length > 0">
+        <div v-else-if="designStore.products.length > 0">
             <div class="flex-row">
-                <span>Search results for query "{{ keyword }}":</span>
+                <span>Search results for query "{{ designStore.etsy_keyword }}":</span>
                 <Dropdown placeholder="Filter by"></Dropdown>
             </div>
             
             <div id="productList">
-                <Product v-for="(product, index) in productArray" :key="index" :product="product"/>    
+                <Product v-for="(product, index) in designStore.products" :key="index" :product="product"/>    
             </div>
         </div>
 
@@ -30,16 +30,18 @@ import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import { queryEtsy } from '../../api/EtsyApi';
 import { ref } from 'vue';
+import { useDesignStore } from '../../store/DesignStore';
 
+const designStore = useDesignStore();
 const loading = ref(false);
-const productArray = ref([]);
-const keyword = ref('');
+const keyword = ref(designStore.etsy_keyword);
 const queryExecuted = ref(false);
 
 const getProductsByKeyword = async () => {
     loading.value = true;
+    designStore.etsy_keyword = keyword.value;
     const response = await queryEtsy(keyword.value);
-    productArray.value = response.products;
+    designStore.products = response.products;
     loading.value = false;
     queryExecuted.value = true;
   }

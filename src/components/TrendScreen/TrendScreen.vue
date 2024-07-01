@@ -8,7 +8,7 @@
 
         <span v-if="loading">Loading...</span>
         <div id="dateList" v-else-if="!notFound">
-            <div v-for="(date_item, index) in daily_searches" :key="index" class="dateItem">
+            <div v-for="(date_item, index) in designStore.daily_searches" :key="index" class="dateItem">
                 <span>{{ date_item.date }}</span>
                 <TrendListPerDate :searches="date_item.searches"/>
             </div>
@@ -25,20 +25,21 @@ import { queryTrends } from '../../api/TrendsApi';
 import { ref, onMounted } from 'vue';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
+import { useDesignStore } from '../../store/DesignStore';
 
+const designStore = useDesignStore();
 const date = ref(new Date());
 const country_code = ref('US')
-const daily_searches = ref(null)
-const next_date = ref(date)
-const loading = ref(true)
-const notFound = ref(false)
+const next_date = ref(date);
+const loading = ref(false);
+const notFound = ref(false);
 
 const executeQuery = async () => {
     try {
         loading.value = true;
         const response = await queryTrends(formatDate(date.value), country_code.value);
         if (response.daily_searches) {
-            daily_searches.value = response.daily_searches;
+            designStore.daily_searches = response.daily_searches;
             next_date.value = response.serpapi_pagination.next_date;
             notFound.value = false;
         }
@@ -60,7 +61,9 @@ const formatDate = (date) => {
 };
 
 onMounted(() => {
-    executeQuery();
+    if(designStore.daily_searches === null) {
+        executeQuery();
+    }
 });
 </script>
 
