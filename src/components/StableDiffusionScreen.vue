@@ -144,7 +144,6 @@ const acceptImage = async () => {
         let response = await updateImageLinksOnDesignWithId(tempImageLinks, designStore.design.design_id);
         console.log(response);
 
-        //designStore.addImgUrl(downloadUrl); apparently unneccessary
         router.back();
     }
     catch (error) {

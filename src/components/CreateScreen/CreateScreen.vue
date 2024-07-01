@@ -41,7 +41,6 @@ import ImageList from './ImageList.vue'
 import { useDesignStore } from '../../store/DesignStore';
 import { ref, onMounted } from 'vue';
 import Chip from 'primevue/chip';
-import { nullDesign } from '../../utils/constants';
 import { uploadDesignToRealtimeDb } from '../../api/FirebaseApi'
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'vue-router';
