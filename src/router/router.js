@@ -2,11 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router';
 import CreateScreen from '../components/CreateScreen/CreateScreen.vue';
 import GeminiScreen from '../components/GeminiScreen.vue';
 import TrademarkScreen from '../components/TrademarkScreen/TrademarkScreen.vue';
-import TrendScreen from '../components/TrendScreen/TrendScreen.vue';
-import EtsyScreen from '../components/EtsyScreen/EtsyScreen.vue';
 import DesignScreen from '../components/DesignScreen/DesignScreen.vue';
 import StableDiffusionScreen from '../components/StableDiffusionScreen.vue';
-import KeywordSearchScreen from '../components/KeywordSearchScreen.vue';
+import ExploreScreen from '../components/ExploreScreen.vue';
 import DockMenu from '../components/DockMenu.vue';
 import NotFound from '../components/NotFound.vue';
 
@@ -32,24 +30,14 @@ const routes = [
     component: GeminiScreen
   },
   {
-    path: '/trends',
-    name: 'Trends',
-    component: TrendScreen
+    path: '/explore',
+    name: 'ExploreScreen',
+    component: ExploreScreen
   },
   {
     path: '/trademark',
     name: 'Trademark',
     component: TrademarkScreen
-  },
-  {
-    path: '/etsy',
-    name: 'Etsy',
-    component: EtsyScreen
-  },
-  {
-    path: '/keywordSearch',
-    name: 'KeywordSearch',
-    component: KeywordSearchScreen
   },
   {
     path: '/dock',

@@ -1,6 +1,5 @@
 <template>
     <div id="trendScreen">
-        <h1>Trends</h1>
         <div class="searchBar">
             <InputText v-model="country_code"/>
             <Calendar v-model="date" iconDisplay="input" dateFormat="dd/mm/yy"/>

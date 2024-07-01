@@ -1,0 +1,35 @@
+<template>
+    <div id="exploreScreen">
+        <div class="flex-row">
+            <div class="tabItem" @click="changeActiveTab('trends')">
+                <i class="pi pi-chart-line"></i>
+                <span>Trends</span>
+            </div>
+            <div class="tabItem" @click="changeActiveTab('keywords')">
+                <i class="pi pi-search"></i>
+                <span>Keywords</span>
+            </div>
+            <div class="tabItem" @click="changeActiveTab('products')">
+                <i class="pi pi-list"></i>
+                <span >Products</span>
+            </div>
+        </div>
+
+        <TrendScreen v-if="active === 'trends'"/>
+        <KeywordSearchScreen v-else-if="active === 'keywords'"/>
+        <EtsyScreen v-else/>
+    </div>
+</template>
+
+<script setup>
+import TrendScreen from './TrendScreen/TrendScreen.vue';
+import KeywordSearchScreen from './KeywordSearchScreen.vue';
+import EtsyScreen from './EtsyScreen/EtsyScreen.vue';
+import { ref } from 'vue';
+
+const active = ref('trends');
+
+const changeActiveTab = (keyword) => {
+    active.value = keyword;
+}
+</script>

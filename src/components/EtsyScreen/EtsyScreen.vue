@@ -18,6 +18,7 @@
             </div>
         </div>
 
+        <span v-else-if="!queryExecuted">Awaiting input.</span>
         <span v-else>No results have been found for the given keyword.</span>
     </div>
 </template>
@@ -33,12 +34,14 @@ import { ref } from 'vue';
 const loading = ref(false);
 const productArray = ref([]);
 const keyword = ref('');
+const queryExecuted = ref(false);
 
 const getProductsByKeyword = async () => {
     loading.value = true;
     const response = await queryEtsy(keyword.value);
     productArray.value = response.products;
     loading.value = false;
+    queryExecuted.value = true;
   }
 
 </script>

@@ -27,6 +27,7 @@
             </div>
         </div>
         
+        <span v-else-if="!queryExecuted">Awaiting input.</span>
         <span v-else>No results found for given keyword.</span>
     </div>
 </template>
@@ -41,7 +42,8 @@ const keyword = ref('');
 const loading = ref(false);
 const related_queries = ref(null);
 const interest_by_region = ref(null);
-const notFound = ref(false)
+const notFound = ref(true)
+const queryExecuted = ref(false);
 
 const executeQuery = async () => {
     try {
@@ -58,6 +60,7 @@ const executeQuery = async () => {
             notFound.value = true;
         }
         loading.value = false;
+        queryExecuted.value = true;
         
     } catch (error) {
         response.value = `Error: ${error.message}`;
