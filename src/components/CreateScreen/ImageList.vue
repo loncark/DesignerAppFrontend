@@ -2,29 +2,22 @@
     <div id="imageList">
         <div class="imageListImage" v-for="imgUrl in props.images" :key="imgUrl">
             <img :src="imgUrl">
-            <Button label="Modify" @click="goToSDScreen(imgUrl)"></Button> 
+            <Button label="Modify" @click="transferImgToSD(imgUrl)"></Button> 
             <Button label="Delete" @click="deleteImage(imgUrl)"></Button>
         </div>
-        <div id="newImage" @click="goToSDScreen">
-            <span @click="goToSDScreen(null)">+ New</span>
-        </div>
-     
     </div>
 </template>
 
 <script setup>
 import Button from 'primevue/button';
-import { useRouter } from 'vue-router';
 import { useDesignStore } from '../../store/DesignStore';
 import { deleteImageFromStorage, updateImageLinksOnDesignWithId } from '../../api/FirebaseApi';
 
 const props = defineProps(["images"])
-const router = useRouter();
 const designStore = useDesignStore();
 
-const goToSDScreen = (url) => {
-    designStore.setImgUrl(url);
-    router.push('/sd');
+const transferImgToSD = (url) => {
+    designStore.imgUrl = url;
 }
 
 const deleteImage = async (imgUrl) => {

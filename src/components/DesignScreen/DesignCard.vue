@@ -24,7 +24,8 @@ const router = useRouter();
 const designStore = useDesignStore();
 
 const goToCreateScreen = () => {
-  designStore.setDesign(props.design);
+  designStore.design = props.design;
+  designStore.resetCreateScreen();
   router.push('/create');
 };
 

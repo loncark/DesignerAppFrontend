@@ -1,17 +1,15 @@
 <template>
     <div id="sdScreen">
-        <h1>Stable Diffusion</h1>
-
         <div id="sdScreenInputFields">
             <label>Steps</label>
-            <InputText v-model="noSteps"></InputText>
+            <InputText v-model="designStore.sd_no_steps_input"></InputText>
             <label>Width</label>
-            <InputText v-model="width"></InputText>
+            <InputText v-model="designStore.sd_width_input"></InputText>
             <label>Height</label>
-            <InputText v-model="height"></InputText>
+            <InputText v-model="designStore.sd_height_input"></InputText>
 
             <label>Custom prompt</label>
-            <Textarea v-model="customPrompt"></Textarea>
+            <Textarea v-model="designStore.sd_custom_prompt_input"></Textarea>
 
             <Button :label="generateBtnLabel" @click="handleGenerateClick"></Button>
         </div>
@@ -19,8 +17,8 @@
         <span v-if="loading">Loading...</span>
         <div v-else id="imagePart">
             <img v-if="base64Image" :src="base64Image">
-            <img v-else src="C:\Users\Kristina\Documents\Diplomski rad\DesignerAppFrontend\src\assets\person.png"/>
-            <Button id="acceptButton" label="Accept" @click="acceptImage" :disabled="!base64String"></Button>
+            <img v-else src="C:\Users\Kristina\Documents\Diplomski rad\DesignerAppFrontend\src\assets\placeholder.svg"/>
+            <Button id="acceptButton" label="Accept" @click="acceptImage" :disabled="!designStore.sd_base64String"></Button>
             <Button id="discardButton" label="Discard" @click="discardImg"></Button>
         </div>
         
@@ -35,31 +33,23 @@ import { querySDtxt2img, querySDimg2img } from '../../api/StableDiffusionApi'
 import { uploadImgToFirebaseStorage, convertImageUrlToBase64 } from '../../api/FirebaseApi'
 import { ref, computed, onMounted } from "vue";
 import { useDesignStore } from '../../store/DesignStore';
-import { useRouter } from 'vue-router';
 import { updateImageLinksOnDesignWithId } from '../../api/FirebaseApi';
 
-const loading = ref(false);
-const base64String = ref(null);
 const designStore = useDesignStore();
-const router = useRouter();
-
-const noSteps = ref(1)
-const width = ref(64)
-const height = ref(64)
-const customPrompt = ref('a yellow triangle')
+const loading = ref(false);
 
 const generateBtnLabel = computed(() => {
-    return base64String.value ? 'Modify' : 'Generate';
+    return designStore.sd_base64String ? 'Modify' : 'Generate';
 });
 const base64Image = computed(() => {
-    return base64String.value ? `data:image/png;base64,${base64String.value}` : '';
+    return designStore.sd_base64String ? `data:image/png;base64,${designStore.sd_base64String}` : '';
 });
 
 onMounted(async () => {
     if(designStore.imgUrl) {
         try {
             loading.value = true;
-            base64String.value = await loadImg(designStore.imgUrl);
+            designStore.sd_base64String = await loadImg(designStore.imgUrl);
             loading.value = false;
         }
         catch (error) {
@@ -73,7 +63,7 @@ const loadImg = async (imgUrl) => {
 }
 
 const handleGenerateClick = () => {
-    if (base64String.value === null) {
+    if (designStore.sd_base64String === null) {
         executeTxt2Img();
     } else {
         executeImg2Img();
@@ -84,54 +74,55 @@ const executeTxt2Img = async () => {
     try {
         loading.value = true;
         let params = {
-        "prompt": customPrompt.value,
+        "prompt": designStore.sd_custom_prompt_input,
         "batch_size": 1,
-        "steps": noSteps.value,
+        "steps": designStore.sd_no_steps_input,
         "cfg_scale": 1,
-        "width": width.value,
-        "height": height.value,
+        "width": designStore.sd_width_input,
+        "height": designStore.sd_height_input,
         "restore_faces": false,
         "tiling": false,  
     }
         const response = await querySDtxt2img(params);
-        base64String.value = response.images[0]
-        loading.value = false;
+        designStore.sd_base64String = response.images[0];
+
     } catch (error) {
         console.log(`Error: ${error.message}`); 
     }
+    loading.value = false;
 };
 
 const executeImg2Img = async () => {
     try {
         loading.value = true;
         let params = {
-        "prompt": customPrompt.value,
+        "prompt": designStore.sd_custom_prompt_input,
         "batch_size": 1,
-        "steps": noSteps.value,
+        "steps": designStore.sd_no_steps_input,
         "cfg_scale": 1,
-        "width": width.value,
-        "height": height.value,
+        "width": designStore.sd_width_input,
+        "height": designStore.sd_height_input,
         "restore_faces": false,
         "tiling": false,  
         "init_images": [
-            base64String.value
+            designStore.sd_base64String
         ],
     }
         const response = await querySDimg2img(params);
-        base64String.value = response.images[0]
-        loading.value = false;
+        designStore.sd_base64String = response.images[0];
+
     } catch (error) {
         console.log(`Error: ${error.message}`); 
     }
+    loading.value = false;
 };
 
 const discardImg = () => {
-    base64String.value = null;
-    router.back();
+    designStore.sd_base64String = null;
 }
 
 const acceptImage = async () => {
-    if (!base64String.value) {
+    if (!designStore.sd_base64String) {
         console.log("No image provided");
         return;
     }
@@ -143,8 +134,6 @@ const acceptImage = async () => {
         tempImageLinks.push(downloadUrl); 
         let response = await updateImageLinksOnDesignWithId(tempImageLinks, designStore.design.design_id);
         console.log(response);
-
-        router.back();
     }
     catch (error) {
         console.log(error);
@@ -153,7 +142,7 @@ const acceptImage = async () => {
 
 const uploadImage = async () => {
     try {
-        let downloadUrl = await uploadImgToFirebaseStorage(base64String.value, designStore.design.design_id);
+        let downloadUrl = await uploadImgToFirebaseStorage(designStore.sd_base64String, designStore.design.design_id);
         console.log("Image successfully uploaded");
         return downloadUrl
     }

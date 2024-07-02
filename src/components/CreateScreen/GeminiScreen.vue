@@ -1,34 +1,33 @@
 <template>
     <div id="geminiScreen">
-        <Textarea v-model="inputText"></Textarea>
+        <Textarea v-model="designStore.gemini_input"></Textarea>
         <Button label="Tags prompt" @click="fillIn(TAGS_PROMPT)"></Button>
         <Button label="Title prompt" @click="fillIn(TITLE_PROMPT)"></Button>
         <Button label="Idea prompt" @click="fillIn(IDEA_PROMPT)"></Button>
         <Button label="Generate" @click="executeQuery"></Button>
         <p>
-            {{ response }}
+            {{ designStore.gemini_response }}
         </p>
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import Textarea from 'primevue/textarea';
 import Button from 'primevue/button';
 import { queryGemini } from '../../api/GeminiApi';
 import {TAGS_PROMPT, TITLE_PROMPT, IDEA_PROMPT} from '../../utils/constants';
+import { useDesignStore } from '../../store/DesignStore';
 
-const inputText = ref('');
-const response = ref('Awaiting prompt.');
+const designStore = useDesignStore();
 
 const fillIn = (prompt) => {
-    inputText.value = prompt;
+    designStore.gemini_input = prompt;
 }
 
 const executeQuery = async () => {
     try {
-        const result = await queryGemini(inputText.value);
-        response.value = result;
+        const result = await queryGemini(designStore.gemini_input);
+        designStore.gemini_response = result;
     } catch (error) {
         console.log(`Error: ${error.message}`); 
     }
