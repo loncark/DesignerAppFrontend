@@ -31,12 +31,12 @@
 import InputText from "primevue/inputtext";
 import Button from 'primevue/button';
 import Textarea from "primevue/textarea";
-import { querySDtxt2img, querySDimg2img } from '../api/StableDiffusionApi'
-import { uploadImgToFirebaseStorage, convertImageUrlToBase64 } from '../api/FirebaseApi'
+import { querySDtxt2img, querySDimg2img } from '../../api/StableDiffusionApi'
+import { uploadImgToFirebaseStorage, convertImageUrlToBase64 } from '../../api/FirebaseApi'
 import { ref, computed, onMounted } from "vue";
-import { useDesignStore } from '../store/DesignStore';
+import { useDesignStore } from '../../store/DesignStore';
 import { useRouter } from 'vue-router';
-import { updateImageLinksOnDesignWithId } from '../api/FirebaseApi';
+import { updateImageLinksOnDesignWithId } from '../../api/FirebaseApi';
 
 const loading = ref(false);
 const base64String = ref(null);

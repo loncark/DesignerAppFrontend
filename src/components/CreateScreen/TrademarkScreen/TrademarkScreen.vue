@@ -25,7 +25,7 @@ import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import ResultCard from './ResultCard.vue';
 import { ref } from 'vue';
-import { queryTESS } from '../../api/TrademarkApi'
+import { queryTESS } from '../../../api/TrademarkApi'
 
 const count = ref(0);
 const keyword = ref ('');

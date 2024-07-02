@@ -15,8 +15,8 @@
 import { ref } from 'vue';
 import Textarea from 'primevue/textarea';
 import Button from 'primevue/button';
-import { queryGemini } from '../api/GeminiApi';
-import {TAGS_PROMPT, TITLE_PROMPT, IDEA_PROMPT} from '../utils/constants';
+import { queryGemini } from '../../api/GeminiApi';
+import {TAGS_PROMPT, TITLE_PROMPT, IDEA_PROMPT} from '../../utils/constants';
 
 const inputText = ref('');
 const response = ref('Awaiting prompt.');
