@@ -2,13 +2,13 @@
     <div id="createScreen" class="flex-row">
         <div id="leftPart">
             <div id="createScreenTopBar">
-                <InputText v-model="design.design_name" placeholder="Design name"></InputText>
+                <InputText v-model="store.design.design_name" placeholder="Design name"></InputText>
                 <Button label="Save" @click="handleSaveClick"></Button>
             </div>
 
             <div id="createScreenInputFields">
                 <label>Title</label>
-                <InputText v-model="design.title" placeholder="Listing title"></InputText>
+                <InputText v-model="store.design.title" placeholder="Listing title"></InputText>
 
                 <label>Tags</label>
                 <div>
@@ -17,7 +17,7 @@
                         <Button label="Add" @click="addTag"></Button>
                     </div>
                     <!-- DO NOT USE INDEX AS KEY WHEN DELETING ITEMS IN V-FOR! -->
-                    <Chip v-for="(tag, index) in design.tags" :key="tag" :label="tag" removable @remove="removeTag(index)" class="flex-row"/>
+                    <Chip v-for="(tag, index) in store.design.tags" :key="tag" :label="tag" removable @remove="removeTag(index)" class="flex-row"/>
                 </div>
 
                 <label>Related links</label>
@@ -26,12 +26,12 @@
                         <InputText v-model="newLink" placeholder="Paste url and click 'Add'"></InputText>
                         <Button label="Add" @click="addLink"></Button>
                     </div>
-                    <Chip v-for="(link, index) in design.related_links" :key="link" :label="link" removable @remove="removeLink(index)" class="flex-row"/>
+                    <Chip v-for="(link, index) in store.design.related_links" :key="link" :label="link" removable @remove="removeLink(index)" class="flex-row"/>
                 </div>
             </div>
 
             <h1>Images</h1>
-            <ImageList v-if="design.image_links.length > 0" :images="design.image_links"/>
+            <ImageList v-if="store.design.image_links.length > 0 || store.new_images.length > 0" :images="store.design.image_links" :newImages="store.new_images"/>
             <span v-else>No images present.</span>
         </div>
 
@@ -64,7 +64,7 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import ImageList from './ImageList.vue'
 import { useStore } from '../../store/Store';
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import Chip from 'primevue/chip';
 import { uploadDesignToRealtimeDb } from '../../api/FirebaseApi'
 import { v4 as uuidv4 } from 'uuid';
@@ -72,9 +72,9 @@ import { useRouter } from 'vue-router';
 import StableDiffusionScreen from './StableDiffusionScreen.vue';
 import GeminiScreen from './GeminiScreen.vue';
 import TrademarkScreen from './TrademarkScreen/TrademarkScreen.vue';
+import { uploadImgToFirebaseStorage } from '../../api/FirebaseApi'
 
 const store = useStore();
-const design = ref(store.design);
 const router = useRouter();
 
 const newTag = ref('');
@@ -85,40 +85,39 @@ const changeActiveTab = (keyword) => {
     active.value = keyword;
 }
 
-onMounted(async () => {
-    if (design.value.design_id === null) {
-        design.value.design_id = uuidv4();
-        try {
-            await uploadDesignToRealtimeDb(design.value);
-            store.design.design_id = design.value.design_id;
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
-    else {
-        design.value = store.design;
-    }
-});
-
 const removeTag = (index) => {
-    design.value.tags.splice(index, 1);
+    store.design.tags.splice(index, 1);
 }
 const addTag = () => {
-    design.value.tags.push(newTag.value);
+    store.design.tags.push(newTag.value);
     newTag.value = "";
 }
 const removeLink = (index) => {
-    design.value.related_links.splice(index, 1);
+    store.design.related_links.splice(index, 1);
 }
 const addLink = () => {
-    design.value.related_links.push(newLink.value);
+    store.design.related_links.push(newLink.value);
     newLink.value = "";
 }
 
 const handleSaveClick = async () => {
+    if (store.design.design_id === null) {
+        store.design.design_id = uuidv4();
+    }
+    
     try {
-        await uploadDesignToRealtimeDb(design.value);
+        for (let imgUrl of store.deleted_images) {
+            await deleteImageFromStorage(imgUrl);
+        }
+        
+        for (let image of store.new_images) {
+            let downloadUrl = await uploadImgToFirebaseStorage(image, store.design.design_id);
+            console.log("Image successfully uploaded");
+
+            store.design.image_links.push(downloadUrl);
+        }
+
+        await uploadDesignToRealtimeDb(store.design);
 
         store.resetDesign();
         newTag.value = '';

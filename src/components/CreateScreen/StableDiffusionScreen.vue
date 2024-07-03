@@ -30,10 +30,9 @@ import InputText from "primevue/inputtext";
 import Button from 'primevue/button';
 import Textarea from "primevue/textarea";
 import { querySDtxt2img, querySDimg2img } from '../../api/StableDiffusionApi'
-import { uploadImgToFirebaseStorage, convertImageUrlToBase64 } from '../../api/FirebaseApi'
+import { convertImageUrlToBase64 } from '../../api/FirebaseApi'
 import { ref, computed, onMounted } from "vue";
 import { useStore } from '../../store/Store';
-import { updateImageLinksOnDesignWithId } from '../../api/FirebaseApi';
 
 const store = useStore();
 const loading = ref(false);
@@ -47,20 +46,21 @@ const base64Image = computed(() => {
 
 onMounted(async () => {
     if(store.imgUrl) {
-        try {
-            loading.value = true;
-            store.sd_base64String = await loadImg(store.imgUrl);
-            loading.value = false;
+        if(store.imgUrl.includes("storage.googleapis.com")) {
+            try {
+                loading.value = true;
+                store.sd_base64String = await convertImageUrlToBase64(store.imgUrl); 
+                loading.value = false;
+            }
+            catch (error) {
+                console.log(error);
+            }
         }
-        catch (error) {
-            console.log(error);
+        else {
+            store.sd_base64String = imgUrl;
         }
     }
 });
-
-const loadImg = async (imgUrl) => {
-    return await convertImageUrlToBase64(imgUrl); 
-}
 
 const handleGenerateClick = () => {
     if (store.sd_base64String === null) {
@@ -127,28 +127,7 @@ const acceptImage = async () => {
         return;
     }
 
-    try {
-        let downloadUrl = await uploadImage();
-
-        let tempImageLinks = store.design.image_links;
-        tempImageLinks.push(downloadUrl); 
-        let response = await updateImageLinksOnDesignWithId(tempImageLinks, store.design.design_id);
-        console.log(response);
-    }
-    catch (error) {
-        console.log(error);
-    }
-}
-
-const uploadImage = async () => {
-    try {
-        let downloadUrl = await uploadImgToFirebaseStorage(store.sd_base64String, store.design.design_id);
-        console.log("Image successfully uploaded");
-        return downloadUrl
-    }
-    catch (error) {
-        console.log(error);
-    }
+    store.new_images.push(store.sd_base64String);
 }
 </script>
 

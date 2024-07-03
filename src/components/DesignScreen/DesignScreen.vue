@@ -37,6 +37,7 @@
 
 const goToCreateScreen = () => {
   store.resetDesign();
+  store.resetCreateScreen();
   router.push('/create');
 };
 </script>
