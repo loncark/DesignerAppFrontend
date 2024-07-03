@@ -1,8 +1,9 @@
 <template>
-        <a :href="product.link" target="_blank" class="productCard">
-            <img :src="product.thumbnail">
-            <span class="productName">{{ product.name }}</span>
-            <span class="productPrice">${{ product.price }}</span>
+        <a :href="product.productUrl" target="_blank" class="productCard">
+            <img :src="product.imageUrl">
+            <span class="productName">{{ product.title }}</span>
+            <span class="productPrice">${{ product.price.originalPrice }}</span>
+            <span class="productRating">{{ product.rating }}/{{ product.reviews.split(' ')[product.reviews.split(' ').length - 2] }}</span>
         </a>
 </template>
 
@@ -37,6 +38,11 @@ const product = ref(props.product);
 }
 
 .productPrice {
+    grid-row: 3;
+    grid-column: 1;
+}
+
+.productRating {
     grid-row: 3;
     grid-column: 2;
 }

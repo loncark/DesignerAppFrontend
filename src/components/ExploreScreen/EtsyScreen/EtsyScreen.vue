@@ -41,7 +41,7 @@ const getProductsByKeyword = async () => {
     loading.value = true;
     designStore.etsy_keyword = keyword.value;
     const response = await queryEtsy(keyword.value);
-    designStore.products = response.products;
+    designStore.products = response.response;
     loading.value = false;
     queryExecuted.value = true;
   }
