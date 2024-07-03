@@ -16,13 +16,13 @@
   import { getAllDesignsFromStorage } from '../../api/FirebaseApi';
   import DesignCard from './DesignCard.vue';
   import { useRouter } from 'vue-router';
-  import { useDesignStore } from '../../store/DesignStore';
+  import { useStore } from '../../store/Store';
 
   const loading = ref(false);
   const designArray = ref([])
 
   const router = useRouter();
-  const designStore = useDesignStore();
+  const store = useStore();
 
   const getAllDesigns = async () => {
     loading.value = true;
@@ -36,7 +36,7 @@
 });
 
 const goToCreateScreen = () => {
-  designStore.resetDesign();
+  store.resetDesign();
   router.push('/create');
 };
 </script>

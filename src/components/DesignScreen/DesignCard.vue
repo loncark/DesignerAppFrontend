@@ -12,7 +12,7 @@
 import Button from 'primevue/button';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useDesignStore } from '../../store/DesignStore';
+import { useStore } from '../../store/Store';
 import { deleteImageFromStorage, deleteDesignFromDb } from '../../api/FirebaseApi';
 import { defineProps, defineEmits } from 'vue';
 
@@ -21,11 +21,11 @@ const images = ref(props.design.image_links);
 const emit = defineEmits(['design-deleted']);
 
 const router = useRouter();
-const designStore = useDesignStore();
+const store = useStore();
 
 const goToCreateScreen = () => {
-  designStore.design = props.design;
-  designStore.resetCreateScreen();
+  store.design = props.design;
+  store.resetCreateScreen();
   router.push('/create');
 };
 

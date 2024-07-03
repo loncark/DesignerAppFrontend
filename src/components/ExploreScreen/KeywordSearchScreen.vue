@@ -9,8 +9,8 @@
 
         <div class="flex-row" v-else-if="!notFound">
             <div id="relatedQueryList" >
-                <p>Popular queries related to "{{ designStore.keyword_search_keyword }}":</p>
-                <div class="relatedQueryItem" v-for="(query, index) in designStore.related_queries" :key="index">
+                <p>Popular queries related to "{{ store.keyword_search_keyword }}":</p>
+                <div class="relatedQueryItem" v-for="(query, index) in store.related_queries" :key="index">
                     <span>{{ index }}</span>
                     <span>{{ query.query }}</span>
                     <span>+{{ query.extracted_value }}%</span>
@@ -18,8 +18,8 @@
             </div>
 
             <div id="interestByRegionList">
-                <p>Countries "{{ designStore.keyword_search_keyword }}" has been searched in most:</p>
-                <div class="interestByRegionItem"  v-for="(item, index) in designStore.interest_by_region" :key="index">
+                <p>Countries "{{ store.keyword_search_keyword }}" has been searched in most:</p>
+                <div class="interestByRegionItem"  v-for="(item, index) in store.interest_by_region" :key="index">
                     <span>{{ index }}</span>
                     <span>{{ item.location }}</span>
                     <span>{{ item.extracted_value }}</span>
@@ -37,24 +37,24 @@ import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import { queryRelatedQueries, queryInterestByRegion } from '../../api/TrendsApi';
 import { ref } from 'vue';
-import { useDesignStore } from '../../store/DesignStore';
+import { useStore } from '../../store/Store';
 
-const designStore = useDesignStore();
-const keyword = ref(designStore.keyword_search_keyword);
+const store = useStore();
+const keyword = ref(store.keyword_search_keyword);
 const loading = ref(false);
-const notFound = ref(designStore.related_queries && designStore.related_queries.length > 0? false : true);
-const queryExecuted = ref(designStore.related_queries === null? false : true);
+const notFound = ref(store.related_queries && store.related_queries.length > 0? false : true);
+const queryExecuted = ref(store.related_queries === null? false : true);
 
 const executeQuery = async () => {
     try {
         loading.value = true;
-        designStore.keyword_search_keyword = keyword.value;
+        store.keyword_search_keyword = keyword.value;
         const response = await queryRelatedQueries(keyword.value);
         const response2 = await queryInterestByRegion(keyword.value);
 
         if (response.related_queries && response2.interest_by_region) {
-            designStore.related_queries = response.related_queries.rising;
-            designStore.interest_by_region = response2.interest_by_region;
+            store.related_queries = response.related_queries.rising;
+            store.interest_by_region = response2.interest_by_region;
             notFound.value = false;
         }
         else { 

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { nullDesign } from '../utils/constants';
 
-export const useDesignStore = defineStore('design', {
+export const useStore = defineStore('design', {
   state: () => ({
     design: JSON.parse(JSON.stringify(nullDesign)),
 

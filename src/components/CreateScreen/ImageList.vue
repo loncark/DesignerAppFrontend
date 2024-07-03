@@ -10,25 +10,25 @@
 
 <script setup>
 import Button from 'primevue/button';
-import { useDesignStore } from '../../store/DesignStore';
+import { useStore } from '../../store/Store';
 import { deleteImageFromStorage, updateImageLinksOnDesignWithId } from '../../api/FirebaseApi';
 
 const props = defineProps(["images"])
-const designStore = useDesignStore();
+const store = useStore();
 
 const transferImgToSD = (url) => {
-    designStore.imgUrl = url;
+    store.imgUrl = url;
 }
 
 const deleteImage = async (imgUrl) => {
     try {
         await deleteImageFromStorage(imgUrl);
             
-        let tempImageLinks = designStore.design.image_links.filter(link => link !== imgUrl); 
-        let response2 = await updateImageLinksOnDesignWithId(tempImageLinks, designStore.design.design_id);
+        let tempImageLinks = store.design.image_links.filter(link => link !== imgUrl); 
+        let response2 = await updateImageLinksOnDesignWithId(tempImageLinks, store.design.design_id);
         console.log(response2);
 
-        designStore.design.image_links = tempImageLinks;
+        store.design.image_links = tempImageLinks;
     }
     catch (error) {
         console.log(error);

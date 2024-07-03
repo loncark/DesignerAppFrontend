@@ -63,7 +63,7 @@
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import ImageList from './ImageList.vue'
-import { useDesignStore } from '../../store/DesignStore';
+import { useStore } from '../../store/Store';
 import { ref, onMounted } from 'vue';
 import Chip from 'primevue/chip';
 import { uploadDesignToRealtimeDb } from '../../api/FirebaseApi'
@@ -73,8 +73,8 @@ import StableDiffusionScreen from './StableDiffusionScreen.vue';
 import GeminiScreen from './GeminiScreen.vue';
 import TrademarkScreen from './TrademarkScreen/TrademarkScreen.vue';
 
-const designStore = useDesignStore();
-const design = ref(designStore.design);
+const store = useStore();
+const design = ref(store.design);
 const router = useRouter();
 
 const newTag = ref('');
@@ -90,14 +90,14 @@ onMounted(async () => {
         design.value.design_id = uuidv4();
         try {
             await uploadDesignToRealtimeDb(design.value);
-            designStore.design.design_id = design.value.design_id;
+            store.design.design_id = design.value.design_id;
         }
         catch (error) {
             console.log(error);
         }
     }
     else {
-        design.value = designStore.design;
+        design.value = store.design;
     }
 });
 
@@ -120,7 +120,7 @@ const handleSaveClick = async () => {
     try {
         await uploadDesignToRealtimeDb(design.value);
 
-        designStore.resetDesign();
+        store.resetDesign();
         newTag.value = '';
         newLink.value = '';
         
