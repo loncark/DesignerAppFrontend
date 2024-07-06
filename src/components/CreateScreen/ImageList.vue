@@ -25,9 +25,9 @@ const transferImgToSD = (url) => {
 }
 
 const removeFromNewImages = (base64String) => {
-    const index = store.new_imafes_buffer.indexOf(base64String);
+    const index = store.new_images_buffer.indexOf(base64String);
     if (index !== -1) {
-        store.new_imafes_buffer.splice(index, 1);
+        store.new_images_buffer.splice(index, 1);
     }
 }
 

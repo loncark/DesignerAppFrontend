@@ -31,7 +31,7 @@
             </div>
 
             <h1>Images</h1>
-            <ImageList v-if="store.design.image_links.length > 0 || store.new_imafes_buffer.length > 0" :images="store.design.image_links" :newImages="store.new_imafes_buffer"/>
+            <ImageList v-if="store.design.image_links.length > 0 || store.new_images_buffer.length > 0" :images="store.design.image_links" :newImages="store.new_images_buffer"/>
             <span v-else>No images present.</span>
         </div>
 
@@ -110,7 +110,7 @@ const handleSaveClick = async () => {
             await deleteImageFromStorage(imgUrl);
         }
         
-        for (let image of store.new_imafes_buffer) {
+        for (let image of store.new_images_buffer) {
             let downloadUrl = await uploadImgToFirebaseStorage(image, store.design.design_id);
             console.log("Image successfully uploaded");
 
