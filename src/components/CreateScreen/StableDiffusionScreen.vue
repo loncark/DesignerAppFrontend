@@ -127,7 +127,7 @@ const acceptImage = async () => {
         return;
     }
 
-    store.new_images.push(store.sd_base64String);
+    store.new_imafes_buffer.push(store.sd_base64String);
 }
 </script>
 
