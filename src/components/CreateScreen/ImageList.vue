@@ -21,7 +21,7 @@ const props = defineProps(["images", "newImages"])
 const store = useStore();
 
 const transferImgToSD = (url) => {
-    store.imgUrl = url;
+    store.sd_img_to_load = url;
 }
 
 const removeFromNewImages = (base64String) => {

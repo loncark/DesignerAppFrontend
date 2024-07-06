@@ -16,9 +16,9 @@ export const useStore = defineStore('design', {
     // related to CreateScreen
     new_images: [],
     deleted_images: [],
-    imgUrl: null,
     gemini_input: '',
     gemini_response: 'Awaiting prompt.',
+    sd_img_to_load: null,
     sd_no_steps_input: 1,
     sd_width_input: 64,
     sd_height_input: 64,
@@ -35,7 +35,7 @@ export const useStore = defineStore('design', {
     resetCreateScreen() {
       this.new_images = [],
       this.deleted_images = [],
-      this.imgUrl = null;
+      this.sd_img_to_load = null;
       this.gemini_input = '';
       this.gemini_response = 'Awaiting prompt.';
       this.sd_no_steps_input = 1;

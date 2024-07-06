@@ -45,11 +45,11 @@ const base64Image = computed(() => {
 });
 
 onMounted(async () => {
-    if(store.imgUrl) {
-        if(store.imgUrl.includes("storage.googleapis.com")) {
+    if(store.sd_img_to_load) {
+        if(store.sd_img_to_load.includes("storage.googleapis.com")) {
             try {
                 loading.value = true;
-                store.sd_base64String = await convertImageUrlToBase64(store.imgUrl); 
+                store.sd_base64String = await convertImageUrlToBase64(store.sd_img_to_load); 
                 loading.value = false;
             }
             catch (error) {
