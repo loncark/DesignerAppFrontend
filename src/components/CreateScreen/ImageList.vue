@@ -32,7 +32,7 @@ const removeFromNewImages = (base64String) => {
 }
 
 const addToDeletedImagesQueue = (imgUrl) => {
-    store.deleted_images.push(imgUrl);
+    store.deleted_images_buffer.push(imgUrl);
     store.design.image_links = store.design.image_links.filter(link => link !== imgUrl); 
 
 }

@@ -106,7 +106,7 @@ const handleSaveClick = async () => {
     }
     
     try {
-        for (let imgUrl of store.deleted_images) {
+        for (let imgUrl of store.deleted_images_buffer) {
             await deleteImageFromStorage(imgUrl);
         }
         
