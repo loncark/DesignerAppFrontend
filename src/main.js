@@ -6,6 +6,7 @@ import PrimeVue from 'primevue/config';
 import { createPinia } from 'pinia';
 import { initializeFirebase } from './utils/FirebaseConfig';
 
+import './style.css'
 import 'primeicons/primeicons.css'
 
 async function startApp() {
