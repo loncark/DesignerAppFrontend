@@ -1,4 +1,5 @@
 <template>
+  <div id="designScreen">
     <div id="topBar">
       <h1>Designs</h1>
       <Button label="New" icon="pi pi-plus" @click="goToCreateScreen"></Button>
@@ -7,7 +8,7 @@
     <div v-else id="designCardList">
         <DesignCard v-for="(design, index) in designArray" :key="index" :design="design" @design-deleted="getAllDesigns"/>    
     </div>
-    
+  </div>
 </template>
   
 <script setup>
@@ -46,11 +47,21 @@ const goToCreateScreen = () => {
 #topBar {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+
+  margin-bottom: 15px;
+  width: 210px;
 }
 
 #designCardList {
     display: grid;
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 40px;
+}
+
+#designScreen {
+  margin-left: 20px;
+  margin-top: 10px;
 }
 </style>
 
