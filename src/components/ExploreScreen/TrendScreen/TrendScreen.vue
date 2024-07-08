@@ -1,15 +1,15 @@
 <template>
-    <div id="trendScreen">
-        <div class="searchBar">
+    <div id="trendScreen" class="flex-column">
+        <div class="searchBar flex-row">
             <InputText v-model="country_code"/>
             <Calendar v-model="date" iconDisplay="input" dateFormat="dd/mm/yy"/>
-            <Button label="Search" @click="executeQuery"></Button>
+            <Button label="Search" icon="pi pi-search" @click="executeQuery"></Button>
         </div>
 
-        <span v-if="loading">Loading...</span>
-        <div id="dateList" v-else-if="!notFound">
-            <div v-for="(date_item, index) in store.daily_searches" :key="index" class="dateItem">
-                <span>{{ date_item.date }}</span>
+        <span class="loadingText" v-if="loading">Loading...</span>
+        <div id="dateList" class="flex-column" v-else-if="!notFound">
+            <div v-for="(date_item, index) in store.daily_searches" :key="index" class="dateItem flex-column">
+                <span class="dateText">{{ inverseFormatDate(date_item.date) }}</span>
                 <TrendListPerDate :searches="date_item.searches"/>
             </div>
         </div>
@@ -60,6 +60,18 @@ const formatDate = (date) => {
     return `${year}${month}${day}`;
 };
 
+const inverseFormatDate = (dateString) => {
+    if (dateString.length !== 8) {
+        throw new Error("Invalid date string format. Expected 8 digits.");
+    }
+
+    const year = dateString.slice(0, 4);
+    const month = dateString.slice(4, 6);
+    const day = dateString.slice(6, 8);
+
+    return `${year}/${month}/${day}`;
+}
+
 onMounted(() => {
     if(store.daily_searches === null) {
         executeQuery();
@@ -68,23 +80,25 @@ onMounted(() => {
 </script>
 
 <style scoped>
-#trendScreen {
-    display: flex;
-    flex-direction: column;
+.searchBar {
+    width: 380px;
+    justify-content: space-between;
+    align-items: center;
+}
+.searchBar .p-component {
+    height: 35px;
+    text-align: center;
+    margin: auto;
 }
 
-#trendScreen>.searchBar {
-    display: flex;
-    flex-direction: row;
+.loadingText {
+    margin-top: 20px;
 }
 
-#dateList {
-    display: flex;
-    flex-direction: column;
-}
-
-.dateItem {
-    display: flex;
-    flex-direction: column;
+.dateText {
+    font-weight: 700;
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 </style>

@@ -33,3 +33,19 @@ const changeActiveTab = (keyword) => {
     active.value = keyword;
 }
 </script>
+
+<style scoped>
+#exploreScreen {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.tabItem {
+    margin: 10px;
+}
+
+.tabItem i {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+</style>

@@ -44,6 +44,11 @@ const goToCreateScreen = () => {
 </script>
 
 <style scoped>
+#designScreen {
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
 #topBar {
   display: flex;
   flex-direction: row;
@@ -56,12 +61,6 @@ const goToCreateScreen = () => {
 #designCardList {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap: 40px;
-}
-
-#designScreen {
-  margin-left: 20px;
-  margin-top: 10px;
 }
 </style>
 

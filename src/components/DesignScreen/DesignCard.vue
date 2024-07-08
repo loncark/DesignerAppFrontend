@@ -68,6 +68,7 @@ const deleteDesign = async (id) => {
 }
 .designCard>h3 {
     height: 45px;
+    width: 240px;
     overflow: hidden;
     text-overflow: clip;
 
