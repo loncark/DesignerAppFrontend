@@ -1,10 +1,12 @@
 <template>
     <div id="geminiScreen">
-        <Textarea v-model="store.gemini_input"></Textarea>
-        <Button label="Tags prompt" @click="fillIn(TAGS_PROMPT)"></Button>
-        <Button label="Title prompt" @click="fillIn(TITLE_PROMPT)"></Button>
-        <Button label="Idea prompt" @click="fillIn(IDEA_PROMPT)"></Button>
-        <Button label="Generate" @click="executeQuery"></Button>
+        <div class="geminiGrid">
+            <Textarea v-model="store.gemini_input"></Textarea>
+            <Button label="Tags prompt" @click="fillIn(TAGS_PROMPT)"></Button>
+            <Button label="Title prompt" @click="fillIn(TITLE_PROMPT)"></Button>
+            <Button label="Idea prompt" @click="fillIn(IDEA_PROMPT)"></Button>
+            <Button label="Generate" @click="executeQuery"></Button>
+        </div>
         <p>
             {{ store.gemini_response }}
         </p>
@@ -37,18 +39,29 @@ const executeQuery = async () => {
 
 
 <style scoped>
-#geminiScreen {
+.geminiGrid {
     display: grid;
-    grid-auto-columns: auto auto auto;
-    grid-auto-rows: auto auto auto;
+    grid-template-columns: 300px 100px 100px;
+    grid-template-rows: 50px 50px;
+    align-items: center;
+    grid-gap: 0px 10px;
+
+    margin-bottom: 15px;
 }
 
-#geminiScreen>Textarea {
-    grid-row: 1 / 3
+.geminiGrid>* {
+    margin: auto;
 }
 
-#geminiScreen>p {
-    grid-row: 3;
-    grid-column: 1 / 4
+.geminiGrid .p-button,
+.geminiGrid .p-button-label {
+    width: 100%;
+    margin: auto;
+}
+
+.geminiGrid>.p-inputtextarea {
+    grid-row: 1 / 3;
+    height: 100%;
+    padding: 5px;
 }
 </style>

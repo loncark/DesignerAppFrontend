@@ -1,60 +1,63 @@
 <template>
-    <div id="createScreen" class="flex-row">
-        <div id="leftPart">
-            <div id="createScreenTopBar">
-                <InputText v-model="store.design.design_name" placeholder="Design name"></InputText>
-                <Button label="Save" @click="handleSaveClick"></Button>
-            </div>
-
-            <div id="createScreenInputFields">
-                <label>Title</label>
-                <InputText v-model="store.design.title" placeholder="Listing title"></InputText>
-
-                <label>Tags</label>
-                <div>
-                    <div class="flex-row">
-                        <InputText v-model="newTag" placeholder="Type tag and click 'Add'"></InputText>
-                        <Button label="Add" @click="addTag"></Button>
+    <div id="createScreen" >
+        <h1 class="big-title">Create new design</h1>
+        <div class="flex-row">
+            <div id="leftPart">
+                <div id="leftPartInputFields">
+                    <div class="first-row flex-row">
+                        <InputText v-model="store.design.design_name" placeholder="Design name"></InputText>
+                        <Button label="Save" @click="handleSaveClick"></Button>
                     </div>
-                    <!-- DO NOT USE INDEX AS KEY WHEN DELETING ITEMS IN V-FOR! -->
-                    <Chip v-for="(tag, index) in store.design.tags" :key="tag" :label="tag" removable @remove="removeTag(index)" class="flex-row"/>
-                </div>
+                
+                    <label>Listing title</label>
+                    <Textarea v-model="store.design.title"></Textarea>
 
-                <label>Related links</label>
-                <div>
-                    <div class="flex-row">
-                        <InputText v-model="newLink" placeholder="Paste url and click 'Add'"></InputText>
-                        <Button label="Add" @click="addLink"></Button>
+                    <label>Tags</label>
+                    <div>
+                        <div class="flex-row">
+                            <InputText v-model="newTag" placeholder="Type tag and click 'Add'"></InputText>
+                            <Button label="Add" @click="addTag"></Button>
+                        </div>
+                        <!-- DO NOT USE INDEX AS KEY WHEN DELETING ITEMS IN V-FOR! -->
+                        <Chip v-for="(tag, index) in store.design.tags" :key="tag" :label="tag" removable @remove="removeTag(index)" class="flex-row"/>
                     </div>
-                    <Chip v-for="(link, index) in store.design.related_links" :key="link" :label="link" removable @remove="removeLink(index)" class="flex-row"/>
+
+                    <label>Related links</label>
+                    <div>
+                        <div class="flex-row">
+                            <InputText v-model="newLink" placeholder="Paste url and click 'Add'"></InputText>
+                            <Button label="Add" @click="addLink"></Button>
+                        </div>
+                        <Chip v-for="(link, index) in store.design.related_links" :key="link" :label="link" removable @remove="removeLink(index)" class="flex-row"/>
+                    </div>
                 </div>
+
+                <h1>Images</h1>
+                <ImageList v-if="store.design.image_links.length > 0 || store.new_images_buffer.length > 0" :images="store.design.image_links" :newImages="store.new_images_buffer"/>
+                <span v-else>No images present.</span>
             </div>
 
-            <h1>Images</h1>
-            <ImageList v-if="store.design.image_links.length > 0 || store.new_images_buffer.length > 0" :images="store.design.image_links" :newImages="store.new_images_buffer"/>
-            <span v-else>No images present.</span>
-        </div>
 
+            <div id="rightPart">
+                <div class="flex-row">
+                    <div class="tabItem" @click="changeActiveTab('gemini')">
+                        <i class="pi pi-microchip-ai"></i>
+                        <span>Gemini</span>
+                    </div>
+                    <div class="tabItem" @click="changeActiveTab('sd')">
+                        <i class="pi pi-image"></i>
+                        <span>Stable Diffusion</span>
+                    </div>
+                    <div class="tabItem" @click="changeActiveTab('trademark')">
+                        <i class="pi pi-briefcase"></i>
+                        <span>Trademarks</span>
+                    </div>
+                </div>
 
-        <div id="rightPart">
-            <div class="flex-row">
-                <div class="tabItem" @click="changeActiveTab('gemini')">
-                    <i class="pi pi-microchip-ai"></i>
-                    <span>Gemini</span>
-                </div>
-                <div class="tabItem" @click="changeActiveTab('sd')">
-                    <i class="pi pi-image"></i>
-                    <span>Stable Diffusion</span>
-                </div>
-                <div class="tabItem" @click="changeActiveTab('trademark')">
-                    <i class="pi pi-briefcase"></i>
-                    <span>Trademarks</span>
-                </div>
+            <GeminiScreen v-if="active === 'gemini'"/>
+            <StableDiffusionScreen v-else-if="active === 'sd'"/>
+            <TrademarkScreen v-else/>
             </div>
-
-        <GeminiScreen v-if="active === 'gemini'"/>
-        <StableDiffusionScreen v-else-if="active === 'sd'"/>
-        <TrademarkScreen v-else/>
         </div>
     </div>
 </template>
@@ -73,6 +76,7 @@ import StableDiffusionScreen from './StableDiffusionScreen.vue';
 import GeminiScreen from './GeminiScreen.vue';
 import TrademarkScreen from './TrademarkScreen/TrademarkScreen.vue';
 import { uploadImgToFirebaseStorage } from '../../api/FirebaseApi'
+import Textarea from 'primevue/textarea';
 
 const store = useStore();
 const router = useRouter();
@@ -132,15 +136,69 @@ const handleSaveClick = async () => {
 </script>
 
 <style scoped>
-
-#createScreenTopBar {
-    display: flex;
-    flex-direction: row;
+#createScreen {
+    margin-left: 10px;
 }
 
-#createScreenInputFields {
+.big-title {
+    margin-bottom: 10px;
+}
+
+#leftPartInputFields {
     display: grid;
-    grid-template-rows: auto auto auto;
-    grid-template-columns: auto auto;
+    grid-template-rows: auto auto auto auto;
+    grid-template-columns: 150px auto;
+
+    margin: 0px 20px 10px 0px;
+    padding: 0px 20px 0px 0px;
+    width: 600px;
+
+    border: solid black;
+    border-width: 0px 2px 0px 0px;
+}
+
+#leftPartInputFields>* {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#leftPartInputFields>label {
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+}
+
+.first-row {
+    grid-row: 1;
+    grid-column: 1/3;
+}
+
+.p-inputtext {
+    height: 35px;
+    text-align: left;
+    padding-left: 10px;
+    margin-right: 10px;
+}
+
+.p-inputtextarea {
+    padding-left: 0px;
+    height: 80px;
+}
+
+
+#rightPart {
+    width: 700px;
+}
+
+.tabItem {
+    padding: 10px;
+    margin: 10px;
+
+    border: solid black;
+    border-width: 0px 0px 1px 0px;
+}
+
+.tabItem i {
+    margin-right: 10px;
 }
 </style>

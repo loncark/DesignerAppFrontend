@@ -41,11 +41,14 @@ const changeActiveTab = (keyword) => {
 }
 
 .tabItem {
+    padding: 0px 10px 10px 10px;
     margin: 10px;
+
+    border: solid black;
+    border-width: 0px 0px 1px 0px;
 }
 
 .tabItem i {
-    margin-left: 10px;
     margin-right: 10px;
 }
 </style>

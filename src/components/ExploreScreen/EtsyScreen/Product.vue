@@ -16,7 +16,7 @@ const product = ref(props.product);
 
 <style scoped>
 .productCard {
-    width: 250px;
+    width: 300px;
 
     display: grid;
     grid-auto-columns: auto auto;
@@ -33,8 +33,8 @@ const product = ref(props.product);
 .productCard>img {
     grid-row: 1;
     grid-column: 1 / 3;
-    width: 250px;
-    height: 250px;
+    width: 300px;
+    height: 300px;
     border-radius: 10px;
 }
 
