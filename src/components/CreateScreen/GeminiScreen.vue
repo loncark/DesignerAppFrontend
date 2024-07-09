@@ -53,10 +53,9 @@ const executeQuery = async () => {
     margin: auto;
 }
 
-.geminiGrid .p-button,
-.geminiGrid .p-button-label {
+.geminiGrid .p-button {
     width: 100%;
-    margin: auto;
+    justify-content: center;
 }
 
 .geminiGrid>.p-inputtextarea {

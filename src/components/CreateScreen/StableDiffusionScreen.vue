@@ -1,25 +1,25 @@
 <template>
-    <div id="sdScreen">
+    <div id="sdScreen" class="flex-row">
         <div id="sdScreenInputFields">
-            <label>Steps</label>
-            <InputText v-model="store.sd_no_steps_input"></InputText>
             <label>Width</label>
             <InputText v-model="store.sd_width_input"></InputText>
             <label>Height</label>
             <InputText v-model="store.sd_height_input"></InputText>
+            <label>Steps</label>
+            <InputText v-model="store.sd_no_steps_input"></InputText>
 
-            <label>Custom prompt</label>
-            <Textarea v-model="store.sd_custom_prompt_input"></Textarea>
+            <label class="customPromptLabel">Custom prompt</label>
+            <Textarea class="customPromptTextArea" v-model="store.sd_custom_prompt_input"></Textarea>
 
-            <Button :label="generateBtnLabel" @click="handleGenerateClick"></Button>
+            <Button class="generateButton" :label="generateBtnLabel" @click="handleGenerateClick"></Button>
         </div>
 
         <span v-if="loading">Loading...</span>
         <div v-else id="imagePart">
             <img v-if="base64Image" :src="base64Image">
-            <img v-else src="C:\Users\Kristina\Documents\Diplomski rad\DesignerAppFrontend\src\assets\placeholder.svg"/>
-            <Button id="acceptButton" label="Accept" @click="acceptImage" :disabled="!store.sd_base64String"></Button>
-            <Button id="discardButton" label="Discard" @click="discardImg"></Button>
+            <img v-else :src="placeholderImagePath"/>
+            <Button class="acceptButton" label="Accept" @click="acceptImage" :disabled="!store.sd_base64String"></Button>
+            <Button class="discardButton" label="Discard" @click="discardImg"></Button>
         </div>
         
     </div>
@@ -33,6 +33,9 @@ import { querySDtxt2img, querySDimg2img } from '../../api/StableDiffusionApi'
 import { convertImageUrlToBase64 } from '../../api/FirebaseApi'
 import { ref, computed, onMounted } from "vue";
 import { useStore } from '../../store/Store';
+import placeholderImage from '../../assets/placeholder.svg';
+
+const placeholderImagePath = ref(placeholderImage);
 
 const store = useStore();
 const loading = ref(false);
@@ -132,53 +135,78 @@ const acceptImage = async () => {
 </script>
 
 <style scoped>
-#sdScreen {
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto;
-}
-
-#sdScreen>h1 {
-    grid-row: 1;
-    grid-column: 1 / 3;
-}
-
 #sdScreenInputFields {
-    grid-column: 1;
-    grid-row: 2;
-
     display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto auto auto auto auto;
+    grid-template-columns: 80px auto 80px auto;
+    grid-template-rows: 50px 50px 30px 120px auto;
+    grid-gap : 5px 0px;
 }
 
-#sdScreenInputFields>Button {
-    grid-row: 6;
-    grid-column: 1 / 3;
+.p-inputtext {
+    height: 35px;
+    width: 60px;
+    margin: auto;
+
+    text-align: center;
 }
+
+#sdScreenInputFields>label {
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+}
+
+.customPromptLabel {
+    grid-row: 3;
+    grid-column: 1 / 3;
+    margin-left: 0px !important;
+    margin-top: 20px !important;
+}
+.customPromptTextArea {
+    grid-row: 4;
+    grid-column: 1 / 5;
+
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+
+    text-align: left;
+}
+.generateButton {
+    grid-row: 5;
+    grid-column: 1 / 5;
+
+    width: 100%;
+    justify-content: center;
+    margin-top: 20px;
+}
+
 
 #imagePart {
-    grid-column: 2;
-    grid-row: 2;
-
     display: grid;
     grid-template-columns: auto auto;
     grid-template-rows: auto auto;
-}
+    grid-gap: 10px;
 
+    margin-left: 15px;
+}
 #imagePart>img {
     width: 400px;
     height: 400px;
     grid-row: 1;
     grid-column: 1 / 3;
-}
 
-#acceptButton {
+    border: dashed black 2px;
+}
+#imagePart .p-button {
+    width: 100%;
+    justify-content: center;
+}
+.acceptButton {
     grid-row: 2;
     grid-column: 1;
 }
-
-#disccardtButton {
+.discardButton {
     grid-row: 2;
     grid-column: 2;
 }
