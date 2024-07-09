@@ -5,7 +5,7 @@
             <Button label="Search" @click="executeQuery"></Button>
         </div>
 
-        <span class="keywordMessage" v-if="loading">Loading...</span>
+        <span v-if="loading">Loading...</span>
 
         <div class="flex-row" v-else-if="!notFound">
             <div class="queryList flex-column" >
@@ -27,8 +27,8 @@
             </div>
         </div>
         
-        <span class="keywordMessage" v-else-if="!queryExecuted">Awaiting input.</span>
-        <span class="keywordMessage" v-else>No results found for given keyword.</span>
+        <span v-else-if="!queryExecuted">Awaiting input.</span>
+        <span v-else>No results found for given keyword.</span>
     </div>
 </template>
 
@@ -53,7 +53,7 @@ const executeQuery = async () => {
         const response2 = await queryInterestByRegion(keyword.value);
 
         if (response.related_queries && response2.interest_by_region) {
-            store.related_queries = response.related_queries.rising;
+            store.related_queries = response.related_queries.rising ? response.related_queries.rising : response.related_queries.top;
             store.interest_by_region = response2.interest_by_region;
             notFound.value = false;
         }

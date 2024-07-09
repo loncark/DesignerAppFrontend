@@ -3,7 +3,7 @@
             <img :src="product.imageUrl">
             <span class="productName">{{ product.title }}</span>
             <span class="productPrice">${{ product.price.originalPrice }}</span>
-            <span class="productRating">{{ product.rating }}/{{ product.reviews.split(' ')[product.reviews.split(' ').length - 2] }}</span>
+            <span class="productRating">{{ product.rating }}/{{ product.reviews.split(' ')[product.reviews.split(' ').length - 2] }} reviews</span>
         </a>
 </template>
 
@@ -16,7 +16,7 @@ const product = ref(props.product);
 
 <style scoped>
 .productCard {
-    width: fit-content;
+    width: 250px;
 
     display: grid;
     grid-auto-columns: auto auto;
@@ -26,15 +26,29 @@ const product = ref(props.product);
     color: inherit;
 }
 
+.productCard>* {
+    margin-bottom: 10px;
+}
+
 .productCard>img {
     grid-row: 1;
     grid-column: 1 / 3;
-    height: 200px;
+    width: 250px;
+    height: 250px;
+    border-radius: 10px;
 }
 
 .productName {
     grid-row: 2;
     grid-column: 1 / 3;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    /* does proper ellipsis */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 
 .productPrice {
@@ -45,5 +59,6 @@ const product = ref(props.product);
 .productRating {
     grid-row: 3;
     grid-column: 2;
+    margin-left: auto;
 }
 </style>

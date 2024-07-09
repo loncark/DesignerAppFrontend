@@ -1,16 +1,16 @@
 <template>
     <div id="etsyScreen">
-        <div class="searchBar">
+        <div class="searchBar flex-row">
             <InputText v-model="keyword"></InputText>
-            <Button label="Search" icon="pi pi-search" @click="getProductsByKeyword"></Button>
+            <Button label="Search" @click="getProductsByKeyword"></Button>
         </div>
 
         <span v-if="loading">Loading...</span>
 
         <div v-else-if="store.products.length > 0">
-            <div class="flex-row">
-                <span>Search results for query "{{ store.etsy_keyword }}":</span>
-                <Dropdown placeholder="Filter by"></Dropdown>
+            <div class="resultText flex-row">
+                <h4>Search results for query "{{ store.etsy_keyword }}":</h4>
+                <!--Dropdown placeholder="Filter by"></!--Dropdown-->
             </div>
             
             <div id="productList">
@@ -42,6 +42,7 @@ const getProductsByKeyword = async () => {
     store.etsy_keyword = keyword.value;
     const response = await queryEtsy(keyword.value);
     store.products = response.response;
+    console.log("product count: " + store.products.length);
     loading.value = false;
     queryExecuted.value = true;
   }
@@ -49,14 +50,27 @@ const getProductsByKeyword = async () => {
 </script>
 
 <style scoped>
+.searchBar {
+    width: 380px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.searchBar .p-component {
+    height: 35px;
+    text-align: left;
+    margin-right: 10px;
+    margin-left: 0px;
+    padding-left: 10px;
+}
 
-#etsyScreen>.searchBar {
-    display: flex;
-    flex-direction: row;
+.resultText {
+    margin-bottom: 15px;
 }
 
 #productList {
     display: grid;
     grid-template-columns: auto auto auto auto;
+    grid-gap: 20px 20px;
 }
 </style>
