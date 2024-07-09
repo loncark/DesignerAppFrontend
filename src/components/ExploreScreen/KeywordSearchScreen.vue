@@ -1,34 +1,34 @@
 <template>
     <div id="keywordSearchScreen">
-        <div class="searchBar">
+        <div class="searchBar flex-row">
             <InputText v-model="keyword"/>
             <Button label="Search" @click="executeQuery"></Button>
         </div>
 
-        <span v-if="loading">Loading...</span>
+        <span class="keywordMessage" v-if="loading">Loading...</span>
 
         <div class="flex-row" v-else-if="!notFound">
-            <div id="relatedQueryList" >
-                <p>Popular queries related to "{{ store.keyword_search_keyword }}":</p>
-                <div class="relatedQueryItem" v-for="(query, index) in store.related_queries" :key="index">
-                    <span>{{ index }}</span>
+            <div class="queryList flex-column" >
+                <h4>Popular queries related to "{{ store.keyword_search_keyword }}":</h4>
+                <div class="queryItem" v-for="(query, index) in store.related_queries.slice(0, 25)" :key="index">
+                    <span>{{ index + 1 }}</span>
                     <span>{{ query.query }}</span>
                     <span>+{{ query.extracted_value }}%</span>
                 </div>
             </div>
 
-            <div id="interestByRegionList">
-                <p>Countries "{{ store.keyword_search_keyword }}" has been searched in most:</p>
-                <div class="interestByRegionItem"  v-for="(item, index) in store.interest_by_region" :key="index">
-                    <span>{{ index }}</span>
+            <div class="queryList flex-column">
+                <h4>Countries "{{ store.keyword_search_keyword }}" has been searched in most:</h4>
+                <div class="queryItem"  v-for="(item, index) in store.interest_by_region.slice(0, 25)" :key="index">
+                    <span>{{ index + 1 }}</span>
                     <span>{{ item.location }}</span>
                     <span>{{ item.extracted_value }}</span>
                 </div>
             </div>
         </div>
         
-        <span v-else-if="!queryExecuted">Awaiting input.</span>
-        <span v-else>No results found for given keyword.</span>
+        <span class="keywordMessage" v-else-if="!queryExecuted">Awaiting input.</span>
+        <span class="keywordMessage" v-else>No results found for given keyword.</span>
     </div>
 </template>
 
@@ -71,8 +71,39 @@ const executeQuery = async () => {
 </script>
 
 <style scoped>
-#keywordSearchScreen>.searchBar {
-    display: flex;
-    flex-direction: row;
+.searchBar {
+    width: 380px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.searchBar .p-component {
+    height: 35px;
+    text-align: left;
+    margin-right: 10px;
+    margin-left: 0px;
+    padding-left: 10px;
+}
+
+.queryList {
+    margin-right: 50px;
+}
+.queryList>h4 {
+    margin-bottom: 15px;
+}
+.queryItem {
+    display: grid;
+    grid-template-columns: 30px 230px 100px;
+    margin-bottom: 5px;
+    margin-left: 15px;
+}
+.queryItem:nth-child(1) {
+    grid-column: 1;
+}
+.queryItem:nth-child(2) {
+    grid-column: 2;
+}
+.queryItem:nth-child(3) {
+    grid-column: 3;
 }
 </style>

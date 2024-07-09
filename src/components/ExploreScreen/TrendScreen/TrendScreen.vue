@@ -55,12 +55,6 @@ const executeQuery = async () => {
         loading.value = false;
     }
 };
-
-onMounted(() => {
-    if(store.daily_searches === null) {
-        executeQuery();
-    }
-});
 </script>
 
 <style scoped>
