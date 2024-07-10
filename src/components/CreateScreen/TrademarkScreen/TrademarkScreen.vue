@@ -1,16 +1,16 @@
 <template>
-    <div id="trademarkScreen">
-        <div id="trademarkQuery">
+    <div id="trademarkScreen" class="flex-column">
+        <div class="searchBar flex-row">
             <InputText v-model="store.trademark_input"></InputText>
             <Button label="Search" icon="pi pi-search" @click="executeQuery"></Button>
         </div>
 
-        <div v-if="!queryExecuted" id="trademarkResultPlaceholder">
+        <div v-if="!queryExecuted">
             <span>Type in the keywords you would like to search the database for.</span>
         </div>
 
-        <div v-else-if="store.trademark_count > 0" id="trademarkResults">
-            <span>Returned {{ store.trademark_count }} results for query "{{ store.trademark_input }}":</span>
+        <div v-else-if="store.trademark_count > 0" class="trademarkResults">
+            <h4>Returned {{ store.trademark_count }} results for query "{{ store.trademark_input }}":</h4>
             <ResultCard v-for="(item, index) in store.trademark_items" :key="index" 
                 :keyword="item.keyword"
                 :owner="item.owners && item.owners.length > 0 ? item.owners[0].name : 'Unknown'"
@@ -47,13 +47,21 @@ const executeQuery = async () => {
 </script>
 
 <style scoped>
-#trademarkScreen {
-    display: flex;
-    flex-direction: column;
+.searchBar {
+    width: 380px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.searchBar .p-component {
+    height: 35px;
+    text-align: left;
+    margin-right: 10px;
+    margin-left: 0px;
+    padding-left: 10px;
 }
 
-#trademarkQuery {
-    display: flex;
-    flex-direction: row;
+.trademarkResults>h4 {
+    margin-bottom: 15px;
 }
 </style>

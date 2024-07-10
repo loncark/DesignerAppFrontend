@@ -15,7 +15,13 @@ defineProps(["keyword", "owner", "description", "status"])
 #trademarkResultCard {
     display: grid;
     grid-template-rows: auto auto;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px 0px;
+
+    padding: 10px;
+    margin: 10px 0px 5px 0px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
 }
 
 #trademarkResultCard>.item1 {
