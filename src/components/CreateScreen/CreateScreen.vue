@@ -9,7 +9,7 @@
                         <Button label="Save" @click="handleSaveClick"></Button>
                     </div>
                 
-                    <label>Listing title</label>
+                    <label id="listingTitleLabel">Listing title</label>
                     <Textarea v-model="store.design.title"></Textarea>
 
                     <label>Tags</label>
@@ -18,8 +18,9 @@
                             <InputText v-model="newTag" placeholder="Type tag and click 'Add'"></InputText>
                             <Button label="Add" @click="addTag"></Button>
                         </div>
-                        <!-- DO NOT USE INDEX AS KEY WHEN DELETING ITEMS IN V-FOR! -->
-                        <Chip v-for="(tag, index) in store.design.tags" :key="tag" :label="tag" removable @remove="removeTag(index)" class="flex-row"/>
+                        <div class="chipSet flex-row">
+                            <Chip v-for="(tag, index) in store.design.tags" :key="tag" :label="tag" removable @remove="removeTag(index)" class="flex-row"/>
+                        </div>
                     </div>
 
                     <label>Related links</label>
@@ -28,7 +29,9 @@
                             <InputText v-model="newLink" placeholder="Paste url and click 'Add'"></InputText>
                             <Button label="Add" @click="addLink"></Button>
                         </div>
-                        <Chip v-for="(link, index) in store.design.related_links" :key="link" :label="link" removable @remove="removeLink(index)" class="flex-row"/>
+                        <div class="chipSet flex-row">
+                            <Chip v-for="(link, index) in store.design.related_links" :key="link" :label="link" removable @remove="removeLink(index)" class="flex-row"/>
+                        </div>
                     </div>
                 </div>
 
@@ -166,6 +169,10 @@ const handleSaveClick = async () => {
     width: fit-content;
     height: fit-content;
     margin: auto;
+    margin-top: 15px;
+}
+#listingTitleLabel {
+    margin: auto !important;
 }
 
 .first-row {
@@ -179,11 +186,28 @@ const handleSaveClick = async () => {
     padding-left: 10px;
     margin-right: 10px;
 }
-
 .p-inputtextarea {
     padding-left: 0px;
     height: 80px;
 }
+
+.p-chip {
+    justify-content: space-between;
+    align-items: center;
+
+    border: 1px solid black;
+    border-radius: 20px;
+    padding: 5px 8px 5px 8px;
+    margin: 5px 5px 0px 0px;
+}
+.chipSet {
+    flex-wrap: wrap;
+}
+/* used for targeting children from the scope of the parent */
+:deep(.p-chip-text) {
+    padding-right: 5px;
+}
+
 
 
 #rightPart {

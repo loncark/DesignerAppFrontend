@@ -188,7 +188,7 @@ const acceptImage = async () => {
     grid-template-rows: auto auto;
     grid-gap: 10px;
 
-    margin-left: 15px;
+    margin-left: 20px;
 }
 #imagePart>img {
     width: 400px;
