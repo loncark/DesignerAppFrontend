@@ -6,9 +6,13 @@
         </div>
 
         <span v-if="loading">Loading...</span>
+        <span v-else-if="!queryWasExecuted">Awaiting input.</span>
+        <span v-else-if="noRelatedQueriesWereFound && noInterestByRegionWasFound">No results found for given input.</span>
 
-        <div class="flex-row" v-else-if="!notFound">
-            <div class="queryList flex-column" >
+        <div v-else class="flex-row">
+
+            <h4 v-if="noRelatedQueriesWereFound">No related queries were found.</h4>
+            <div v-else class="queryList flex-column" >
                 <h4>Popular queries related to "{{ store.keyword_search_keyword }}":</h4>
                 <div class="queryItem" v-for="(query, index) in store.related_queries.slice(0, 25)" :key="index">
                     <span>{{ index + 1 }}</span>
@@ -17,7 +21,8 @@
                 </div>
             </div>
 
-            <div class="queryList flex-column">
+            <h4 v-if="noInterestByRegionWasFound">No interest by region was found.</h4>
+            <div v-else class="queryList flex-column">
                 <h4>Countries "{{ store.keyword_search_keyword }}" has been searched in most:</h4>
                 <div class="queryItem"  v-for="(item, index) in store.interest_by_region.slice(0, 25)" :key="index">
                     <span>{{ index + 1 }}</span>
@@ -27,8 +32,7 @@
             </div>
         </div>
         
-        <span v-else-if="!queryExecuted">Awaiting input.</span>
-        <span v-else>No results found for given keyword.</span>
+        
     </div>
 </template>
 
@@ -42,24 +46,20 @@ import { useStore } from '../../store/Store';
 const store = useStore();
 const keyword = ref(store.keyword_search_keyword);
 const loading = ref(false);
-const notFound = ref(store.related_queries && store.related_queries.length > 0? false : true);
-const queryExecuted = computed(() => store.related_queries === null? false : true);
+const noRelatedQueriesWereFound = computed(() => store.related_queries === undefined);
+const noInterestByRegionWasFound = computed(() => store.interest_by_region === undefined);
+const queryWasExecuted = computed(() => store.related_queries === null? false : true);
 
 const executeQuery = async () => {
     try {
         loading.value = true;
         store.keyword_search_keyword = keyword.value;
+
         const response = await queryRelatedQueries(keyword.value);
         const response2 = await queryInterestByRegion(keyword.value);
 
-        if (response.related_queries && response2.interest_by_region) {
-            store.related_queries = response.related_queries.rising ? response.related_queries.rising : response.related_queries.top;
-            store.interest_by_region = response2.interest_by_region;
-            notFound.value = false;
-        }
-        else { 
-            notFound.value = true;
-        }
+        store.related_queries = response.error? undefined : response.related_queries.rising;
+        store.interest_by_region = response.error? undefined : response2.interest_by_region;
         
     } catch (error) {
         console.log(`Error: ${error.message}`);
