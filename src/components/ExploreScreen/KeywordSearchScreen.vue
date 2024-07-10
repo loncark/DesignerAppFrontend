@@ -2,7 +2,7 @@
     <div id="keywordSearchScreen">
         <div class="searchBar flex-row">
             <InputText v-model="keyword"/>
-            <Button label="Search" @click="executeQuery"></Button>
+            <Button label="Search" icon="pi pi-search" @click="executeQuery"></Button>
         </div>
 
         <span v-if="loading">Loading...</span>
@@ -71,20 +71,6 @@ const executeQuery = async () => {
 </script>
 
 <style scoped>
-.searchBar {
-    width: 380px;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-.searchBar .p-component {
-    height: 35px;
-    text-align: left;
-    margin-right: 10px;
-    margin-left: 0px;
-    padding-left: 10px;
-}
-
 .queryList {
     margin-right: 50px;
 }

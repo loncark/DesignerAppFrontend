@@ -58,18 +58,6 @@ const executeQuery = async () => {
 </script>
 
 <style scoped>
-.searchBar {
-    width: 380px;
-    justify-content: space-between;
-    align-items: center;
-}
-.searchBar .p-component {
-    height: 35px;
-    text-align: center;
-    margin-right: 10px;
-    margin-left: 0px;
-}
-
 .loadingText {
     margin-top: 20px;
 }

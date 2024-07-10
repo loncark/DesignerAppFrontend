@@ -54,20 +54,6 @@ const getProductsByKeyword = async () => {
 </script>
 
 <style scoped>
-.searchBar {
-    width: 380px;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-.searchBar .p-component {
-    height: 35px;
-    text-align: left;
-    margin-right: 10px;
-    margin-left: 0px;
-    padding-left: 10px;
-}
-
 .resultText {
     margin-bottom: 15px;
 }
