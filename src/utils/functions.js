@@ -53,7 +53,7 @@ export const convertStringToDate = (dateString) => {
   
 export const convertDateToString = (date) => {
     if (!(date instanceof Date) || isNaN(date)) {
-      throw new Error('Invalid Date object');
+        throw new Error('Invalid Date object: ' + date);
     }
   
     const year = date.getFullYear();

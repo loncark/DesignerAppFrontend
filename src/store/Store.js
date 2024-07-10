@@ -6,8 +6,10 @@ export const useStore = defineStore('design', {
     design: JSON.parse(JSON.stringify(nullDesign)),
 
     // related to ExploreScreen
-    keyword_search_keyword: '',
+    trends_date: new Date(),
+    trends_country_code: 'US',
     daily_searches: null,
+    keyword_search_keyword: '',
     related_queries: null,
     interest_by_region: null,
     etsy_keyword: '',
@@ -54,6 +56,8 @@ export const useStore = defineStore('design', {
       this.interest_by_region = null;
       this.etsy_keyword = '';
       this.products = null;
+      this.trends_date = new Date();
+      this.trends_country_code = 'US';
     }
   },
 });
