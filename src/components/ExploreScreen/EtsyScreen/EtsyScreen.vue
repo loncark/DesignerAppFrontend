@@ -6,8 +6,10 @@
         </div>
 
         <span v-if="loading">Loading...</span>
+        <span v-else-if="!queryWasExecuted">Awaiting input.</span>
+        <span v-else-if="noResultsWereFound">No results have been found for the given input.</span>
 
-        <div v-else-if="store.products.length > 0">
+        <div v-else>
             <div class="resultText flex-row">
                 <h4>Search results for query "{{ store.etsy_keyword }}":</h4>
                 <!--Dropdown placeholder="Filter by"></!--Dropdown-->
@@ -18,8 +20,7 @@
             </div>
         </div>
 
-        <span v-else-if="!queryExecuted">Awaiting input.</span>
-        <span v-else>No results have been found for the given keyword.</span>
+        
     </div>
 </template>
 
@@ -35,7 +36,8 @@ import { useStore } from '../../../store/Store';
 const store = useStore();
 const loading = ref(false);
 const keyword = ref(store.etsy_keyword);
-const queryExecuted = computed(() => store.products === null? false : true);
+const noResultsWereFound = computed(() => store.products.length === 0? true : false);
+const queryWasExecuted = computed(() => store.products === null? false : true);
 
 const getProductsByKeyword = async () => {
     try {
@@ -43,6 +45,7 @@ const getProductsByKeyword = async () => {
         store.etsy_keyword = keyword.value;
         const response = await queryEtsy(keyword.value);
         store.products = response.response;
+        store.products = store.products.filter(product => product.reviews !== undefined && product.rating !== '');
 
     } catch (error) {
         console.log(`Error: ${error.message}`);

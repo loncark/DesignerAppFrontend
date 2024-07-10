@@ -11,7 +11,7 @@ export const useStore = defineStore('design', {
     related_queries: null,
     interest_by_region: null,
     etsy_keyword: '',
-    products: [],
+    products: null,
 
     // related to CreateScreen
     new_images_buffer: [],
@@ -46,6 +46,14 @@ export const useStore = defineStore('design', {
       this.trademark_input = '';
       this.trademark_count = 0;
       this.trademark_items = null;
+    },
+    resetExploreScreen() {
+      this.keyword_search_keyword = '';
+      this.daily_searches = null;
+      this.related_queries = null;
+      this.interest_by_region = null;
+      this.etsy_keyword = '';
+      this.products = null;
     }
   },
 });

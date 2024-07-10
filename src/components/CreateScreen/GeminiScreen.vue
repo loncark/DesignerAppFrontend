@@ -21,6 +21,7 @@ import Button from 'primevue/button';
 import { queryGemini } from '../../api/GeminiApi';
 import {TAGS_PROMPT, TITLE_PROMPT, IDEA_PROMPT} from '../../utils/constants';
 import { useStore } from '../../store/Store';
+import { ref } from 'vue';
 
 const store = useStore();
 const loading = ref(false);
