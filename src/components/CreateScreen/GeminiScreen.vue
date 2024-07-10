@@ -7,7 +7,9 @@
             <Button label="Idea prompt" @click="fillIn(IDEA_PROMPT)"></Button>
             <Button label="Generate" @click="executeQuery"></Button>
         </div>
-        <p>
+
+        <span v-if="loading">Loading...</span>
+        <p v-else>
             {{ store.gemini_response }}
         </p>
     </div>
@@ -21,6 +23,7 @@ import {TAGS_PROMPT, TITLE_PROMPT, IDEA_PROMPT} from '../../utils/constants';
 import { useStore } from '../../store/Store';
 
 const store = useStore();
+const loading = ref(false);
 
 const fillIn = (prompt) => {
     store.gemini_input = prompt;
@@ -28,10 +31,14 @@ const fillIn = (prompt) => {
 
 const executeQuery = async () => {
     try {
+        loading.value = true;
         const result = await queryGemini(store.gemini_input);
         store.gemini_response = result;
+
     } catch (error) {
         console.log(`Error: ${error.message}`); 
+    } finally {
+        loading.value = false;
     }
 };
 

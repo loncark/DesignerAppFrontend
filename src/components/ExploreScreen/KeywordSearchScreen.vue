@@ -36,14 +36,14 @@
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import { queryRelatedQueries, queryInterestByRegion } from '../../api/TrendsApi';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useStore } from '../../store/Store';
 
 const store = useStore();
 const keyword = ref(store.keyword_search_keyword);
 const loading = ref(false);
 const notFound = ref(store.related_queries && store.related_queries.length > 0? false : true);
-const queryExecuted = ref(store.related_queries === null? false : true);
+const queryExecuted = computed(() => store.related_queries === null? false : true);
 
 const executeQuery = async () => {
     try {
@@ -60,11 +60,11 @@ const executeQuery = async () => {
         else { 
             notFound.value = true;
         }
-        loading.value = false;
-        queryExecuted.value = true;
         
     } catch (error) {
-        response.value = `Error: ${error.message}`;
+        console.log(`Error: ${error.message}`);
+    } finally {
+        loading.value = false;
     }
 };
 

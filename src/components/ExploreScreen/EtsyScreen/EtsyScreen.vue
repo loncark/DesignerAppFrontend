@@ -29,22 +29,26 @@ import Dropdown from 'primevue/dropdown';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import { queryEtsy } from '../../../api/EtsyApi';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useStore } from '../../../store/Store';
 
 const store = useStore();
 const loading = ref(false);
 const keyword = ref(store.etsy_keyword);
-const queryExecuted = ref(false);
+const queryExecuted = computed(() => store.products === null? false : true);
 
 const getProductsByKeyword = async () => {
-    loading.value = true;
-    store.etsy_keyword = keyword.value;
-    const response = await queryEtsy(keyword.value);
-    store.products = response.response;
-    console.log("product count: " + store.products.length);
-    loading.value = false;
-    queryExecuted.value = true;
+    try {
+        loading.value = true;
+        store.etsy_keyword = keyword.value;
+        const response = await queryEtsy(keyword.value);
+        store.products = response.response;
+
+    } catch (error) {
+        console.log(`Error: ${error.message}`);
+    } finally {
+        loading.value = false;
+    }
   }
 
 </script>

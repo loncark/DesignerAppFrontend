@@ -1,13 +1,11 @@
 <template>
     <div id="trademarkScreen" class="flex-column">
         <div class="searchBar flex-row">
-            <InputText v-model="store.trademark_input"></InputText>
+            <InputText v-model="keyword"></InputText>
             <Button label="Search" icon="pi pi-search" @click="executeQuery"></Button>
         </div>
 
-        <div v-if="!queryExecuted">
-            <span>Type in the keywords you would like to search the database for.</span>
-        </div>
+        <span v-if="loading">Loading...</span>
 
         <div v-else-if="store.trademark_count > 0" class="trademarkResults">
             <h4>Returned {{ store.trademark_count }} results for query "{{ store.trademark_input }}":</h4>
@@ -17,6 +15,8 @@
                 :description="item.description"
                 :status="item.status_label"/>
         </div>
+
+        <span v-else-if="!queryExecuted">Type in the keywords you would like to search the database for.</span>
         <span v-else>No results were found for given input.</span>
     </div>
 </template>
@@ -25,23 +25,28 @@
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import ResultCard from './ResultCard.vue';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { queryTESS } from '../../../api/TrademarkApi'
 import { useStore } from '../../../store/Store';
 
 const store = useStore();
-const queryExecuted = ref(store.items === null ? false : true);
+const loading = ref(false);
+const keyword = ref(store.trademark_input);
+const queryExecuted = computed(() => store.items === null ? false : true);
 
 const executeQuery = async () => {
     try {
+        loading.value = true;
+        store.trademark_input = keyword.value;
         const response = await queryTESS(store.trademark_input);
         store.trademark_count = response.count
         store.trademark_items = response.items
 
     } catch (error) {
         console.log(`Error: ${error.message}`); 
+    } finally {
+        loading.value = false;
     }
-
 }
 
 </script>
