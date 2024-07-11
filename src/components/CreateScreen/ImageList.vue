@@ -2,8 +2,10 @@
     <div id="imageList">
         <div class="imageListImage" v-for="imgUrl in props.images" :key="imgUrl">
             <img :src="imgUrl">
-            <Button label="Modify" @click="transferImgToSD(imgUrl)"></Button> 
-            <Button label="Delete" @click="addToDeletedImagesQueue(imgUrl)"></Button>
+            <div class="buttonRow flex-row">
+                <i class="pi pi-pen-to-square" @click="transferImgToSD(imgUrl)"></i>
+                <i class="pi pi-trash" @click="addToDeletedImagesQueue(imgUrl)"></i>
+            </div> 
         </div>
         <div class="imageListImage" v-for="base64String in props.newImages" :key="base64String">
             <img :src="`data:image/png;base64,${base64String}`">
@@ -50,6 +52,23 @@ const addToDeletedImagesQueue = (imgUrl) => {
 .imageListImage>img {
     width: 100%;
     border-radius: 5px;
+}
+
+.buttonRow {
+    width: 188px;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    translate: 0px -42px;
+}
+
+.buttonRow .pi {
+    padding: 10px;
+    border: solid transparent;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
 }
 </style>
 
