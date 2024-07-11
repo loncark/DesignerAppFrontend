@@ -1,7 +1,7 @@
 <template>
     <div id="keywordSearchScreen">
         <div class="searchBar flex-row">
-            <InputText v-model="keyword"/>
+            <InputText v-model="keyword" @keyup.enter="executeQuery"/>
             <Button label="Search" icon="pi pi-search" @click="executeQuery"></Button>
         </div>
 

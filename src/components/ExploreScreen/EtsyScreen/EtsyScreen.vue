@@ -1,7 +1,7 @@
 <template>
     <div id="etsyScreen">
         <div class="searchBar flex-row">
-            <InputText v-model="keyword"></InputText>
+            <InputText v-model="keyword" @keyup.enter="getProductsByKeyword"></InputText>
             <Button label="Search" @click="getProductsByKeyword"></Button>
         </div>
 

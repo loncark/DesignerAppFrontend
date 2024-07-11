@@ -1,8 +1,8 @@
 <template>
     <div id="trendScreen" class="flex-column">
         <div class="searchBar flex-row">
-            <InputText v-model="countryCode"/>
-            <InputText v-model="dateString"></InputText>
+            <InputText v-model="countryCode" @keyup.enter="executeQuery"/>
+            <InputText v-model="dateString" @keyup.enter="executeQuery"></InputText>
             <Button label="Search" icon="pi pi-search" @click="executeQuery"></Button>
         </div>
 

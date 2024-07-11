@@ -16,7 +16,7 @@
                     <label>Tags</label>
                     <div>
                         <div class="flex-row">
-                            <InputText v-model="newTag" placeholder="Type tag and click 'Add'"></InputText>
+                            <InputText v-model="newTag" placeholder="Type tag and click 'Add'" @keyup.enter="addTag"></InputText>
                             <Button label="Add" @click="addTag"></Button>
                         </div>
                         <div class="chipSet flex-row">
@@ -27,7 +27,7 @@
                     <label>Related links</label>
                     <div>
                         <div class="flex-row">
-                            <InputText v-model="newLink" placeholder="Paste url and click 'Add'"></InputText>
+                            <InputText v-model="newLink" placeholder="Paste url and click 'Add'" @keyup.enter="addLink"></InputText>
                             <Button label="Add" @click="addLink"></Button>
                         </div>
                         <div class="chipSet flex-row">
