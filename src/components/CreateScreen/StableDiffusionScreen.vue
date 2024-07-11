@@ -11,15 +11,15 @@
             <label class="customPromptLabel">Custom prompt</label>
             <Textarea class="customPromptTextArea" v-model="store.sd_custom_prompt_input"></Textarea>
 
-            <Button class="generateButton" :label="generateBtnLabel" @click="handleGenerateClick"></Button>
+            <Button class="generateButton" icon="pi pi-play-circle" :label="generateBtnLabel" @click="handleGenerateClick"></Button>
         </div>
 
         <span v-if="loading">Loading...</span>
         <div v-else id="imagePart">
             <img v-if="base64Image" :src="base64Image">
             <img class="dashedBorder" v-else :src="placeholderImagePath"/>
-            <Button class="acceptButton" label="Accept" @click="acceptImage" :disabled="!store.sd_base64String"></Button>
-            <Button class="discardButton" label="Discard" @click="discardImg"></Button>
+            <Button class="acceptButton" icon="pi pi-check" label="Accept" @click="acceptImage" :disabled="!store.sd_base64String"></Button>
+            <Button class="discardButton" icon="pi pi-times" label="Discard" @click="discardImg"></Button>
         </div>
         
     </div>
@@ -179,6 +179,11 @@ const acceptImage = async () => {
     width: 100%;
     justify-content: center;
     margin-top: 20px;
+}
+
+:deep(.p-button-icon), 
+:deep(.p-button-label) {
+    margin: 0px 3px 0px 3px;
 }
 
 
