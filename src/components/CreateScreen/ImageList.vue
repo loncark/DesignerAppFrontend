@@ -3,14 +3,16 @@
         <div class="imageListImage" v-for="imgUrl in props.images" :key="imgUrl">
             <img :src="imgUrl">
             <div class="buttonRow flex-row">
-                <i class="pi pi-pen-to-square" @click="transferImgToSD(imgUrl)"></i>
-                <i class="pi pi-trash" @click="addToDeletedImagesQueue(imgUrl)"></i>
+                <i class="pi pi-pen-to-square" title="Modify image" @click="transferImgToSD(imgUrl)"></i>
+                <i class="pi pi-trash" title="Delete image" @click="addToDeletedImagesQueue(imgUrl)"></i>
             </div> 
         </div>
         <div class="imageListImage" v-for="base64String in props.newImages" :key="base64String">
             <img :src="`data:image/png;base64,${base64String}`">
-            <Button label="Modify" @click="transferImgToSD(base64String)"></Button> 
-            <Button label="Delete" @click="removeFromNewImages(base64String)"></Button>
+            <div class="buttonRow flex-row">
+                <i class="pi pi-pen-to-square" title="Modify image" @click="transferImgToSD(base64String)"></i>
+                <i class="pi pi-trash" title="Delete image" @click="removeFromNewImages(base64String)"></i>
+            </div>
         </div>
     </div>
 </template>
@@ -54,12 +56,19 @@ const addToDeletedImagesQueue = (imgUrl) => {
     border-radius: 5px;
 }
 
+.imageListImage {
+    /* neccessary for the below absolute position to work */
+    position: relative;
+}
+
 .buttonRow {
-    width: 188px;
+    width: 100%;
     justify-content: space-between;
     align-items: center;
     position: absolute;
-    translate: 0px -42px;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 .buttonRow .pi {
