@@ -92,4 +92,7 @@ const deleteDesign = async (id) => {
     justify-content: end;
     align-items: center;
 }
+.buttonRow .p-button {
+    margin-left: 5px;
+}
 </style>

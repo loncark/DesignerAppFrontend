@@ -1,8 +1,7 @@
 <template>
   <div id="designScreen">
     <div id="topBar">
-      <h1>Designs</h1>
-      <Button label="New" icon="pi pi-plus" @click="goToCreateScreen"></Button>
+      <h1 class="big-title">Designs</h1>
     </div>
     <span v-if="loading">Loading...</span>
     <div v-else id="designCardList">
@@ -35,12 +34,6 @@
   onMounted(() => {
     getAllDesigns();
 });
-
-const goToCreateScreen = () => {
-  store.resetDesign();
-  store.resetCreateScreen();
-  router.push('/create');
-};
 </script>
 
 <style scoped>
@@ -60,7 +53,8 @@ const goToCreateScreen = () => {
 
 #designCardList {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 240px 240px 240px 240px;
+    grid-gap: 50px 50px;
 }
 </style>
 
