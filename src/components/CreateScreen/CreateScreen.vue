@@ -3,14 +3,12 @@
         <div class="titlePart flex-row">
             <i class="pi pi-plus"></i>
             <h1 class="big-title">Create new design</h1>
+            <Button label="Save design" @click="handleSaveClick"></Button>
         </div>
         <div class="flex-row">
             <div id="leftPart">
                 <div id="leftPartInputFields">
-                    <div class="first-row flex-row">
-                        <InputText v-model="store.design.design_name" placeholder="Design name"></InputText>
-                        <Button label="Save" @click="handleSaveClick"></Button>
-                    </div>
+                    <InputText class="first-row" v-model="store.design.design_name" placeholder="Design name"></InputText>
                 
                     <label id="listingTitleLabel">Listing title</label>
                     <Textarea v-model="store.design.title"></Textarea>
@@ -147,12 +145,17 @@ const handleSaveClick = async () => {
 }
 
 .titlePart {
-    justify-content: space-between;
     align-items: center;
-    width: 810px;
+    width: clamp(65vw, 75vw, 75vw);
 }
 .titlePart i {
     font-size: 45px;
+    margin-right: 10px;
+}
+.titlePart .p-button {
+    font-size: larger;
+    padding: 15px;
+    margin-left: auto;
 }
 .big-title {
     margin-bottom: 10px;
