@@ -180,7 +180,7 @@ const acceptImage = async () => {
     justify-content: center;
     margin-top: 20px;
 }
-
+/* ICON STUCK TO THE LABEL FIX */
 :deep(.p-button-icon), 
 :deep(.p-button-label) {
     margin: 0px 3px 0px 3px;

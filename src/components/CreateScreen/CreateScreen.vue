@@ -17,7 +17,7 @@
                     <div>
                         <div class="flex-row">
                             <InputText v-model="newTag" placeholder="Type tag and click 'Add'" @keyup.enter="addTag"></InputText>
-                            <i class="pi pi-plus" @click="addTag"></i>
+                            <Button icon="pi pi-plus" aria-label="Add" @click="addTag"></Button>
                         </div>
                         <div class="chipSet flex-row">
                             <Chip v-for="(tag, index) in store.design.tags" :key="tag" :label="tag" removable @remove="removeTag(index)" class="flex-row"/>
@@ -28,7 +28,7 @@
                     <div>
                         <div class="flex-row">
                             <InputText v-model="newLink" placeholder="Paste url and click 'Add'" @keyup.enter="addLink"></InputText>
-                            <i class="pi pi-plus" @click="addLink"></i>
+                            <Button icon="pi pi-plus" aria-label="Add" @click="addLink"></Button>
                         </div>
                         <div class="chipSet flex-row">
                             <Chip v-for="(link, index) in store.design.related_links" :key="link" :label="link" removable @remove="removeLink(index)" class="flex-row"/>
@@ -184,12 +184,6 @@ const handleSaveClick = async () => {
     height: fit-content;
     margin: auto;
     margin-top: 15px;
-}
-#leftPartInputFields i {
-    border-radius: 5px;
-    height: 35px;
-    padding: 10px;
-    background-color: rgb(0, 0, 0, 0.05);
 }
 #listingTitleLabel {
     margin: auto !important;
