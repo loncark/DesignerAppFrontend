@@ -12,7 +12,6 @@
 </template>
   
 <script setup>
-  import Button from 'primevue/button';
   import { ref, onMounted } from 'vue';
   import { getAllDesignsFromStorage } from '../../api/FirebaseApi';
   import DesignCard from './DesignCard.vue';

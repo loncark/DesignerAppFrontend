@@ -43,16 +43,13 @@ const addToDeletedImagesQueue = (imgUrl) => {
 #imageList {
     display: grid;
     grid-template-columns: auto auto auto;
-}
-
-#imageList>h1 {
-    grid-row: 1;
-    grid-column: 1 / 4;
+    grid-gap: 20px 20px;
+    width: 100%;
 }
 
 .imageListImage>img {
-    height: 100px;
-    width: 100px;
+    width: 100%;
+    border-radius: 5px;
 }
 </style>
 

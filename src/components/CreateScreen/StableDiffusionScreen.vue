@@ -17,7 +17,7 @@
         <span v-if="loading">Loading...</span>
         <div v-else id="imagePart">
             <img v-if="base64Image" :src="base64Image">
-            <img v-else :src="placeholderImagePath"/>
+            <img class="dashedBorder" v-else :src="placeholderImagePath"/>
             <Button class="acceptButton" label="Accept" @click="acceptImage" :disabled="!store.sd_base64String"></Button>
             <Button class="discardButton" label="Discard" @click="discardImg"></Button>
         </div>
@@ -195,9 +195,11 @@ const acceptImage = async () => {
     height: 400px;
     grid-row: 1;
     grid-column: 1 / 3;
-
+}
+.dashedBorder {
     border: dashed black 2px;
 }
+
 #imagePart .p-button {
     width: 100%;
     justify-content: center;

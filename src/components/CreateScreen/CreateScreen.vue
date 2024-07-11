@@ -38,7 +38,7 @@
                     </div>
                 </div>
 
-                <h1>Images</h1>
+                <h1 id="imagesTitle">Images</h1>
                 <ImageList v-if="store.design.image_links.length > 0 || store.new_images_buffer.length > 0" :images="store.design.image_links" :newImages="store.new_images_buffer"/>
                 <span v-else>No images present.</span>
             </div>
@@ -143,7 +143,7 @@ const handleSaveClick = async () => {
 
 <style scoped>
 #createScreen {
-    margin-left: 10px;
+    margin-left: 20px;
 }
 
 .titlePart {
@@ -158,24 +158,24 @@ const handleSaveClick = async () => {
     margin-bottom: 10px;
 }
 
+#leftPart {
+    margin-right: 20px;
+    padding-right: 20px;
+    border-right: solid black 2px;
+}
+
+
 #leftPartInputFields {
     display: grid;
     grid-template-rows: auto auto auto auto;
     grid-template-columns: 150px auto;
 
-    margin: 0px 20px 10px 0px;
-    padding: 0px 20px 0px 0px;
     width: 600px;
-
-    border: solid black;
-    border-width: 0px 2px 0px 0px;
 }
-
 #leftPartInputFields>* {
     margin-top: 5px;
     margin-bottom: 5px;
 }
-
 #leftPartInputFields>label {
     width: fit-content;
     height: fit-content;
@@ -184,6 +184,11 @@ const handleSaveClick = async () => {
 }
 #listingTitleLabel {
     margin: auto !important;
+}
+
+#imagesTitle {
+    margin-bottom: 15px;
+    margin-top: 15px;
 }
 
 .first-row {
