@@ -73,4 +73,8 @@ const executeQuery = async () => {
     margin-bottom: 10px;
 }
 
+:deep(.p-button-icon), 
+:deep(.p-button-label) {
+    margin: 0px 3px 0px 3px;
+}
 </style>

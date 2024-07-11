@@ -15,14 +15,9 @@
   import { ref, onMounted } from 'vue';
   import { getAllDesignsFromStorage } from '../../api/FirebaseApi';
   import DesignCard from './DesignCard.vue';
-  import { useRouter } from 'vue-router';
-  import { useStore } from '../../store/Store';
 
   const loading = ref(false);
   const designArray = ref([])
-
-  const router = useRouter();
-  const store = useStore();
 
   const getAllDesigns = async () => {
     loading.value = true;

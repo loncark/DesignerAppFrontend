@@ -92,4 +92,9 @@ const executeQuery = async () => {
 .queryItem:nth-child(3) {
     grid-column: 3;
 }
+
+:deep(.p-button-icon), 
+:deep(.p-button-label) {
+    margin: 0px 3px 0px 3px;
+}
 </style>

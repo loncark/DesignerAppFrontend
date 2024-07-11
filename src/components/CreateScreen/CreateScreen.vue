@@ -3,7 +3,7 @@
         <div class="titlePart flex-row">
             <i class="pi pi-plus"></i>
             <h1 class="big-title">Create new design</h1>
-            <Button label="Save design" @click="handleSaveClick"></Button>
+            <Button label="Save design" icon="pi pi-save" @click="handleSaveClick"></Button>
         </div>
         <div class="flex-row">
             <div id="leftPart">
@@ -154,8 +154,12 @@ const handleSaveClick = async () => {
 }
 .titlePart .p-button {
     font-size: larger;
-    padding: 15px;
+    padding: 20px;
     margin-left: auto;
+}
+.titlePart :deep(.p-button-icon), 
+.titlePart :deep(.p-button-label) {
+    margin: 0px 4px 0px 4px;
 }
 .big-title {
     margin-bottom: 10px;

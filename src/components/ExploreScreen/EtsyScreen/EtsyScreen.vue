@@ -2,7 +2,7 @@
     <div id="etsyScreen">
         <div class="searchBar flex-row">
             <InputText v-model="keyword" @keyup.enter="getProductsByKeyword"></InputText>
-            <Button label="Search" @click="getProductsByKeyword"></Button>
+            <Button icon="pi pi-search" label="Search" @click="getProductsByKeyword"></Button>
         </div>
 
         <span v-if="loading">Loading...</span>
@@ -65,5 +65,10 @@ const getProductsByKeyword = async () => {
     display: grid;
     grid-template-columns: auto auto auto auto;
     grid-gap: 20px 20px;
+}
+
+:deep(.p-button-icon), 
+:deep(.p-button-label) {
+    margin: 0px 3px 0px 3px;
 }
 </style>
