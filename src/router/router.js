@@ -1,9 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import CreateScreen from '../components/CreateScreen/CreateScreen.vue';
-import GeminiScreen from '../components/CreateScreen/GeminiScreen.vue';
-import TrademarkScreen from '../components/CreateScreen/TrademarkScreen/TrademarkScreen.vue';
 import DesignScreen from '../components/DesignScreen/DesignScreen.vue';
-import StableDiffusionScreen from '../components/CreateScreen/StableDiffusionScreen.vue';
 import ExploreScreen from '../components/ExploreScreen/ExploreScreen.vue';
 import DockMenu from '../components/DockMenu.vue';
 import NotFound from '../components/NotFound.vue';
@@ -20,24 +17,9 @@ const routes = [
     component: CreateScreen
   },
   {
-    path: '/sd',
-    name: 'StableDiffusion',
-    component: StableDiffusionScreen
-  },
-  {
-    path: '/gemini',
-    name: 'Gemini',
-    component: GeminiScreen
-  },
-  {
     path: '/explore',
     name: 'ExploreScreen',
     component: ExploreScreen
-  },
-  {
-    path: '/trademark',
-    name: 'Trademark',
-    component: TrademarkScreen
   },
   {
     path: '/dock',
