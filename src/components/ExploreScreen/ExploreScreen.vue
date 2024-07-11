@@ -54,6 +54,10 @@ onMounted(() => {
     align-items: center;
     justify-content: space-between;
     width: 400px;
+
+    position: absolute;
+    top: 20px;
+    right: 110px;
 }
 .titlePart i {
     font-size: 60px;
@@ -61,7 +65,7 @@ onMounted(() => {
 
 .tabItem {
     padding: 10px 10px 10px 10px;
-    margin: 15px;
+    margin: 0px 15px 15px 0px;
     border: solid transparent;
     border-width: 0px 0px 1px 0px;
     border-bottom-color: black;
