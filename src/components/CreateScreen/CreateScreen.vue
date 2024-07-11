@@ -142,11 +142,13 @@ const handleSaveClick = async () => {
 <style scoped>
 #createScreen {
     margin-left: 20px;
+    margin-top: 10px;
 }
 
 .titlePart {
     align-items: center;
-    width: clamp(65vw, 75vw, 75vw);
+    width: 100%;
+    margin-bottom: 5px;
 }
 .titlePart i {
     font-size: 45px;

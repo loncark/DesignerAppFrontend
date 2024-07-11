@@ -49,7 +49,7 @@ const executeQuery = async () => {
 <style scoped>
 .geminiGrid {
     display: grid;
-    grid-template-columns: 300px 150px 150px;
+    grid-template-columns: auto 150px 150px;
     grid-template-rows: 50px 50px;
     align-items: center;
     grid-gap: 0px 10px;
