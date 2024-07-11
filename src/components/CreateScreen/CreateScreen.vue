@@ -1,6 +1,9 @@
 <template>
     <div id="createScreen" >
-        <h1 class="big-title">Create new design</h1>
+        <div class="titlePart flex-row">
+            <i class="pi pi-plus"></i>
+            <h1 class="big-title">Create new design</h1>
+        </div>
         <div class="flex-row">
             <div id="leftPart">
                 <div id="leftPartInputFields">
@@ -143,6 +146,14 @@ const handleSaveClick = async () => {
     margin-left: 10px;
 }
 
+.titlePart {
+    justify-content: space-between;
+    align-items: center;
+    width: 810px;
+}
+.titlePart i {
+    font-size: 45px;
+}
 .big-title {
     margin-bottom: 10px;
 }

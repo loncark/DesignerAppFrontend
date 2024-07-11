@@ -1,5 +1,10 @@
 <template>
     <div id="exploreScreen">
+        <div class="titlePart flex-row">
+            <i class="pi pi-compass"></i>
+            <h1 class="big-title">Explore</h1>
+        </div>
+        
         <div class="flex-row">
             <div class="tabItem" :class="{ 'active-tab': active === 'trends' }" @click="changeActiveTab('trends')">
                 <i class="pi pi-chart-line"></i>
@@ -44,6 +49,16 @@ onMounted(() => {
     margin-left: 20px;
     margin-top: 10px;
 }
+
+.titlePart {
+    align-items: center;
+    justify-content: space-between;
+    width: 400px;
+}
+.titlePart i {
+    font-size: 60px;
+}
+
 .tabItem {
     padding: 10px 10px 10px 10px;
     margin: 15px;

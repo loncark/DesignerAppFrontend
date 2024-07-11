@@ -1,6 +1,7 @@
 <template>
   <div id="designScreen">
-    <div id="topBar">
+    <div class="titlePart flex-row">
+      <i class="pi pi-home"></i>
       <h1 class="big-title">Designs</h1>
     </div>
     <span v-if="loading">Loading...</span>
@@ -42,13 +43,15 @@
   margin-top: 10px;
 }
 
-#topBar {
-  display: flex;
-  flex-direction: row;
+.titlePart {
   justify-content: space-between;
+  align-items: center;
 
   margin-bottom: 15px;
-  width: 210px;
+  width: 400px;
+}
+.titlePart i {
+  font-size: 60px;
 }
 
 #designCardList {
