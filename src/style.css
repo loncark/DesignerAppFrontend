@@ -41,6 +41,10 @@ body {
   border-color: transparent;
 }
 
+.p-inputtextarea {
+  padding: 5px;
+}
+
 .big-title {
   font-size: 80px;
 }

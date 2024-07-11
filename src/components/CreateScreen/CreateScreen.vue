@@ -203,7 +203,6 @@ const handleSaveClick = async () => {
     margin-right: 10px;
 }
 .p-inputtextarea {
-    padding-left: 0px;
     height: 80px;
 }
 
