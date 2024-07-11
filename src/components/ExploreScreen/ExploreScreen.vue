@@ -1,15 +1,15 @@
 <template>
     <div id="exploreScreen">
         <div class="flex-row">
-            <div class="tabItem" @click="changeActiveTab('trends')">
+            <div class="tabItem" :class="{ 'active-tab': active === 'trends' }" @click="changeActiveTab('trends')">
                 <i class="pi pi-chart-line"></i>
                 <span>Trends</span>
             </div>
-            <div class="tabItem" @click="changeActiveTab('keywords')">
+            <div class="tabItem" :class="{ 'active-tab': active === 'keywords' }" @click="changeActiveTab('keywords')">
                 <i class="pi pi-search"></i>
                 <span>Keywords</span>
             </div>
-            <div class="tabItem" @click="changeActiveTab('products')">
+            <div class="tabItem" :class="{ 'active-tab': active === 'products' }" @click="changeActiveTab('products')">
                 <i class="pi pi-list"></i>
                 <span >Products</span>
             </div>
@@ -44,16 +44,17 @@ onMounted(() => {
     margin-left: 20px;
     margin-top: 10px;
 }
-
 .tabItem {
-    padding: 0px 10px 10px 10px;
-    margin: 10px;
-
-    border: solid black;
+    padding: 10px 10px 10px 10px;
+    margin: 15px;
+    border: solid transparent;
     border-width: 0px 0px 1px 0px;
+    border-bottom-color: black;
 }
-
 .tabItem i {
     margin-right: 10px;
+}
+.active-tab {
+    border-radius: 10px;
 }
 </style>

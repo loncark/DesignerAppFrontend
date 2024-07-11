@@ -43,15 +43,15 @@
 
             <div id="rightPart">
                 <div class="flex-row">
-                    <div class="tabItem" @click="changeActiveTab('gemini')">
+                    <div class="tabItem" :class="{ 'active-tab': active === 'gemini' }" @click="changeActiveTab('gemini')">
                         <i class="pi pi-microchip-ai"></i>
                         <span>Gemini</span>
                     </div>
-                    <div class="tabItem" @click="changeActiveTab('sd')">
+                    <div class="tabItem" :class="{ 'active-tab': active === 'sd' }" @click="changeActiveTab('sd')">
                         <i class="pi pi-image"></i>
                         <span>Stable Diffusion</span>
                     </div>
-                    <div class="tabItem" @click="changeActiveTab('trademark')">
+                    <div class="tabItem" :class="{ 'active-tab': active === 'trademark' }" @click="changeActiveTab('trademark')">
                         <i class="pi pi-briefcase"></i>
                         <span>Trademarks</span>
                     </div>
@@ -215,14 +215,16 @@ const handleSaveClick = async () => {
 }
 
 .tabItem {
-    padding: 10px;
-    margin: 10px;
-
-    border: solid black;
+    padding: 10px 10px 10px 10px;
+    margin: 15px;
+    border: solid transparent;
     border-width: 0px 0px 1px 0px;
+    border-bottom-color: black;
 }
-
 .tabItem i {
     margin-right: 10px;
+}
+.active-tab {
+    border-radius: 10px;
 }
 </style>
