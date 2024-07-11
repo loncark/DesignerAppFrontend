@@ -1,14 +1,13 @@
 
 <template>
   <div class="flex-column dock">
-    <Button icon="pi pi-home" raised @click="goToDesignScreen" class="dock-button"></Button>
-    <Button icon="pi pi-search" raised @click="goToKeywordSearchScreen" class="dock-button"></Button>
-    <Button icon="pi pi-plus" raised @click="goToCreateScreen" class="dock-button"></Button>
+    <i class="pi pi-home dock-button" raised @click="goToDesignScreen"></i>
+    <i class="pi pi-compass dock-button" raised @click="goToKeywordSearchScreen"></i>
+    <i class="pi pi-plus dock-button" raised @click="goToCreateScreen"></i>
   </div>
 </template>
 
 <script setup>
-import Button from 'primevue/button';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -33,10 +32,11 @@ const goToCreateScreen = () => {
 }
 
 .dock-button {
-  width: 50px;
-  height: 50px;
+  padding: 15px;
   margin: 5px;
+  font-size: 1.5em;
 
   border-radius: 30px;
+  border: 2px solid black;
 }
 </style>
