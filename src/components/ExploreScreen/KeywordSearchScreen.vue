@@ -76,6 +76,7 @@ const executeQuery = async () => {
 }
 .queryList>h4 {
     margin-bottom: 15px;
+    margin-top: 10px;
 }
 .queryItem {
     display: grid;

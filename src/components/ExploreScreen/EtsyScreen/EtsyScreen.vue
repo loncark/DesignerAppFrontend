@@ -64,7 +64,7 @@ const getProductsByKeyword = async () => {
 #productList {
     display: grid;
     grid-template-columns: auto auto auto auto;
-    grid-gap: 20px 20px;
+    grid-gap: 20px 25px;
 }
 
 :deep(.p-button-icon), 

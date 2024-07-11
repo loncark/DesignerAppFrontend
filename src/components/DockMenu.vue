@@ -26,7 +26,7 @@ const goToCreateScreen = () => {
 <style scoped>
 .dock {
     width: fit-content;
-    height: 100vh;
+    height: fit-content;
     margin: 35vh 30px auto 30px;
 }
 

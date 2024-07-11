@@ -33,6 +33,7 @@ const placeholderImagePath = ref(placeholderImage);
 #trendListPerDate {
     display: grid;
     grid-template-columns: auto auto;
+    grid-gap: 0px 50px;
 }
 
 .trendCard {
@@ -42,7 +43,7 @@ const placeholderImagePath = ref(placeholderImage);
     text-decoration: none;
     color: inherit;
 
-    width: 600px;
+    width: fit-content;
     margin-top: 10px;
     margin-bottom: 10px;
 }
@@ -101,7 +102,7 @@ const placeholderImagePath = ref(placeholderImage);
 .trendTraffic {
     grid-column: 3;
     width: 100%;
-    margin-left: 15px;
+    margin-left: 5px;
     justify-content: center;
     align-items: center;
 }

@@ -36,6 +36,7 @@ const product = ref(props.product);
     width: 300px;
     height: 300px;
     border-radius: 10px;
+    border: 1px dotted black;
 }
 
 .productName {
