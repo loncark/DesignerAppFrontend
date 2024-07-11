@@ -1,11 +1,13 @@
 <template>
-  <div id="app">
+  <div id="app" class="flex-row">
+    <DockMenu/>
     <router-view></router-view>
   </div>
 </template>
 
 <script setup>
 import { ref, watchEffect } from 'vue';
+import DockMenu from './components/DockMenu.vue';
 
 const theme = ref('light');
 

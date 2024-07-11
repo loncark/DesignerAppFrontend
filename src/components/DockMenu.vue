@@ -16,7 +16,7 @@ const goToDesignScreen = () => {
     router.push('/');
 }
 const goToKeywordSearchScreen = () => {
-    router.push('/keywordSearch');
+    router.push('/explore');
 }
 const goToCreateScreen = () => {
     router.push('/create');
@@ -26,9 +26,8 @@ const goToCreateScreen = () => {
 <style scoped>
 .dock {
     width: fit-content;
-    position: fixed;
-    right: 10px;
-    top: 230px;
+    height: 100vh;
+    margin: 35vh 30px auto 30px;
 }
 
 .dock-button {
@@ -38,5 +37,7 @@ const goToCreateScreen = () => {
 
   border-radius: 30px;
   border: 2px solid black;
+
+  cursor: pointer;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="not-found">
+  <div class="not-found flex-column">
     <h1>Oops!</h1>
     <p>The page you requested was not found.</p>
   </div>
@@ -13,14 +13,11 @@ export default {
 
 <style scoped>
 .not-found {
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 2rem;
-  min-height: 100vh;
-  background-color: #f5f5f5;
+  height: 100vh;
+  width: 80vw;
 }
 
 .not-found h1 {
@@ -35,7 +32,6 @@ export default {
 
 .not-found a {
   text-decoration: none;
-  color: #333;
   font-weight: bold;
 }
 </style>
