@@ -5,3 +5,5 @@ Stuff I learned the hard way:
 3. :deep(.className) selector allows for manipulation of child component css from the parent
 (unlikely to be necessary if the first step is done correctly)
 4. EXPECT YOUR BUTTON ICONS TO BE STUCK TO THE BUTTON LABEL WITH CSS * {margin: 0px;}
+5. Some components are named differently in different primevue versions
+(calendar -> datepicker, dropdown -> select)

@@ -1,8 +1,8 @@
 <template>
     <div id="trendScreen" class="flex-column">
         <div class="searchBar flex-row">
-            <InputText v-model="countryCode" @keyup.enter="executeQuery"/>
-            <InputText v-model="dateString" @keyup.enter="executeQuery"></InputText>
+            <Dropdown v-model="countryObject" :options="countryCodeArray" optionLabel="name" placeholder="Select a country" :highlightOnSelect="false" />
+            <InputText v-model="dateString" ></InputText>
             <Button label="Search" icon="pi pi-search" @click="executeQuery"></Button>
         </div>
 
@@ -29,12 +29,15 @@ import { ref, computed } from 'vue';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import { useStore } from '../../../store/Store';
-import { convertDateToString, convertStringToDate, formatDateForBackend, insertSlashesIntoDateString } from '../../../utils/functions';
+import { convertDateToString, convertStringToDate, formatDateForBackend, insertSlashesIntoDateString, getCountryCode } from '../../../utils/functions';
 import ProgressSpinner from 'primevue/progressspinner';
+import { COUNTRY_CODES } from '../../../utils/constants';
+import Dropdown from 'primevue/dropdown';
 
 const store = useStore();
+const countryCodeArray = ref(COUNTRY_CODES);
 const dateString = ref(convertDateToString(store.trends_date));
-const countryCode = ref(store.trends_country_code);
+const countryObject = ref(store.trends_country_object);
 const nextDate = ref(store.trends_date);
 
 const loading = ref(false);
@@ -45,8 +48,8 @@ const executeQuery = async () => {
     try {
         loading.value = true;
         store.trends_date = convertStringToDate(dateString.value);
-        store.trends_country_code = countryCode.value;
-        const response = await queryTrends(formatDateForBackend(convertStringToDate(dateString.value)), countryCode.value);
+        store.trends_country_object = countryObject.value;
+        const response = await queryTrends(formatDateForBackend(convertStringToDate(dateString.value)), getCountryCode((countryObject.value)['name']));
         store.daily_searches = response.daily_searches;
         nextDate.value = response.serpapi_pagination.next_date;
         
@@ -60,9 +63,9 @@ const executeQuery = async () => {
 </script>
 
 <style scoped>
-.p-inputtext {
+.p-component:not(.p-button) {
     text-align: center !important;
-    width: 150px;
+    width: 200px;
 }
 
 .dateText {
@@ -70,5 +73,12 @@ const executeQuery = async () => {
     font-size: 20px;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.p-dropdown {
+    align-items: center;
+}
+:deep(.p-dropdown-label) {
+    height: fit-content;
 }
 </style>

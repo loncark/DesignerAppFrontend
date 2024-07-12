@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { nullDesign } from '../utils/constants';
+import { nullDesign, COUNTRY_CODES } from '../utils/constants';
 
 export const useStore = defineStore('design', {
   state: () => ({
@@ -7,7 +7,7 @@ export const useStore = defineStore('design', {
 
     // related to ExploreScreen
     trends_date: new Date(),
-    trends_country_code: 'US',
+    trends_country_object: COUNTRY_CODES[0],
     daily_searches: null,
     keyword_search_keyword: '',
     related_queries: null,
@@ -57,7 +57,7 @@ export const useStore = defineStore('design', {
       this.etsy_keyword = '';
       this.products = null;
       this.trends_date = new Date();
-      this.trends_country_code = 'US';
+      this.trends_country_object = COUNTRY_CODES[0];
     }
   },
 });

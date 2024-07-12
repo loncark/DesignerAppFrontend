@@ -10,3 +10,15 @@ export const nullDesign = Object.freeze({
       "tags": [],
       "title": ""
     })
+
+export const COUNTRY_CODES = [
+  { name: 'United States', code: 'US' },
+  { name: 'France', code: 'FR' },
+  { name: 'Germany', code: 'DE' },
+  { name: 'Croatia', code: 'HR' },
+  { name: 'Spain', code: 'ES' },
+  { name: 'Great Britain', code: 'GB' },
+  { name: 'Japan', code: 'JP' },
+  { name: 'Australia', code: 'AU' },
+  { name: 'Austria', code: 'AT' },
+]

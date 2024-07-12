@@ -1,4 +1,4 @@
-import { BACKEND_BASE_URL } from './constants'
+import { BACKEND_BASE_URL, COUNTRY_CODES } from './constants'
 
 export async function query(endpoint, method, body) {
     const response = await fetch(BACKEND_BASE_URL + endpoint, {
@@ -80,4 +80,10 @@ export const insertSlashesIntoDateString = (dateString) => {
     const day = dateString.slice(6, 8);
 
     return `${year}/${month}/${day}`;
+}
+
+export const getCountryCode = (countryName) => {
+    const lowercaseName = countryName.toLowerCase();
+    const country = COUNTRY_CODES.find(c => c.name.toLowerCase() === lowercaseName);
+    return country ? country.code : null;
 }
