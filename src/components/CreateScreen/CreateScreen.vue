@@ -209,6 +209,7 @@ const handleSaveClick = async () => {
 }
 .p-inputtextarea {
     height: 80px;
+    padding: 5px;
 }
 
 .p-chip {
