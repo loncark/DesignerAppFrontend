@@ -5,7 +5,8 @@
             <Button icon="pi pi-search" label="Search" @click="getProductsByKeyword"></Button>
         </div>
 
-        <span v-if="loading">Loading...</span>
+        <ProgressSpinner v-if="loading"></ProgressSpinner>
+        
         <span v-else-if="!queryWasExecuted">Awaiting input.</span>
         <span v-else-if="noResultsWereFound">No results have been found for the given input.</span>
 
@@ -32,6 +33,7 @@ import Button from 'primevue/button';
 import { queryEtsy } from '../../../api/EtsyApi';
 import { ref, computed } from 'vue';
 import { useStore } from '../../../store/Store';
+import ProgressSpinner from 'primevue/progressspinner';
 
 const store = useStore();
 const loading = ref(false);

@@ -5,7 +5,8 @@
             <Button label="Search" icon="pi pi-search" @click="executeQuery"></Button>
         </div>
 
-        <span v-if="loading">Loading...</span>
+        <ProgressSpinner v-if="loading"></ProgressSpinner>
+
         <span v-else-if="!queryWasExecuted">Awaiting input.</span>
         <span v-else-if="noRelatedQueriesWereFound && noInterestByRegionWasFound">No results found for given input.</span>
 
@@ -42,6 +43,7 @@ import Button from 'primevue/button';
 import { queryRelatedQueries, queryInterestByRegion } from '../../api/TrendsApi';
 import { ref, computed } from 'vue';
 import { useStore } from '../../store/Store';
+import ProgressSpinner from 'primevue/progressspinner';
 
 const store = useStore();
 const keyword = ref(store.keyword_search_keyword);

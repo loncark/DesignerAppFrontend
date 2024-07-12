@@ -8,6 +8,8 @@ import { initializeFirebase } from './utils/FirebaseConfig';
 
 import './style.css'
 import 'primeicons/primeicons.css'
+import 'primevue/resources/primevue.min.css'    
+import 'primevue/resources/themes/lara-light-indigo/theme.css' 
 
 async function startApp() {
   await initializeFirebase();

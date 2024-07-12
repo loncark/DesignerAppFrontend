@@ -14,7 +14,8 @@
             <Button class="generateButton" icon="pi pi-play-circle" :label="generateBtnLabel" @click="handleGenerateClick"></Button>
         </div>
 
-        <span v-if="loading">Loading...</span>
+        <ProgressSpinner v-if="loading"></ProgressSpinner>
+
         <div v-else id="imagePart">
             <img v-if="base64Image" :src="base64Image">
             <img class="dashedBorder" v-else :src="placeholderImagePath"/>
@@ -34,6 +35,7 @@ import { convertImageUrlToBase64 } from '../../api/FirebaseApi'
 import { ref, computed, onMounted } from "vue";
 import { useStore } from '../../store/Store';
 import placeholderImage from '../../assets/placeholder.svg';
+import ProgressSpinner from 'primevue/progressspinner';
 
 const placeholderImagePath = ref(placeholderImage);
 
@@ -216,5 +218,10 @@ const acceptImage = async () => {
 .discardButton {
     grid-row: 2;
     grid-column: 2;
+}
+
+.p-progress-spinner {
+    top: 45vh;
+    left: 80vw;
 }
 </style>

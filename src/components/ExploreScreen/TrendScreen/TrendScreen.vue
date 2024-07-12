@@ -6,7 +6,8 @@
             <Button label="Search" icon="pi pi-search" @click="executeQuery"></Button>
         </div>
 
-        <span v-if="loading" class="loadingText">Loading...</span>
+        <ProgressSpinner v-if="loading"></ProgressSpinner>
+
         <span v-else-if="!queryWasExecuted">Enter date, country code and press 'Search'.</span>
         <span v-else-if="noResultsWereFound">No results found for given date.</span>
         
@@ -29,6 +30,7 @@ import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import { useStore } from '../../../store/Store';
 import { convertDateToString, convertStringToDate, formatDateForBackend, insertSlashesIntoDateString } from '../../../utils/functions';
+import ProgressSpinner from 'primevue/progressspinner';
 
 const store = useStore();
 const dateString = ref(convertDateToString(store.trends_date));

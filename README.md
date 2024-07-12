@@ -1,7 +1,6 @@
-# Vue 3 + Vite
+Stuff I learned the hard way:
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
-
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (previously Volar) and disable Vetur
+1. IF PRIMEVUE COMPONENTS DON'T WORK ITS BECAUSE YOU ARE NOT IMPORTING CSS IN MAIN.JS
+2. Do not put :key="index" in v-for for items that have to eventually be deleted
+3. :deep(.className) selector allows for manipulation of child component css from the parent
+(unlikely to be necessary if the first step is done correctly)

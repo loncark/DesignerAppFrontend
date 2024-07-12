@@ -8,7 +8,7 @@
             <Button icon="pi pi-play" label="Generate" @click="executeQuery"></Button>
         </div>
 
-        <span v-if="loading">Loading...</span>
+        <ProgressSpinner v-if="loading" ></ProgressSpinner>
         <p v-else>
             {{ store.gemini_response }}
         </p>
@@ -22,6 +22,7 @@ import { queryGemini } from '../../api/GeminiApi';
 import {TAGS_PROMPT, TITLE_PROMPT, IDEA_PROMPT} from '../../utils/constants';
 import { useStore } from '../../store/Store';
 import { ref } from 'vue';
+import ProgressSpinner from 'primevue/progressspinner';
 
 const store = useStore();
 const loading = ref(false);
@@ -74,5 +75,10 @@ const executeQuery = async () => {
     grid-row: 1 / 3;
     height: 100%;
     padding: 5px;
+}
+
+.p-progress-spinner {
+    top: 50vh;
+    left: 60vw;
 }
 </style>

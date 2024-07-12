@@ -4,10 +4,13 @@
       <i class="pi pi-home"></i>
       <h1 class="big-title">Designs</h1>
     </div>
-    <span v-if="loading">Loading...</span>
+
+    <ProgressSpinner v-if="loading"></ProgressSpinner>
+
     <div v-else id="designCardList">
         <DesignCard v-for="(design, index) in designArray" :key="index" :design="design" @design-deleted="getAllDesigns"/>    
     </div>
+
   </div>
 </template>
   
@@ -15,7 +18,8 @@
   import { ref, onMounted } from 'vue';
   import { getAllDesignsFromStorage } from '../../api/FirebaseApi';
   import DesignCard from './DesignCard.vue';
-
+  import ProgressSpinner from 'primevue/progressspinner';
+  
   const loading = ref(false);
   const designArray = ref([])
 

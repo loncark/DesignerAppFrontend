@@ -5,7 +5,7 @@
             <Button label="Search" icon="pi pi-search" @click="executeQuery"></Button>
         </div>
 
-        <span v-if="loading">Loading...</span>
+        <ProgressSpinner v-if="loading"></ProgressSpinner>
 
         <div v-else-if="store.trademark_count > 0" class="trademarkResults">
             <h4>Returned {{ store.trademark_count }} results for query "{{ store.trademark_input }}":</h4>
@@ -28,6 +28,7 @@ import ResultCard from './ResultCard.vue';
 import { ref, computed } from 'vue';
 import { queryTESS } from '../../../api/TrademarkApi'
 import { useStore } from '../../../store/Store';
+import ProgressSpinner from 'primevue/progressspinner';
 
 const store = useStore();
 const loading = ref(false);
@@ -59,5 +60,10 @@ const executeQuery = async () => {
 :deep(.p-button-icon), 
 :deep(.p-button-label) {
     margin: 0px 4px 0px 4px;
+}
+
+.p-progress-spinner {
+    top: 50vh;
+    left: 70vw;
 }
 </style>
