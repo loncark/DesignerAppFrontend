@@ -74,7 +74,10 @@ const executeQuery = async () => {
 
 <style scoped>
 .queryList {
-    margin-right: 50px;
+    margin: 10px 50px 10px 0px;
+    padding: 10px 15px 10px 15px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 .queryList>h4 {
     margin-bottom: 15px;
@@ -94,10 +97,5 @@ const executeQuery = async () => {
 }
 .queryItem:nth-child(3) {
     grid-column: 3;
-}
-
-:deep(.p-button-icon), 
-:deep(.p-button-label) {
-    margin: 0px 3px 0px 3px;
 }
 </style>

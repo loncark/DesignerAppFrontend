@@ -62,6 +62,8 @@ const deleteDesign = async (id) => {
 .designCard {
     width: fit-content;
     border-radius: 10px;
+    padding: 15px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 .designCard>* {
     margin-bottom: 10px;
@@ -91,6 +93,7 @@ const deleteDesign = async (id) => {
 .buttonRow {
     justify-content: end;
     align-items: center;
+    margin-bottom: revert;
 }
 .buttonRow .p-button {
     margin-left: 5px;
