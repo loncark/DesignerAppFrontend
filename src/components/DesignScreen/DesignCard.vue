@@ -94,5 +94,9 @@ const deleteDesign = async (id) => {
 }
 .buttonRow .p-button {
     margin-left: 5px;
+    padding: 10px;
+}
+.buttonRow .pi {
+    font-size: large;
 }
 </style>
