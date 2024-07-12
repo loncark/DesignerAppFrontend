@@ -19,8 +19,8 @@
         <div v-else id="imagePart">
             <img v-if="base64Image" :src="base64Image">
             <img class="dashedBorder" v-else :src="placeholderImagePath"/>
-            <Button class="acceptButton" icon="pi pi-check" label="Accept" @click="acceptImage" :disabled="!store.sd_base64String"></Button>
-            <Button class="discardButton" icon="pi pi-times" label="Discard" @click="discardImg"></Button>
+            <Button class="acceptButton" severity="success" icon="pi pi-check" label="Accept" @click="acceptImage" :disabled="!store.sd_base64String"></Button>
+            <Button class="discardButton" severity="danger" icon="pi pi-times" label="Discard" @click="discardImg"></Button>
         </div>
         
     </div>
@@ -140,7 +140,7 @@ const acceptImage = async () => {
 #sdScreenInputFields {
     display: grid;
     grid-template-columns: 80px auto 80px auto;
-    grid-template-rows: 50px 50px 30px 120px auto;
+    grid-template-rows: 50px 50px 30px 170px auto;
     grid-gap : 5px 0px;
 }
 
@@ -169,7 +169,7 @@ const acceptImage = async () => {
     grid-column: 1 / 5;
 
     width: 100%;
-    height: 100px;
+    height: 150px;
     padding: 10px;
 
     text-align: left;
@@ -179,13 +179,9 @@ const acceptImage = async () => {
     grid-column: 1 / 5;
 
     width: 100%;
-    justify-content: center;
+    padding: 10px;
+    height: fit-content;
     margin-top: 20px;
-}
-/* ICON STUCK TO THE LABEL FIX */
-:deep(.p-button-icon), 
-:deep(.p-button-label) {
-    margin: 0px 3px 0px 3px;
 }
 
 
@@ -214,10 +210,12 @@ const acceptImage = async () => {
 .acceptButton {
     grid-row: 2;
     grid-column: 1;
+    padding: 10px;
 }
 .discardButton {
     grid-row: 2;
     grid-column: 2;
+    padding: 10px;
 }
 
 .p-progress-spinner {

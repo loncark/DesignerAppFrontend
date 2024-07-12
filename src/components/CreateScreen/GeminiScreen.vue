@@ -2,9 +2,9 @@
     <div id="geminiScreen">
         <div class="geminiGrid">
             <Textarea v-model="store.gemini_input"></Textarea>
-            <Button icon="pi pi-hashtag" label="Tags prompt" @click="fillIn(TAGS_PROMPT)"></Button>
-            <Button icon="pi pi-bars" label="Title prompt" @click="fillIn(TITLE_PROMPT)"></Button>
-            <Button icon="pi pi-lightbulb" label="Idea prompt" @click="fillIn(IDEA_PROMPT)"></Button>
+            <Button icon="pi pi-hashtag" label="Tags prompt" severity="secondary" @click="fillIn(TAGS_PROMPT)"></Button>
+            <Button icon="pi pi-bars" label="Title prompt" severity="secondary" @click="fillIn(TITLE_PROMPT)"></Button>
+            <Button icon="pi pi-lightbulb" label="Idea prompt" severity="secondary" @click="fillIn(IDEA_PROMPT)"></Button>
             <Button icon="pi pi-play" label="Generate" @click="executeQuery"></Button>
         </div>
 
@@ -64,11 +64,7 @@ const executeQuery = async () => {
 
 .geminiGrid .p-button {
     width: 100%;
-    justify-content: center;
-}
-:deep(.p-button-icon), 
-:deep(.p-button-label) {
-    margin: 0px 4px 0px 4px;
+    padding: 10px;
 }
 
 .geminiGrid>.p-inputtextarea {

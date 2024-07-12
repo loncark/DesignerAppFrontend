@@ -17,7 +17,7 @@
                     <div>
                         <div class="flex-row">
                             <InputText v-model="newTag" placeholder="Type tag and click 'Add'" @keyup.enter="addTag"></InputText>
-                            <Button icon="pi pi-plus" aria-label="Add" @click="addTag"></Button>
+                            <Button icon="pi pi-plus" aria-label="Add" severity="secondary" @click="addTag"></Button>
                         </div>
                         <div class="chipSet flex-row">
                             <Chip v-for="(tag, index) in store.design.tags" :key="tag" :label="tag" removable @remove="removeTag(index)" class="flex-row"/>
@@ -28,7 +28,7 @@
                     <div>
                         <div class="flex-row">
                             <InputText v-model="newLink" placeholder="Paste url and click 'Add'" @keyup.enter="addLink"></InputText>
-                            <Button icon="pi pi-plus" aria-label="Add" @click="addLink"></Button>
+                            <Button icon="pi pi-plus" aria-label="Add" severity="secondary" @click="addLink"></Button>
                         </div>
                         <div class="chipSet flex-row">
                             <Chip v-for="(link, index) in store.design.related_links" :key="link" :label="link" removable @remove="removeLink(index)" class="flex-row"/>
@@ -159,10 +159,6 @@ const handleSaveClick = async () => {
     padding: 20px;
     margin-left: auto;
 }
-.titlePart :deep(.p-button-icon), 
-.titlePart :deep(.p-button-label) {
-    margin: 0px 4px 0px 4px;
-}
 .big-title {
     margin-bottom: 10px;
 }
@@ -221,15 +217,11 @@ const handleSaveClick = async () => {
 
     border: 1px solid black;
     border-radius: 20px;
-    padding: 5px 8px 5px 8px;
-    margin: 5px 5px 0px 0px;
+    padding: 0px 8px 0px 8px;
+    margin: 5px 10px 0px 0px;
 }
 .chipSet {
     flex-wrap: wrap;
-}
-/* used for targeting children from the scope of the parent */
-:deep(.p-chip-text) {
-    padding-right: 5px;
 }
 
 

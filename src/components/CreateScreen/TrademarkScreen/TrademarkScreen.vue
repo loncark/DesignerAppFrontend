@@ -57,10 +57,7 @@ const executeQuery = async () => {
     margin-bottom: 15px;
 }
 
-:deep(.p-button-icon), 
-:deep(.p-button-label) {
-    margin: 0px 4px 0px 4px;
-}
+
 
 .p-progress-spinner {
     top: 50vh;
