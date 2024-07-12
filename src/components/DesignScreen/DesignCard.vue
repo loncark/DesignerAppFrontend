@@ -12,8 +12,8 @@
         </div>
         <h3>{{ props.design.design_name }}</h3>
         <div class="buttonRow flex-row">
-            <Button icon="pi pi-pen-to-square" aria-label="Edit" @click="goToCreateScreen"></Button>
-            <Button icon="pi pi-trash" aria-label="Delete" @click="deleteDesign(props.design.design_id)"></Button>
+            <Button icon="pi pi-pen-to-square" aria-label="Edit" severity="secondary" @click="goToCreateScreen"></Button>
+            <Button icon="pi pi-trash" aria-label="Delete" severity="danger" @click="deleteDesign(props.design.design_id)"></Button>
         </div>
     </div>
 </template>

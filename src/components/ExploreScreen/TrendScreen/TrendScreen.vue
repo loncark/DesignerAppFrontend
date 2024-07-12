@@ -60,12 +60,9 @@ const executeQuery = async () => {
 </script>
 
 <style scoped>
-.loadingText {
-    margin-top: 20px;
-}
-
 .p-inputtext {
     text-align: center !important;
+    width: 150px;
 }
 
 .dateText {
@@ -73,10 +70,5 @@ const executeQuery = async () => {
     font-size: 20px;
     margin-top: 10px;
     margin-bottom: 10px;
-}
-
-:deep(.p-button-icon), 
-:deep(.p-button-label) {
-    margin: 0px 3px 0px 3px;
 }
 </style>
