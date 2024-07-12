@@ -1,7 +1,7 @@
 <template>
     <div id="trademarkScreen" class="flex-column">
         <div class="searchBar flex-row">
-            <InputText v-model="keyword"></InputText>
+            <InputText v-model="keyword" @keyup.enter="executeQuery"></InputText>
             <Button label="Search" icon="pi pi-search" @click="executeQuery"></Button>
         </div>
 
@@ -55,9 +55,8 @@ const executeQuery = async () => {
 <style scoped>
 .trademarkResults>h4 {
     margin-bottom: 15px;
+    margin-top: 5px;
 }
-
-
 
 .p-progress-spinner {
     top: 50vh;
