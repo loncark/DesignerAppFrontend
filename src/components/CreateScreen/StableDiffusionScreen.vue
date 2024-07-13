@@ -11,7 +11,11 @@
             <label class="customPromptLabel">Custom prompt</label>
             <Textarea class="customPromptTextArea" v-model="store.sd_custom_prompt_input" :class="{'invalid-input': !inputIsValid(store.sd_custom_prompt_input)}"></Textarea>
 
-            <Button class="generateButton" icon="pi pi-play-circle" :label="generateBtnLabel" @click="handleGenerateClick"></Button>
+            <Button class="generateButton" 
+                icon="pi pi-play-circle" 
+                :label="generateBtnLabel" 
+                @click="handleGenerateClick"
+                :disabled="!dimesionInputIsValid(store.sd_width_input) || !dimesionInputIsValid(store.sd_height_input) || !stepInputIsValid(store.sd_no_steps_input) || !inputIsValid(store.sd_custom_prompt_input)"/>
         </div>
 
         <ProgressSpinner v-if="loading"></ProgressSpinner>

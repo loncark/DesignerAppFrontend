@@ -3,7 +3,7 @@
         <div class="titlePart flex-row">
             <i class="pi pi-plus"></i>
             <h1 class="big-title">Create new design</h1>
-            <Button label="Save design" icon="pi pi-save" @click="handleSaveClick"></Button>
+            <Button label="Save design" icon="pi pi-save" @click="handleSaveClick" :disabled="!nameIsValid(store.design.design_name) || !titleIsValid(store.design.title)"></Button>
         </div>
         <div class="flex-row">
             <div id="leftPart">
@@ -98,7 +98,7 @@ const removeTag = (index) => {
     store.design.tags.splice(index, 1);
 }
 const addTag = () => {
-    if(newTag.value === '') return;
+    if(newTag.value === '' || !tagIsValid(newTag.value)) return;
     store.design.tags.push(newTag.value);
     newTag.value = "";
 }
@@ -106,7 +106,7 @@ const removeLink = (index) => {
     store.design.related_links.splice(index, 1);
 }
 const addLink = () => {
-    if(newLink.value === '') return;
+    if(newLink.value === '' || !linkIsValid(newLink.value)) return;
     store.design.related_links.push(newLink.value);
     newLink.value = "";
 }

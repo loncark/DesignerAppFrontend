@@ -5,7 +5,7 @@
             <Button icon="pi pi-hashtag" label="Tags prompt" severity="secondary" @click="fillIn(TAGS_PROMPT)"></Button>
             <Button icon="pi pi-bars" label="Title prompt" severity="secondary" @click="fillIn(TITLE_PROMPT)"></Button>
             <Button icon="pi pi-lightbulb" label="Idea prompt" severity="secondary" @click="fillIn(IDEA_PROMPT)"></Button>
-            <Button icon="pi pi-play" label="Generate" @click="executeQuery"></Button>
+            <Button icon="pi pi-play" label="Generate" @click="executeQuery" :disabled="!inputIsValid(store.gemini_input) || store.gemini_input === ''"></Button>
         </div>
 
         <ProgressSpinner v-if="loading" ></ProgressSpinner>
