@@ -8,15 +8,15 @@
         <div class="flex-row">
             <div id="leftPart">
                 <div id="leftPartInputFields">
-                    <InputText class="first-row" v-model="store.design.design_name" placeholder="Design name"></InputText>
+                    <InputText class="first-row" v-model="store.design.design_name" placeholder="Design name" :class="{'invalid-input': !nameIsValid(store.design.design_name)}"></InputText>
                 
                     <label id="listingTitleLabel">Listing title</label>
-                    <Textarea v-model="store.design.title"></Textarea>
+                    <Textarea v-model="store.design.title" :class="{'invalid-input': !titleIsValid(store.design.title)}"></Textarea>
 
                     <label>Tags</label>
                     <div>
                         <div class="flex-row">
-                            <InputText v-model="newTag" placeholder="Type tag and click 'Add'" @keyup.enter="addTag"></InputText>
+                            <InputText v-model="newTag" placeholder="Type tag and click 'Add'" @keyup.enter="addTag" :class="{'invalid-input': !tagIsValid(newTag)}"/>
                             <Button icon="pi pi-plus" aria-label="Add" severity="secondary" @click="addTag"></Button>
                         </div>
                         <div class="chipSet flex-row">
@@ -27,7 +27,7 @@
                     <label>Related links</label>
                     <div>
                         <div class="flex-row">
-                            <InputText v-model="newLink" placeholder="Paste url and click 'Add'" @keyup.enter="addLink"></InputText>
+                            <InputText v-model="newLink" placeholder="Paste url and click 'Add'" @keyup.enter="addLink" :class="{'invalid-input': !linkIsValid(newLink)}"></InputText>
                             <Button icon="pi pi-plus" aria-label="Add" severity="secondary" @click="addLink"></Button>
                         </div>
                         <div class="chipSet flex-row">
@@ -81,6 +81,7 @@ import GeminiScreen from './GeminiScreen.vue';
 import TrademarkScreen from './TrademarkScreen/TrademarkScreen.vue';
 import { uploadImgToFirebaseStorage } from '../../api/FirebaseApi'
 import Textarea from 'primevue/textarea';
+import { titleIsValid, tagIsValid, linkIsValid, nameIsValid } from '../../utils/validation';
 
 const store = useStore();
 const router = useRouter();
@@ -97,6 +98,7 @@ const removeTag = (index) => {
     store.design.tags.splice(index, 1);
 }
 const addTag = () => {
+    if(newTag.value === '') return;
     store.design.tags.push(newTag.value);
     newTag.value = "";
 }
@@ -104,6 +106,7 @@ const removeLink = (index) => {
     store.design.related_links.splice(index, 1);
 }
 const addLink = () => {
+    if(newLink.value === '') return;
     store.design.related_links.push(newLink.value);
     newLink.value = "";
 }

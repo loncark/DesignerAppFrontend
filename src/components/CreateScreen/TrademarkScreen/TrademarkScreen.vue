@@ -1,7 +1,7 @@
 <template>
     <div id="trademarkScreen" class="flex-column">
         <div class="searchBar flex-row">
-            <InputText v-model="keyword" @keyup.enter="executeQuery"></InputText>
+            <InputText v-model="keyword" @keyup.enter="executeQuery" :class="{'invalid-input': !inputIsValid(keyword)}"></InputText>
             <Button label="Search" icon="pi pi-search" @click="executeQuery"></Button>
         </div>
 
@@ -29,6 +29,7 @@ import { ref, computed } from 'vue';
 import { queryTESS } from '../../../api/TrademarkApi'
 import { useStore } from '../../../store/Store';
 import ProgressSpinner from 'primevue/progressspinner';
+import { inputIsValid } from '../../../utils/validation';
 
 const store = useStore();
 const loading = ref(false);

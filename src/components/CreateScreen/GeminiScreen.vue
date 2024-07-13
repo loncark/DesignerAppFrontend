@@ -1,7 +1,7 @@
 <template>
     <div id="geminiScreen">
         <div class="geminiGrid">
-            <Textarea v-model="store.gemini_input"></Textarea>
+            <Textarea v-model="store.gemini_input" :class="{'invalid-input': !inputIsValid(store.gemini_input)}"></Textarea>
             <Button icon="pi pi-hashtag" label="Tags prompt" severity="secondary" @click="fillIn(TAGS_PROMPT)"></Button>
             <Button icon="pi pi-bars" label="Title prompt" severity="secondary" @click="fillIn(TITLE_PROMPT)"></Button>
             <Button icon="pi pi-lightbulb" label="Idea prompt" severity="secondary" @click="fillIn(IDEA_PROMPT)"></Button>
@@ -23,6 +23,7 @@ import {TAGS_PROMPT, TITLE_PROMPT, IDEA_PROMPT} from '../../utils/constants';
 import { useStore } from '../../store/Store';
 import { ref } from 'vue';
 import ProgressSpinner from 'primevue/progressspinner';
+import { inputIsValid } from '../../utils/validation';
 
 const store = useStore();
 const loading = ref(false);

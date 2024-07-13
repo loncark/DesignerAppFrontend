@@ -2,14 +2,14 @@
     <div id="sdScreen" class="flex-row">
         <div id="sdScreenInputFields">
             <label>Width</label>
-            <InputText v-model="store.sd_width_input"></InputText>
+            <InputText v-model="store.sd_width_input" :class="{'invalid-input': !dimesionInputIsValid(store.sd_width_input)}"></InputText>
             <label>Height</label>
-            <InputText v-model="store.sd_height_input"></InputText>
+            <InputText v-model="store.sd_height_input" :class="{'invalid-input': !dimesionInputIsValid(store.sd_height_input)}"></InputText>
             <label>Steps</label>
-            <InputText v-model="store.sd_no_steps_input"></InputText>
+            <InputText v-model="store.sd_no_steps_input" :class="{'invalid-input': !stepInputIsValid(store.sd_no_steps_input)}"></InputText>
 
             <label class="customPromptLabel">Custom prompt</label>
-            <Textarea class="customPromptTextArea" v-model="store.sd_custom_prompt_input"></Textarea>
+            <Textarea class="customPromptTextArea" v-model="store.sd_custom_prompt_input" :class="{'invalid-input': !inputIsValid(store.sd_custom_prompt_input)}"></Textarea>
 
             <Button class="generateButton" icon="pi pi-play-circle" :label="generateBtnLabel" @click="handleGenerateClick"></Button>
         </div>
@@ -36,6 +36,7 @@ import { ref, computed, onMounted } from "vue";
 import { useStore } from '../../store/Store';
 import placeholderImage from '../../assets/placeholder.svg';
 import ProgressSpinner from 'primevue/progressspinner';
+import { dimesionInputIsValid, stepInputIsValid, inputIsValid } from "../../utils/validation";
 
 const placeholderImagePath = ref(placeholderImage);
 
@@ -81,10 +82,10 @@ const executeTxt2Img = async () => {
         let params = {
         "prompt": store.sd_custom_prompt_input,
         "batch_size": 1,
-        "steps": store.sd_no_steps_input,
+        "steps": parseInt(store.sd_no_steps_input, 10),
         "cfg_scale": 1,
-        "width": store.sd_width_input,
-        "height": store.sd_height_input,
+        "width": parseInt(store.sd_width_input, 10),
+        "height": parseInt(store.sd_height_input, 10),
         "restore_faces": false,
         "tiling": false,  
     }
@@ -103,10 +104,10 @@ const executeImg2Img = async () => {
         let params = {
         "prompt": store.sd_custom_prompt_input,
         "batch_size": 1,
-        "steps": store.sd_no_steps_input,
+        "steps": parseInt(store.sd_no_steps_input, 10),
         "cfg_scale": 1,
-        "width": store.sd_width_input,
-        "height": store.sd_height_input,
+        "width": parseInt(store.sd_width_input, 10),
+        "height": parseInt(store.sd_height_input, 10),
         "restore_faces": false,
         "tiling": false,  
         "init_images": [

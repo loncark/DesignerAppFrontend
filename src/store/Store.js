@@ -22,9 +22,9 @@ export const useStore = defineStore('design', {
     gemini_input: '',
     gemini_response: 'Awaiting prompt.',
     sd_img_to_load: null,
-    sd_no_steps_input: 1,
-    sd_width_input: 64,
-    sd_height_input: 64,
+    sd_no_steps_input: '1',
+    sd_width_input: '64',
+    sd_height_input: '64',
     sd_custom_prompt_input: 'Yellow triangle',
     sd_base64String: null,
     trademark_input: '',
@@ -41,9 +41,9 @@ export const useStore = defineStore('design', {
       this.sd_img_to_load = null;
       this.gemini_input = '';
       this.gemini_response = 'Awaiting prompt.';
-      this.sd_no_steps_input = 1;
-      this.sd_width_input = 64;
-      this.sd_height_input = 64;
+      this.sd_no_steps_input = '1';
+      this.sd_width_input = '64';
+      this.sd_height_input = '64';
       this.sd_custom_prompt_input = 'Yellow triangle';
       this.sd_base64String = null;
       this.trademark_input = '';

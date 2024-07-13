@@ -1,7 +1,7 @@
 <template>
     <div id="keywordSearchScreen">
         <div class="searchBar flex-row">
-            <InputText v-model="keyword" @keyup.enter="executeQuery"/>
+            <InputText v-model="keyword" @keyup.enter="executeQuery" :class="{'invalid-input': !inputIsValid(keyword)}"/>
             <Button label="Search" icon="pi pi-search" @click="executeQuery"></Button>
         </div>
 
@@ -44,6 +44,7 @@ import { queryRelatedQueries, queryInterestByRegion } from '../../api/TrendsApi'
 import { ref, computed } from 'vue';
 import { useStore } from '../../store/Store';
 import ProgressSpinner from 'primevue/progressspinner';
+import { inputIsValid } from '../../utils/validation';
 
 const store = useStore();
 const keyword = ref(store.keyword_search_keyword);

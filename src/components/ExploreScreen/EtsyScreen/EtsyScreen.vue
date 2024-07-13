@@ -1,7 +1,7 @@
 <template>
     <div id="etsyScreen">
         <div class="topBar flex-row">
-            <InputText v-model="keyword" @keyup.enter="getProductsByKeyword"></InputText>
+            <InputText v-model="keyword" @keyup.enter="getProductsByKeyword" :class="{'invalid-input': !inputIsValid(keyword)}"></InputText>
             <Dropdown placeholder="Filter" v-model="selectedOrder" :options="orders" :highlightOnSelect="false"/>
             <Button icon="pi pi-search" label="Search" @click="getProductsByKeyword"></Button>
         </div>
@@ -35,6 +35,7 @@ import { ref, computed } from 'vue';
 import { useStore } from '../../../store/Store';
 import ProgressSpinner from 'primevue/progressspinner';
 import { orderBy } from '../../../utils/functions';
+import { inputIsValid } from '../../../utils/validation';
 
 const store = useStore();
 const loading = ref(false);
