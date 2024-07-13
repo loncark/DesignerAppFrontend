@@ -74,14 +74,12 @@ const getProductsByKeyword = async () => {
     text-align: left;
     height: 100%;
     width: 200px;
-    padding: 0px 10px 0px 10px;
+    padding-left: 10px;
     margin-right: 10px;
-}
-#pv_id_5, {
-    padding: revert;
 }
 .p-button {
     width: revert;
+    padding: 0px 10px 0px 10px;
 }
 .p-dropdown {
     align-items: center;

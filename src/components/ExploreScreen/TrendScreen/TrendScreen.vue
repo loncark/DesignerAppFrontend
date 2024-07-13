@@ -2,7 +2,7 @@
     <div id="trendScreen" class="flex-column">
         <div class="flex-row topBar">
             <Dropdown v-model="countryObject" :options="countryCodeArray" optionLabel="name" placeholder="Select a country" :highlightOnSelect="false" />
-            <Calendar v-model="dateString" showIcon iconDisplay="input" :minDate="minDate" :maxDate="maxDate" :manualInput="false" dateFormat="yy/mm/dd"/>
+            <Calendar v-model="dateString" :minDate="minDate" :maxDate="maxDate" :manualInput="false" dateFormat="yy/mm/dd"/>
             <Button label="Search" icon="pi pi-search" @click="executeQuery"></Button>
         </div>
 
@@ -73,25 +73,13 @@ const executeQuery = async () => {
     margin-bottom: 15px;
 }
 :deep(.p-component) {
-    text-align: center;
-    width: 200px;
+    text-align: left;
+    width: 180px;
     height: 100%;
-    padding: 0px 10px 0px 10px;
-    margin-right: 10px;
+    padding-left: 10px;
 }
-#pv_id_2 {
-    padding: revert;
-}
-
-.p-button {
-    width: revert;
-}
-
-.dateText {
-    font-weight: 700;
-    font-size: 20px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+.p-calendar :deep(.p-component) {
+    text-align: center;
 }
 
 .p-dropdown {
@@ -99,5 +87,18 @@ const executeQuery = async () => {
 }
 :deep(.p-dropdown-label) {
     height: fit-content;
+}
+
+.p-button {
+    width: revert;
+    padding: 0px 10px 0px 10px;
+    margin-left: 20px;
+}
+
+.dateText {
+    font-weight: 700;
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 </style>
