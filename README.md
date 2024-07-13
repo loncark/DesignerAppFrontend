@@ -7,3 +7,4 @@ Stuff I learned the hard way:
 4. EXPECT YOUR BUTTON ICONS TO BE STUCK TO THE BUTTON LABEL WITH CSS * {margin: 0px;}
 5. Some components are named differently in different primevue versions
 (calendar -> datepicker, dropdown -> select)
+6. Dropdowns can take simple arrays, not necessarily arrays of objects with the optionLabel gymnastics

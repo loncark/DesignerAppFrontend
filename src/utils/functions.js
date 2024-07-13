@@ -87,3 +87,26 @@ export const getCountryCode = (countryName) => {
     const country = COUNTRY_CODES.find(c => c.name.toLowerCase() === lowercaseName);
     return country ? country.code : null;
 }
+
+// EtsyScreen.vue
+
+export const orderBy = (products, order) => {
+    switch (order) {
+        case 'Price ascending':
+            return [...products].sort((a, b) => a.price.originalPrice - b.price.originalPrice);
+        case 'Price descending':
+            return [...products].sort((a, b) => b.price.originalPrice - a.price.originalPrice);
+        case 'Name A-Z':
+            return [...products].sort((a, b) => a.title.localeCompare(b.title));
+        case 'Name Z-A':
+            return [...products].sort((a, b) => b.title.localeCompare(a.title));
+        case 'Rating ascending':
+            return [...products].sort((a, b) => a.rating - b.rating);
+        case 'Rating descending':
+            return [...products].sort((a, b) => b.rating - a.rating);
+        case 'Bestsellers only':
+            return products.filter(product => product.bestseller === true);
+        default:
+            return products;
+    }
+}

@@ -1,7 +1,8 @@
 <template>
     <div id="etsyScreen">
-        <div class="searchBar flex-row">
+        <div class="topBar flex-row">
             <InputText v-model="keyword" @keyup.enter="getProductsByKeyword"></InputText>
+            <Dropdown placeholder="Filter" v-model="selectedOrder" :options="orders" :highlightOnSelect="false"/>
             <Button icon="pi pi-search" label="Search" @click="getProductsByKeyword"></Button>
         </div>
 
@@ -13,7 +14,6 @@
         <div v-else>
             <div class="resultText flex-row">
                 <h4>Search results for query "{{ store.etsy_keyword }}":</h4>
-                <!--Dropdown placeholder="Filter by"></!--Dropdown-->
             </div>
             
             <div id="productList">
@@ -34,6 +34,7 @@ import { queryEtsy } from '../../../api/EtsyApi';
 import { ref, computed } from 'vue';
 import { useStore } from '../../../store/Store';
 import ProgressSpinner from 'primevue/progressspinner';
+import { orderBy } from '../../../utils/functions';
 
 const store = useStore();
 const loading = ref(false);
@@ -41,13 +42,18 @@ const keyword = ref(store.etsy_keyword);
 const noResultsWereFound = computed(() => store.products.length === 0? true : false);
 const queryWasExecuted = computed(() => store.products === null? false : true);
 
+const orders = ref(['Default', 'Bestsellers only', 'Price ascending', 'Price descending', 'Rating ascending', 'Rating descending', 'Name A-Z', 'Name Z-A']);
+const selectedOrder = ref(store.etsy_order);
+
 const getProductsByKeyword = async () => {
     try {
         loading.value = true;
         store.etsy_keyword = keyword.value;
+        store.etsy_order = selectedOrder.value;
         const response = await queryEtsy(keyword.value);
         store.products = response.response;
         store.products = store.products.filter(product => product.reviews !== undefined && product.rating !== '');
+        store.products = orderBy(store.products, store.etsy_order);
 
     } catch (error) {
         console.log(`Error: ${error.message}`);
@@ -59,6 +65,31 @@ const getProductsByKeyword = async () => {
 </script>
 
 <style scoped>
+.topBar {
+    align-items: center;
+    height: 35px;
+    margin-bottom: 15px;
+}
+:deep(.p-component) {
+    text-align: left;
+    height: 100%;
+    width: 200px;
+    padding: 0px 10px 0px 10px;
+    margin-right: 10px;
+}
+#pv_id_5, {
+    padding: revert;
+}
+.p-button {
+    width: revert;
+}
+.p-dropdown {
+    align-items: center;
+}
+:deep(.p-dropdown-label) {
+    height: fit-content;
+}
+
 .resultText {
     margin-bottom: 15px;
 }
@@ -67,10 +98,5 @@ const getProductsByKeyword = async () => {
     display: grid;
     grid-template-columns: auto auto auto auto;
     grid-gap: 20px 25px;
-}
-
-:deep(.p-button-icon), 
-:deep(.p-button-label) {
-    margin: 0px 3px 0px 3px;
 }
 </style>

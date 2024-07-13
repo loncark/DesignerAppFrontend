@@ -13,6 +13,7 @@ export const useStore = defineStore('design', {
     related_queries: null,
     interest_by_region: null,
     etsy_keyword: '',
+    etsy_order: 'Default',
     products: null,
 
     // related to CreateScreen
@@ -55,6 +56,7 @@ export const useStore = defineStore('design', {
       this.related_queries = null;
       this.interest_by_region = null;
       this.etsy_keyword = '';
+      this.etsy_order = 'Default';
       this.products = null;
       this.trends_date = new Date();
       this.trends_country_object = COUNTRY_CODES[0];
