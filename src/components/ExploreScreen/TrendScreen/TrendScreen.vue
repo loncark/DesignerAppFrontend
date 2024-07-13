@@ -1,8 +1,8 @@
 <template>
     <div id="trendScreen" class="flex-column">
-        <div class="searchBar flex-row">
+        <div class="flex-row topBar">
             <Dropdown v-model="countryObject" :options="countryCodeArray" optionLabel="name" placeholder="Select a country" :highlightOnSelect="false" />
-            <InputText v-model="dateString" ></InputText>
+            <Calendar v-model="dateString" showIcon iconDisplay="input" :minDate="minDate" :maxDate="maxDate" :manualInput="false" dateFormat="yy/mm/dd"/>
             <Button label="Search" icon="pi pi-search" @click="executeQuery"></Button>
         </div>
 
@@ -26,18 +26,22 @@
 import TrendListPerDate from './TrendListPerDate.vue';
 import { queryTrends } from '../../../api/TrendsApi';
 import { ref, computed } from 'vue';
-import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import { useStore } from '../../../store/Store';
 import { convertDateToString, convertStringToDate, formatDateForBackend, insertSlashesIntoDateString, getCountryCode } from '../../../utils/functions';
 import ProgressSpinner from 'primevue/progressspinner';
 import { COUNTRY_CODES } from '../../../utils/constants';
 import Dropdown from 'primevue/dropdown';
+import Calendar from 'primevue/calendar';
 
 const store = useStore();
 const countryCodeArray = ref(COUNTRY_CODES);
 const dateString = ref(convertDateToString(store.trends_date));
 const countryObject = ref(store.trends_country_object);
+
+const maxDate = ref(new Date());
+const minDate = ref(new Date(maxDate.value));
+minDate.value.setMonth(minDate.value.getMonth() - 1);
 const nextDate = ref(store.trends_date);
 
 const loading = ref(false);
@@ -63,9 +67,24 @@ const executeQuery = async () => {
 </script>
 
 <style scoped>
-.p-component:not(.p-button) {
-    text-align: center !important;
+.topBar {
+    align-items: center;
+    height: 35px;
+    margin-bottom: 15px;
+}
+:deep(.p-component) {
+    text-align: center;
     width: 200px;
+    height: 100%;
+    padding: 0px 10px 0px 10px;
+    margin-right: 10px;
+}
+#pv_id_2 {
+    padding: revert;
+}
+
+.p-button {
+    width: revert;
 }
 
 .dateText {
