@@ -8,6 +8,7 @@ export const useStore = defineStore('design', {
     // related to ExploreScreen
     serpapi_limit_exceeded: false,
     trends_date: new Date(),
+    trends_nextDate: null,  //"yyyymmdd" format for backend
     trends_country_object: COUNTRY_CODES[0],
     daily_searches: null,
     keyword_search_keyword: '',
@@ -60,6 +61,7 @@ export const useStore = defineStore('design', {
       this.etsy_order = 'Default';
       this.products = null;
       this.trends_date = new Date();
+      this.trends_nextDate = null,
       this.trends_country_object = COUNTRY_CODES[0];
     }
   },
