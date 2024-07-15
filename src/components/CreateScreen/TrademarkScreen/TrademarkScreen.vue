@@ -1,7 +1,8 @@
 <template>
     <div id="trademarkScreen" class="flex-column">
-        <div class="searchBar flex-row">
+        <div class="flex-row topBar">
             <InputText v-model="keyword" @keyup.enter="executeQuery" :class="{'invalid-input': !inputIsValid(keyword)}"></InputText>
+            <Dropdown v-model="categoryObject" :options="categoryArray" optionLabel="category" placeholder="Filter" :highlightOnSelect="false" />
             <Button label="Search" icon="pi pi-search" @click="executeQuery"></Button>
         </div>
 
@@ -22,7 +23,7 @@
 </template>
 
 <script setup>
-import InputText from 'primevue/inputtext';
+import Dropdown from 'primevue/dropdown';
 import Button from 'primevue/button';
 import ResultCard from './ResultCard.vue';
 import { ref, computed } from 'vue';
@@ -30,8 +31,14 @@ import { queryTESS } from '../../../api/TrademarkApi'
 import { useStore } from '../../../store/Store';
 import ProgressSpinner from 'primevue/progressspinner';
 import { inputIsValid } from '../../../utils/validation';
+import InputText from 'primevue/inputtext';
+import { TRADEMARK_FILTERS } from '../../../utils/constants';
+import { getCategoryKeywords } from '../../../utils/functions';
 
 const store = useStore();
+const categoryArray = ref(TRADEMARK_FILTERS);
+const categoryObject = ref(store.trademark_category_object);
+
 const loading = ref(false);
 const keyword = ref(store.trademark_input);
 const queryExecuted = computed(() => store.items === null ? false : true);
@@ -40,9 +47,23 @@ const executeQuery = async () => {
     try {
         loading.value = true;
         store.trademark_input = keyword.value;
+        store.trademark_category_object = categoryObject.value;
+
         const response = await queryTESS(store.trademark_input);
-        store.trademark_count = response.count
-        store.trademark_items = response.items
+        let allReturnedItems = response.items;
+
+        let categoryKeywords = (store.trademark_category_object)['categoryKeywords'];
+        store.trademark_items = allReturnedItems;
+        let itemsToRemove = new Set([]);
+        for (let keyword of categoryKeywords) {
+            console.log("keyword: " + keyword);
+            let itemsToRemovePerKeyword = new Set(allReturnedItems.filter(item => !item.description.includes(keyword)));
+            console.log("per keyword: " + itemsToRemovePerKeyword);
+            itemsToRemove = new Set([...itemsToRemove, ...itemsToRemovePerKeyword]);
+            console.log("items to remove: " + itemsToRemove);
+        }
+        store.trademark_items = store.trademark_items.filter(item => !itemsToRemove.has(item));
+        store.trademark_count = store.trademark_items.length;
 
     } catch (error) {
         console.log(`Error: ${error.message}`); 
@@ -54,6 +75,30 @@ const executeQuery = async () => {
 </script>
 
 <style scoped>
+.topBar {
+    align-items: center;
+    height: 35px;
+    margin-bottom: 15px;
+}
+:deep(.p-component) {
+    text-align: left;
+    width: 180px;
+    height: 100%;
+    padding-left: 10px;
+    margin-right: 10px;
+}
+
+.p-dropdown {
+    align-items: center;
+}
+:deep(.p-dropdown-label) {
+    height: fit-content;
+}
+.p-button {
+    width: revert;
+    padding: 0px 10px 0px 10px;
+}
+
 .trademarkResults>h4 {
     margin-bottom: 15px;
     margin-top: 5px;

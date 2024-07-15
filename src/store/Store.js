@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { nullDesign, COUNTRY_CODES } from '../utils/constants';
+import { nullDesign, COUNTRY_CODES, TRADEMARK_FILTERS } from '../utils/constants';
 
 export const useStore = defineStore('design', {
   state: () => ({
@@ -33,6 +33,7 @@ export const useStore = defineStore('design', {
     trademark_input: '',
     trademark_count: 0,
     trademark_items: null,
+    trademark_category_object: TRADEMARK_FILTERS[0],
   }),
   actions: {
     resetDesign() {
@@ -52,6 +53,7 @@ export const useStore = defineStore('design', {
       this.trademark_input = '';
       this.trademark_count = 0;
       this.trademark_items = null;
+      this.trademark_category_object = TRADEMARK_FILTERS[0];
     },
     resetExploreScreen() {
       this.keyword_search_keyword = '';

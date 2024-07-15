@@ -1,4 +1,4 @@
-import { BACKEND_BASE_URL, COUNTRY_CODES } from './constants'
+import { BACKEND_BASE_URL, COUNTRY_CODES, TRADEMARK_FILTERS } from './constants'
 
 export async function query(endpoint, method, body) {
     const response = await fetch(BACKEND_BASE_URL + endpoint, {
@@ -86,6 +86,12 @@ export const getCountryCode = (countryName) => {
     const lowercaseName = countryName.toLowerCase();
     const country = COUNTRY_CODES.find(c => c.name.toLowerCase() === lowercaseName);
     return country ? country.code : null;
+}
+
+export const getCategoryKeywords = (category) => {
+    const lowercaseName = category.toLowerCase();
+    const categoryObject = TRADEMARK_FILTERS.find(obj => obj.category.toLowerCase() === lowercaseName);
+    return categoryObject ? categoryObject.categoryKeywords : null;
 }
 
 // EtsyScreen.vue

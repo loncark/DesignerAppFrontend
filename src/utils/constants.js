@@ -22,3 +22,12 @@ export const COUNTRY_CODES = [
   { name: 'Australia', code: 'AU' },
   { name: 'Austria', code: 'AT' },
 ]
+export const TRADEMARK_FILTERS = [
+  { category: 'No filter', categoryKeywords: []},
+  { category: 'Clothing - Top', categoryKeywords: ['shirt', 'top', 'sweatshirt', 'tee', 'hoodie', 'jacket', 'blouse'] },
+  { category: 'Clothing - Bottom', categoryKeywords: ['trousers', 'pants', 'shorts', 'leggings', 'jeans'] },
+  { category: 'Headwear', categoryKeywords: ['hat', 'cap', 'headband', 'beanie', 'bandana']},
+  { category: 'Blankets', categoryKeywords: ['blanket', 'cover']},
+  { category: 'Mugs', categoryKeywords: ['mug', 'glass']},
+  { category: 'Decoration', categoryKeywords: ['ornament', 'decoration', 'wall art', 'print', 'poster', 'painting', 'sculpture']},
+]

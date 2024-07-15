@@ -45,6 +45,7 @@ const store = useStore();
 const loading = ref(false);
 const loadingMoreContent = ref(false);
 const keyword = ref(store.etsy_keyword);
+
 const noResultsWereFound = computed(() => store.products.length === 0? true : false);
 const queryWasExecuted = computed(() => store.products === null? false : true);
 const rateLimitExceeded = ref(false);
