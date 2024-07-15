@@ -2,7 +2,7 @@
     <div id="keywordSearchScreen">
         <div class="searchBar flex-row">
             <InputText v-model="keyword" @keyup.enter="executeQuery" :class="{'invalid-input': !inputIsValid(keyword)}"/>
-            <Button label="Search" icon="pi pi-search" @click="executeQuery"></Button>
+            <Button label="Search" icon="pi pi-search" @click="executeQuery" :disabled="rateLimitExceeded"></Button>
         </div>
 
         <ProgressSpinner v-if="loading"></ProgressSpinner>
@@ -52,6 +52,7 @@ const loading = ref(false);
 const noRelatedQueriesWereFound = computed(() => store.related_queries === undefined);
 const noInterestByRegionWasFound = computed(() => store.interest_by_region === undefined);
 const queryWasExecuted = computed(() => store.related_queries === null? false : true);
+const rateLimitExceeded = computed(() => store.serpapi_limit_exceeded? true : false);
 
 const executeQuery = async () => {
     try {
@@ -61,8 +62,13 @@ const executeQuery = async () => {
         const response = await queryRelatedQueries(keyword.value);
         const response2 = await queryInterestByRegion(keyword.value);
 
-        store.related_queries = response.error? undefined : response.related_queries.rising;
-        store.interest_by_region = response.error? undefined : response2.interest_by_region;
+        if (response.message || response2.message) {
+            store.serpapi_limit_exceeded = true;
+        }
+        else {
+            store.related_queries = response.error? undefined : response.related_queries.rising;
+            store.interest_by_region = response.error? undefined : response2.interest_by_region;
+        }
         
     } catch (error) {
         console.log(`Error: ${error.message}`);

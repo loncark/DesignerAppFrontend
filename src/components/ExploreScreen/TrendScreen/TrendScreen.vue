@@ -3,13 +3,14 @@
         <div class="flex-row topBar">
             <Dropdown v-model="countryObject" :options="countryCodeArray" optionLabel="name" placeholder="Select a country" :highlightOnSelect="false" />
             <Calendar v-model="dateString" :minDate="minDate" :maxDate="maxDate" :manualInput="false" dateFormat="yy/mm/dd"/>
-            <Button label="Search" icon="pi pi-search" @click="executeQuery"></Button>
+            <Button label="Search" icon="pi pi-search" @click="executeQuery" :disabled="rateLimitExceeded"></Button>
         </div>
 
         <ProgressSpinner v-if="loading"></ProgressSpinner>
 
         <span v-else-if="!queryWasExecuted">Enter date, country code and press 'Search'.</span>
         <span v-else-if="noResultsWereFound">No results found for given date.</span>
+        <span v-else-if="rateLimitExceeded">API limit of 100 searches per month has been exceeded.</span>
         
         <div v-else id="dateList" class="flex-column">
             <div v-for="(date_item, index) in store.daily_searches" :key="index" class="dateItem flex-column">
@@ -47,6 +48,7 @@ const nextDate = ref(store.trends_date);
 const loading = ref(false);
 const noResultsWereFound = computed(() => store.daily_searches === undefined || store.daily_searches.length === 0? true : false);
 const queryWasExecuted = computed(() => store.daily_searches === null? false : true);
+const rateLimitExceeded = computed(() => store.serpapi_limit_exceeded? true : false);
 
 const executeQuery = async () => {
     try {
@@ -54,8 +56,13 @@ const executeQuery = async () => {
         store.trends_date = convertStringToDate(dateString.value);
         store.trends_country_object = countryObject.value;
         const response = await queryTrends(formatDateForBackend(convertStringToDate(dateString.value)), getCountryCode((countryObject.value)['name']));
-        store.daily_searches = response.daily_searches;
-        nextDate.value = response.serpapi_pagination.next_date;
+        if (response.message) {
+            store.serpapi_limit_exceeded = true;
+        }
+        else {
+            store.daily_searches = response.daily_searches;
+            nextDate.value = response.serpapi_pagination.next_date;
+        }
         
     } catch (error) {
         response.value = `Error: ${error.message}`;

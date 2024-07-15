@@ -6,6 +6,7 @@ export const useStore = defineStore('design', {
     design: JSON.parse(JSON.stringify(nullDesign)),
 
     // related to ExploreScreen
+    serpapi_limit_exceeded: false,
     trends_date: new Date(),
     trends_country_object: COUNTRY_CODES[0],
     daily_searches: null,
