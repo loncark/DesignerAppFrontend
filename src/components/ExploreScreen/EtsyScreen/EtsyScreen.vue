@@ -19,9 +19,13 @@
             <div id="productList">
                 <Product v-for="(product, index) in store.products" :key="index" :product="product"/>    
             </div>
+
+            <div class="loadMoreContent">
+                <Button v-if="!loadingMoreContent" label="Load more" severity="secondary" outlined @click="amendResults" :disabled="rateLimitExceeded" />
+                <ProgressSpinner v-else/>
+            </div>
         </div>
 
-        
     </div>
 </template>
 
@@ -39,9 +43,11 @@ import { inputIsValid } from '../../../utils/validation';
 
 const store = useStore();
 const loading = ref(false);
+const loadingMoreContent = ref(false);
 const keyword = ref(store.etsy_keyword);
 const noResultsWereFound = computed(() => store.products.length === 0? true : false);
 const queryWasExecuted = computed(() => store.products === null? false : true);
+const rateLimitExceeded = ref(false);
 
 const orders = ref(['Default', 'Bestsellers only', 'Price ascending', 'Price descending', 'Rating ascending', 'Rating descending', 'Name A-Z', 'Name Z-A']);
 const selectedOrder = ref(store.etsy_order);
@@ -51,7 +57,10 @@ const getProductsByKeyword = async () => {
         loading.value = true;
         store.etsy_keyword = keyword.value;
         store.etsy_order = selectedOrder.value;
-        const response = await queryEtsy(keyword.value);
+        store.etsy_current_page = 1;
+
+        const response = await queryEtsy(store.etsy_keyword);
+
         store.products = response.response;
         store.products = store.products.filter(product => product.reviews !== undefined && product.rating !== '');
         store.products = orderBy(store.products, store.etsy_order);
@@ -62,6 +71,24 @@ const getProductsByKeyword = async () => {
         loading.value = false;
     }
   }
+
+const amendResults = async () => {
+    try {
+        loadingMoreContent.value = true;
+
+        const response = await queryEtsy(store.etsy_keyword, store.etsy_current_page + 1);
+
+        let productsToAdd = orderBy(response.response, store.etsy_order);
+        productsToAdd.filter(product => product.reviews !== undefined && product.rating !== '');
+        store.products.push(...productsToAdd);
+
+    } catch (error) {
+        response.value = `Error: ${error.message}`;
+    }
+    finally {
+        loadingMoreContent.value = false;
+    }
+}
 
 </script>
 
@@ -97,5 +124,15 @@ const getProductsByKeyword = async () => {
     display: grid;
     grid-template-columns: auto auto auto auto;
     grid-gap: 20px 25px;
+}
+
+.loadMoreContent {
+    height: fit-content;
+    width: fit-content;
+    margin: 20px auto 20px auto;
+}
+.loadMoreContent>.p-button {
+    height: 35px;
+    margin: revert;
 }
 </style>
