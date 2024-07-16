@@ -1,6 +1,5 @@
-
 <template>
-  <div class="flex-column dock">
+  <div class="dock">
     <i class="pi pi-home dock-button" raised @click="goToDesignScreen"></i>
     <i class="pi pi-compass dock-button" raised @click="goToKeywordSearchScreen"></i>
     <i class="pi pi-plus dock-button" raised @click="goToCreateScreen"></i>
@@ -11,7 +10,6 @@
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-
 const goToDesignScreen = () => {
     router.push('/');
 }
@@ -25,16 +23,16 @@ const goToCreateScreen = () => {
 
 <style scoped>
 .dock {
-    width: fit-content;
-    height: fit-content;
-    margin: 35vh 30px auto 30px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 15px 20px 25px;
 }
 
 .dock-button {
   padding: 15px;
   margin: 5px;
-  font-size: 1.5em;
 
+  font-size: 1.5em;
   border-radius: 30px;
   border: 2px solid black;
 

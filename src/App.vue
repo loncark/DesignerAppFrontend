@@ -1,7 +1,9 @@
 <template>
-  <div id="app" class="flex-row">
-    <DockMenu/>
-    <router-view></router-view>
+  <div id="app" class="app-container">
+    <DockMenu class="sticky-dock"/>
+    <div class="main-content">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -20,4 +22,24 @@ watchEffect(() => {
 });
 </script>
 
+<style scoped>
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
 
+.sticky-dock {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+}
+</style>
