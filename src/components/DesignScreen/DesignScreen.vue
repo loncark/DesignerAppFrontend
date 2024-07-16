@@ -57,6 +57,12 @@
     grid-template-columns: 240px 240px 240px 240px;
     grid-gap: 50px 50px;
 }
+
+.p-progress-spinner {
+  position: fixed;
+  top: 40vh;
+  left: 45vw;
+}
 </style>
 
   

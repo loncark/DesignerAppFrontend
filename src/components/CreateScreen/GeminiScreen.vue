@@ -75,7 +75,7 @@ const executeQuery = async () => {
 }
 
 .p-progress-spinner {
-    top: 50vh;
-    left: 60vw;
+    margin-top: 15%;
+    margin-left: 40%;
 }
 </style>

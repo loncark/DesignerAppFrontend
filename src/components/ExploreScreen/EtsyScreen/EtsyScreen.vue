@@ -136,4 +136,10 @@ const amendResults = async () => {
     height: 35px;
     margin: revert;
 }
+
+#etsyScreen>.p-progress-spinner {
+    position: fixed;
+    top: 40vh;
+    left: 45vw;
+}
 </style>

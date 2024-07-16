@@ -144,4 +144,10 @@ const amendResults = async () => {
     height: 35px;
     margin: revert;
 }
+
+.p-progress-spinner {
+  position: fixed;
+  top: 40vh;
+  left: 45vw;
+}
 </style>

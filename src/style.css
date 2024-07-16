@@ -47,12 +47,6 @@ body {
   width: revert;
 }
 
-.p-progress-spinner {
-  position: fixed;
-  top: 40vh;
-  left: 45vw;
-}
-
 .invalid-input {
   border: 2px solid rgb(236, 1, 1);
 }

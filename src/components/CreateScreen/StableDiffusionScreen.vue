@@ -224,7 +224,6 @@ const acceptImage = async () => {
 }
 
 .p-progress-spinner {
-    top: 45vh;
-    left: 80vw;
+    margin: auto;
 }
 </style>

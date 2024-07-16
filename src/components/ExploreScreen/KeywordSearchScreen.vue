@@ -105,4 +105,10 @@ const executeQuery = async () => {
 .queryItem:nth-child(3) {
     grid-column: 3;
 }
+
+.p-progress-spinner {
+    position: fixed;
+    top: 40vh;
+    left: 45vw;
+}
 </style>
