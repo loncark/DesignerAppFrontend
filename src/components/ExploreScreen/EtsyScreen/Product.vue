@@ -3,7 +3,10 @@
             <img :src="product.imageUrl">
             <span class="productName">{{ product.title }}</span>
             <span class="productPrice">${{ product.price.originalPrice }}</span>
-            <span class="productRating">{{ product.rating }}/{{ product.reviews.split(' ')[product.reviews.split(' ').length - 2] }} reviews</span>
+            <span class="productRating">
+                <i class="pi pi-star-fill"></i>
+                {{ product.rating }}/{{ product.reviews.split(' ')[product.reviews.split(' ').length - 2] }} reviews
+            </span>
         </a>
 </template>
 
@@ -61,5 +64,10 @@ const product = ref(props.product);
     grid-row: 3;
     grid-column: 2;
     margin-left: auto;
+}
+
+.pi-star-fill {
+    font-size: 0.6rem; 
+    color: orange;
 }
 </style>
