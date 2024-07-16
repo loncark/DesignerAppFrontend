@@ -36,7 +36,7 @@ import { queryTrends } from '../../../api/TrendsApi';
 import { ref, computed } from 'vue';
 import Button from 'primevue/button';
 import { useStore } from '../../../store/Store';
-import { convertDateToString, convertStringToDate, formatDateForBackend, insertSlashesIntoDateString, getCountryCode } from '../../../utils/functions';
+import { convertDateToString, convertStringToDate, formatDateForBackend, insertSlashesIntoDateString } from '../../../utils/functions';
 import ProgressSpinner from 'primevue/progressspinner';
 import { COUNTRY_CODES } from '../../../utils/constants';
 import Dropdown from 'primevue/dropdown';
