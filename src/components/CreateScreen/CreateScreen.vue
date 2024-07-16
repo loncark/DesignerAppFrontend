@@ -16,8 +16,8 @@
                     <label>Tags</label>
                     <div>
                         <div class="flex-row">
-                            <InputText v-model="newTag" placeholder="Type tag and click 'Add'" @keyup.enter="addTag" :class="{'invalid-input': !tagIsValid(newTag)}"/>
-                            <Button icon="pi pi-plus" aria-label="Add" severity="secondary" @click="addTag"></Button>
+                            <InputText v-model="newTag" placeholder="Type tag and click 'Add'" @keyup.enter="addTag" :class="{'invalid-input': !inputIsValid(newTag)}"/>
+                            <Button icon="pi pi-plus" aria-label="Add" severity="secondary" @click="addTag" title="Copy the answer from gemini to add all generated tags"></Button>
                         </div>
                         <div class="chipSet flex-row">
                             <Chip v-for="(tag, index) in store.design.tags" :key="tag" :label="tag" removable @remove="removeTag(index)" class="flex-row"/>
@@ -81,7 +81,7 @@ import GeminiScreen from './GeminiScreen.vue';
 import TrademarkScreen from './TrademarkScreen/TrademarkScreen.vue';
 import { uploadImgToFirebaseStorage } from '../../api/FirebaseApi'
 import Textarea from 'primevue/textarea';
-import { titleIsValid, tagIsValid, linkIsValid, nameIsValid } from '../../utils/validation';
+import { titleIsValid, tagIsValid, linkIsValid, nameIsValid, inputIsValid } from '../../utils/validation';
 
 const store = useStore();
 const router = useRouter();
@@ -98,9 +98,22 @@ const removeTag = (index) => {
     store.design.tags.splice(index, 1);
 }
 const addTag = () => {
-    if(newTag.value === '' || !tagIsValid(newTag.value)) return;
-    store.design.tags.push(newTag.value);
-    newTag.value = "";
+    if(newTag.value === '') return;
+    else if(newTag.value.includes(', ')) {
+        let tags = newTag.value.split(',');
+        let badTags = [];
+        for (let tag of tags) {
+            if (tag === '' || !tagIsValid(tag)) {
+                badTags.push(tag);
+            }
+            else store.design.tags.push(tag);
+        }
+        newTag.value = badTags.join(',');
+    }
+    else if(tagIsValid(tag)) {
+        store.design.tags.push(newTag.value);
+        newTag.value = "";
+    }
 }
 const removeLink = (index) => {
     store.design.related_links.splice(index, 1);
