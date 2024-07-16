@@ -6,7 +6,7 @@
             <Button label="Search" icon="pi pi-search" @click="executeQuery"></Button>
         </div>
 
-        <ProgressSpinner v-if="!loading"></ProgressSpinner>
+        <ProgressSpinner v-if="loading"></ProgressSpinner>
 
         <div v-else-if="store.trademark_count > 0" class="trademarkResults">
             <h4>Returned {{ store.trademark_count }} results for query "{{ store.trademark_input }}":</h4>
