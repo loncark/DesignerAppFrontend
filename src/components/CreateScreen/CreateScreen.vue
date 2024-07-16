@@ -150,7 +150,7 @@ const handleSaveClick = async () => {
 
 .titlePart {
     align-items: center;
-    width: 100%;
+    width: 95%;
     margin-bottom: 5px;
 }
 .titlePart i {

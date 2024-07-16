@@ -123,8 +123,8 @@ const amendResults = async () => {
 
 #productList {
     display: grid;
-    grid-template-columns: auto auto auto auto;
-    grid-gap: 20px 25px;
+    grid-template-columns: 300px 300px 300px 300px;
+    grid-gap: 20px 35px;
 }
 
 .loadMoreContent {
