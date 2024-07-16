@@ -82,18 +82,6 @@ export const insertSlashesIntoDateString = (dateString) => {
     return `${year}/${month}/${day}`;
 }
 
-export const getCountryCode = (countryName) => {
-    const lowercaseName = countryName.toLowerCase();
-    const country = COUNTRY_CODES.find(c => c.name.toLowerCase() === lowercaseName);
-    return country ? country.code : null;
-}
-
-export const getCategoryKeywords = (category) => {
-    const lowercaseName = category.toLowerCase();
-    const categoryObject = TRADEMARK_FILTERS.find(obj => obj.category.toLowerCase() === lowercaseName);
-    return categoryObject ? categoryObject.categoryKeywords : null;
-}
-
 // EtsyScreen.vue
 
 export const orderBy = (products, order) => {

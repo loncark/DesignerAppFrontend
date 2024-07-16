@@ -33,7 +33,6 @@ import ProgressSpinner from 'primevue/progressspinner';
 import { inputIsValid } from '../../../utils/validation';
 import InputText from 'primevue/inputtext';
 import { TRADEMARK_FILTERS } from '../../../utils/constants';
-import { getCategoryKeywords } from '../../../utils/functions';
 
 const store = useStore();
 const categoryArray = ref(TRADEMARK_FILTERS);

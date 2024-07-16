@@ -62,7 +62,7 @@ const executeQuery = async () => {
         loading.value = true;
         store.trends_date = convertStringToDate(dateString.value);
         store.trends_country_object = countryObject.value;
-        const response = await queryTrends(formatDateForBackend(convertStringToDate(dateString.value)), getCountryCode((countryObject.value)['name']));
+        const response = await queryTrends(formatDateForBackend(convertStringToDate(dateString.value)), (countryObject.value)['code']);
         if (response.message) {
             store.serpapi_limit_exceeded = true;
         }
