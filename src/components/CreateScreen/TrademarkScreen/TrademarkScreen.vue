@@ -51,18 +51,17 @@ const executeQuery = async () => {
 
         const response = await queryTESS(store.trademark_input);
         let allReturnedItems = response.items;
+        let categoryKeywords = store.trademark_category_object['categoryKeywords'];
 
-        let categoryKeywords = (store.trademark_category_object)['categoryKeywords'];
-        store.trademark_items = allReturnedItems;
-        let itemsToRemove = new Set([]);
-        for (let keyword of categoryKeywords) {
-            console.log("keyword: " + keyword);
-            let itemsToRemovePerKeyword = new Set(allReturnedItems.filter(item => !item.description.includes(keyword)));
-            console.log("per keyword: " + itemsToRemovePerKeyword);
-            itemsToRemove = new Set([...itemsToRemove, ...itemsToRemovePerKeyword]);
-            console.log("items to remove: " + itemsToRemove);
+        if (categoryKeywords.length === 0) {
+            store.trademark_items = allReturnedItems;
+        } 
+        else {
+            store.trademark_items = allReturnedItems.filter(item => 
+                categoryKeywords.some(keyword => item.description.toLowerCase().includes(keyword.toLowerCase()))
+            );
         }
-        store.trademark_items = store.trademark_items.filter(item => !itemsToRemove.has(item));
+        
         store.trademark_count = store.trademark_items.length;
 
     } catch (error) {
