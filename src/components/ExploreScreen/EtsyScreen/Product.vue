@@ -1,5 +1,5 @@
 <template>
-        <a :href="product.productUrl" target="_blank" class="productCard">
+        <a :href="product.productUrl" target="_blank" class="productCard inter-font">
             <img :src="product.imageUrl">
             <span class="productName">{{ product.title }}</span>
             <span class="productPrice">${{ product.price.originalPrice }}</span>

@@ -1,9 +1,9 @@
 <template>
     <div class="trademarkResultCard">
-        <span class="item1">{{ keyword }}</span>
+        <span class="item1 bold">{{ keyword }}</span>
         <span class="item2">{{ status }}</span>
         <span class="item3">{{ owner }}</span>
-        <span class="item4">{{ description }}</span>
+        <span class="item4 inter-font">{{ description }}</span>
     </div>
 </template>
 
@@ -27,6 +27,7 @@ defineProps(["keyword", "owner", "description", "status"])
 .trademarkResultCard>.item1 {
     grid-row: 1;
     grid-column: 1;
+    font-weight: 600;
 }
 
 .trademarkResultCard>.item2 {
@@ -43,4 +44,5 @@ defineProps(["keyword", "owner", "description", "status"])
     grid-row: 2;
     grid-column: 1 / 4;
 }
+
 </style>
