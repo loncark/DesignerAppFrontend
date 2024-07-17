@@ -4,18 +4,12 @@ import DesignScreen from '../components/DesignScreen/DesignScreen.vue';
 import ExploreScreen from '../components/ExploreScreen/ExploreScreen.vue';
 import DockMenu from '../components/DockMenu.vue';
 import NotFound from '../components/NotFound.vue';
-import TrendsChart from '../components/ExploreScreen/TrendScreen/TrendsChart.vue';
 
 const routes = [
   {
     path: '/',
     name: 'Designs',
     component: DesignScreen
-  },
-  {
-    path: '/chart',
-    name: 'Chart',
-    component: TrendsChart
   },
   {
     path: '/create',

@@ -1,28 +1,27 @@
 <template>
-    <div>
-      <canvas ref="chartCanvas"></canvas>
+    <div id="chartCanvas">
+      <canvas v-if="!loading" ref="chartCanvas"></canvas>
+      <ProgressSpinner v-else/>
     </div>
   </template>
   
-  <script setup>
+<script setup>
   import { ref, onMounted } from 'vue';
   import { Chart } from 'chart.js/auto';
-  import 'chartjs-adapter-date-fns'; // Import the date adapter
-  import { queryInterestOverTime } from '../../../api/TrendsApi';
+  import 'chartjs-adapter-date-fns'; 
+  import { queryInterestOverTime } from '../../api/TrendsApi';
+  import ProgressSpinner from 'primevue/progressspinner';
   
+  const props = defineProps(['keyword']);
   const chartCanvas = ref(null);
   const dates = ref([]);
   const values = ref([]);
-  const loading = ref(false);
   const chartData = ref([]);
   
   const fetchChartData = async () => {
     try {
-        loading.value = true;
-
-        const response = await queryInterestOverTime('whatever');
+        const response = await queryInterestOverTime(props.keyword);
         chartData.value = response.data;
-        console.log(chartData.value);
         
         dates.value = chartData.value.map(item => item.date);
         values.value = chartData.value.map(item => item.value);
@@ -30,13 +29,9 @@
     } catch (error) {
         response.value = `Error: ${error.message}`;
     }
-    finally {
-        loading.value = false;
-    }
   }
   
-  onMounted( async () => {
-    await fetchChartData();
+  const createChart = () => {
     const ctx = chartCanvas.value.getContext('2d');
     new Chart(ctx, {
       type: 'line',
@@ -44,7 +39,7 @@
         labels: dates.value,
         datasets: [
           {
-            label: 'Random Data',
+            label: 'Searches over time for phrase "' + props.keyword + '":',
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
             borderColor: 'rgba(75, 192, 192, 1)',
             borderWidth: 1,
@@ -71,10 +66,17 @@
         },
       },
     });
+  }
+
+  onMounted(async () => {
+    await fetchChartData();
+    createChart();
   });
-  </script>
+</script>
   
-  <style scoped>
-  /* Optional: Add some styling */
-  </style>
+<style scoped>
+#chartCanvas {
+    width: 100%;
+}  
+</style>
   

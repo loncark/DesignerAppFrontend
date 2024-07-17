@@ -28,7 +28,7 @@
 
 <script setup>
 import TrendScreen from '../ExploreScreen/TrendScreen/TrendScreen.vue';
-import KeywordSearchScreen from './KeywordSearchScreen.vue';
+import KeywordSearchScreen from '../ExploreScreen/KeywordSearchScreen/KeywordSearchScreen.vue';
 import EtsyScreen from '../ExploreScreen/EtsyScreen/EtsyScreen.vue';
 import { ref, onMounted } from 'vue';
 import { useStore } from '../../store/Store';

@@ -40,11 +40,11 @@
 <script setup>
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
-import { queryRelatedQueries, queryInterestByRegion } from '../../api/TrendsApi';
+import { queryRelatedQueries, queryInterestByRegion } from '../../../api/TrendsApi';
 import { ref, computed } from 'vue';
-import { useStore } from '../../store/Store';
+import { useStore } from '../../../store/Store';
 import ProgressSpinner from 'primevue/progressspinner';
-import { inputIsValid } from '../../utils/validation';
+import { inputIsValid } from '../../../utils/validation';
 
 const store = useStore();
 const keyword = ref(store.keyword_search_keyword);
