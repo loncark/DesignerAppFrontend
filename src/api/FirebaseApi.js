@@ -106,3 +106,7 @@ export const deleteDesignFromDb = async (id) => {
         return false;
     }
 }
+
+export const downloadDesign = async (design) => {
+    return await query('downloadDesign', 'POST', JSON.stringify(design));
+}

@@ -12,8 +12,11 @@
         </div>
         <h3>{{ props.design.design_name }}</h3>
         <div class="buttonRow flex-row">
-            <Button icon="pi pi-pen-to-square" aria-label="Edit" severity="secondary" @click="goToCreateScreen"></Button>
-            <Button icon="pi pi-trash" aria-label="Delete" severity="danger" @click="deleteDesign(props.design.design_id)"></Button>
+            <Button v-if="!exportInProgress" icon="pi pi-download" title="Export" severity="secondary" text rounded @click="exportDesign()"></Button>
+            <ProgressSpinner v-else/>
+
+            <Button icon="pi pi-pen-to-square" title="Edit" severity="secondary" text rounded @click="goToCreateScreen"></Button>
+            <Button icon="pi pi-trash" title="Delete" severity="danger" text rounded @click="deleteDesign(props.design.design_id)"></Button>
         </div>
     </div>
 </template>
@@ -26,6 +29,8 @@ import { useStore } from '../../store/Store';
 import { deleteImageFromStorage, deleteDesignFromDb } from '../../api/FirebaseApi';
 import { defineProps, defineEmits } from 'vue';
 import placeholderImage from '../../assets/placeholder.svg';
+import { downloadDesign } from '../../api/FirebaseApi';
+import ProgressSpinner from 'primevue/progressspinner';
 
 const placeholderImagePath = ref(placeholderImage);
 const props = defineProps(["design"]);
@@ -34,6 +39,7 @@ const emit = defineEmits(['design-deleted']);
 
 const router = useRouter();
 const store = useStore();
+const exportInProgress = ref(false);
 
 const goToCreateScreen = () => {
   store.design = props.design;
@@ -56,6 +62,18 @@ const deleteDesign = async (id) => {
         console.log(error);
     }
 }
+
+const exportDesign = async () => {
+    try {
+        exportInProgress.value = true;
+        await downloadDesign(props.design);
+
+    } catch (error) {
+        console.log(error);
+    } finally {
+        exportInProgress.value = false; 
+    }
+}
 </script>
 
 <style scoped>
@@ -64,9 +82,6 @@ const deleteDesign = async (id) => {
     border-radius: 10px;
     padding: 15px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-.designCard>* {
-    margin-bottom: 10px;
 }
 .designCard>h3 {
     height: 45px;
@@ -83,6 +98,7 @@ const deleteDesign = async (id) => {
 .designCardImageGrid {
     display: grid;
     grid-template: auto auto / auto auto;
+    margin-bottom: 10px;
 }
 .designCardImageGrid>img {
     width: 120px;
@@ -91,15 +107,17 @@ const deleteDesign = async (id) => {
 }
 
 .buttonRow {
-    justify-content: end;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: revert;
 }
-.buttonRow .p-button {
-    margin-left: 5px;
-    padding: 10px;
-}
 .buttonRow .pi {
-    font-size: large;
+    font-size: larger;
+}
+.buttonRow .p-progress-spinner {
+    margin: 0px;
+    margin-left: 15px;
+    width: 30px;
+    height: 25px;
 }
 </style>
