@@ -8,31 +8,40 @@
   import { ref, onMounted } from 'vue';
   import { Chart } from 'chart.js/auto';
   import 'chartjs-adapter-date-fns'; // Import the date adapter
+  import { queryInterestOverTime } from '../../../api/TrendsApi';
   
   const chartCanvas = ref(null);
+  const dates = ref([]);
+  const values = ref([]);
+  const loading = ref(false);
+  const chartData = ref([]);
   
-  // Helper function to generate random data
-  const generateRandomData = (numPoints) => {
-    const data = [];
-    for (let i = 0; i < numPoints; i++) {
-      data.push(Math.floor(Math.random() * 100) + 1);
+  const fetchChartData = async () => {
+    try {
+        loading.value = true;
+
+        const response = await queryInterestOverTime('whatever');
+        chartData.value = response.data;
+        console.log(chartData.value);
+        
+        dates.value = chartData.value.map(item => item.date);
+        values.value = chartData.value.map(item => item.value);
+        
+    } catch (error) {
+        response.value = `Error: ${error.message}`;
     }
-    return data;
-  };
+    finally {
+        loading.value = false;
+    }
+  }
   
-  // Sample dates for the x-axis
-  const labels = [
-    '2024-01-01', '2024-02-01', '2024-03-01', '2024-04-01', '2024-05-01', '2024-06-01', '2024-07-01'
-  ];
-  
-  const data = generateRandomData(labels.length);
-  
-  onMounted(() => {
+  onMounted( async () => {
+    await fetchChartData();
     const ctx = chartCanvas.value.getContext('2d');
     new Chart(ctx, {
       type: 'line',
       data: {
-        labels: labels,
+        labels: dates.value,
         datasets: [
           {
             label: 'Random Data',
@@ -41,7 +50,7 @@
             borderWidth: 1,
             hoverBackgroundColor: 'rgba(75, 192, 192, 0.4)',
             hoverBorderColor: 'rgba(75, 192, 192, 1)',
-            data: data,
+            data: values.value,
             fill: false,
           },
         ],

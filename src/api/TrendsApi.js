@@ -21,3 +21,9 @@ export async function queryInterestByRegion(keyword) {
     return response;
 }
 
+export async function queryInterestOverTime(keyword) {
+    const body = JSON.stringify({ keyword: keyword })
+    const response = await query('chart', 'POST', body);
+    
+    return response;
+}
