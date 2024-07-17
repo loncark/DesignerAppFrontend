@@ -66,12 +66,27 @@ const deleteDesign = async (id) => {
 const exportDesign = async () => {
     try {
         exportInProgress.value = true;
-        await downloadDesign(props.design);
-
+        const result = await downloadDesign(props.design);
+        
+        if (result.success) {
+            console.log("I GOT HERE");
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = result.url;
+            a.download = result.fileName;
+            
+            document.body.appendChild(a);
+            a.click();
+            
+            window.URL.revokeObjectURL(result.url);
+            document.body.removeChild(a);
+        } else {
+            console.error('Failed to download design:', result.error);
+        }
     } catch (error) {
-        console.log(error);
+        console.error('Error in exportDesign:', error);
     } finally {
-        exportInProgress.value = false; 
+        exportInProgress.value = false;
     }
 }
 </script>
@@ -80,7 +95,7 @@ const exportDesign = async () => {
 .designCard {
     width: fit-content;
     border-radius: 10px;
-    padding: 15px;
+    padding: 15px 15px 10px 15px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 .designCard>h3 {

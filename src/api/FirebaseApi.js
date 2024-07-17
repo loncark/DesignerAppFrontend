@@ -28,7 +28,6 @@ export const uploadImgToFirebaseStorage = async (base64String, design_id) => {
     }
 }
 
-
 export const getAllDesignsFromStorage = async () => {
     return await query('db/allDesigns', 'GET', null);
 }
@@ -108,5 +107,37 @@ export const deleteDesignFromDb = async (id) => {
 }
 
 export const downloadDesign = async (design) => {
-    return await query('downloadDesign', 'POST', JSON.stringify(design));
-}
+    try {
+      const response = await fetch(BACKEND_BASE_URL + '/downloadDesign', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(design),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+      }
+  
+      // Check if the response is JSON (error) or a file (success)
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        const data = await response.json();
+        console.error('Error from server:', data.error);
+        return { success: false, error: data.error };
+      }
+  
+      // If it's not JSON, it's the file download
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const fileName = `${design.design_name}_${design.design_id || 'noID'}.zip`;
+  
+      return { success: true, url, fileName };
+  
+    } catch (error) {
+      console.error('Error downloading design:', error);
+      return { success: false, error: error.message };
+    }
+  }
