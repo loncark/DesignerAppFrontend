@@ -17,9 +17,12 @@
   const dates = ref([]);
   const values = ref([]);
   const chartData = ref([]);
+  const loading = ref(false);
   
   const fetchChartData = async () => {
     try {
+        loading.value = true;
+
         const response = await queryInterestOverTime(props.keyword);
         chartData.value = response.data;
         
@@ -28,6 +31,8 @@
         
     } catch (error) {
         response.value = `Error: ${error.message}`;
+    } finally {
+      loading.value = false;
     }
   }
   
@@ -79,5 +84,9 @@
     width: 800px;
 }  
 
+.p-progress-spinner {
+  margin-left: 350px;
+  margin-top: 150px;
+}
 </style>
   

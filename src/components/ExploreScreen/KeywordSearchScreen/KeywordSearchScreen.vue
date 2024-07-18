@@ -12,13 +12,13 @@
 
         <div v-else class="keywordSearchLayout flex-row">
             <div class="leftPart flex-column">
-                <div class="card">
+                <div class="card card1">
                     <InterestOvertimeChart :keyword="store.keyword_search_keyword"/>
                 </div>
 
                 <div class="card">
                     <h4 v-if="noInterestByRegionWasFound">No interest by region was found.</h4>
-                    <div v-else class="custom-height">
+                    <div v-else class="card2">
                         <h4>Countries "{{ store.keyword_search_keyword }}" has been searched in most:</h4>
                         <div class="queryList flex-column wrap">
                             <div class="queryItem" v-for="(item, index) in store.interest_by_region.slice(0, 18)" :key="index">
@@ -114,6 +114,14 @@ const executeQuery = async () => {
 .card>* {
     margin: 15px;
 }
+.card1 {
+    width: 830px;
+    height: 430px;
+}
+.card2 {
+    height: 290px;
+    width: 100%;
+}
 
 .queryList {
     margin: 10px 20px 10px 20px;
@@ -142,9 +150,6 @@ const executeQuery = async () => {
 
 .padding-left {
     padding-left: 20px;
-}
-.custom-height {
-    height: 290px;
 }
 .wrap {
     height: 95%;
