@@ -53,6 +53,7 @@ onMounted(() => {
 .relatedQueriesCard {
     width: 475px;
     height: 775px;
+    padding: 20px;
 }
 
 .queryList {

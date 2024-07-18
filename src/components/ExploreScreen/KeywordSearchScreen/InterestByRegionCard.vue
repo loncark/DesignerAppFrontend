@@ -2,7 +2,7 @@
     <div class="interestByRegionCard">
         <ProgressSpinner v-if="loading"/>
         <h4 v-else-if="noInterestByRegionWasFound">No interest by region was found.</h4>
-        <div v-else>
+        <div v-else class="container">
             <h4>Countries "{{ store.keyword_search_keyword }}" has been searched in most:</h4>
             <div class="queryList flex-column wrap">
                 <div class="queryItem" v-for="(item, index) in store.interest_by_region.slice(0, 18)" :key="index">
@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useStore } from '../../../store/Store';
 import ProgressSpinner from 'primevue/progressspinner';
 import { queryInterestByRegion } from '../../../api/TrendsApi';
@@ -54,13 +54,18 @@ onMounted(() => {
 .interestByRegionCard {
     width: 830px;
     height: 320px;
+    padding: 20px;
+}
+
+.container {
+    height: 100%;
 }
 
 .queryList {
     margin: 10px 20px 10px 20px;
     padding: 10px 15px 0px 15px;
     border-radius: 10px;
-    height: fit-content;
+    height: 100%;
 }
 .queryList>h4 {
     margin: 20px 20px 0px 20px;

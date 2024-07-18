@@ -82,6 +82,7 @@ onMounted(async () => {
 .interestOverTimeCard {
   width: 830px;
   height: 430px;
+  padding: 20px;
 }
 
 .p-progress-spinner {
