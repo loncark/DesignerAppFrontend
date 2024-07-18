@@ -21,7 +21,7 @@
                     <div v-else class="custom-height">
                         <h4>Countries "{{ store.keyword_search_keyword }}" has been searched in most:</h4>
                         <div class="queryList flex-column wrap">
-                            <div class="queryItem" v-for="(item, index) in store.interest_by_region.slice(0, 20)" :key="index">
+                            <div class="queryItem" v-for="(item, index) in store.interest_by_region.slice(0, 18)" :key="index">
                                 <span>{{ index + 1 }}</span>
                                 <span>{{ item.location }}</span>
                                 <span>{{ item.extracted_value }}</span>
@@ -102,6 +102,7 @@ const executeQuery = async () => {
 .keywordSearchLayout {
     width: 100%;
     height: 100%;
+    padding-top: 10px;
 }
 
 .card {
@@ -116,13 +117,12 @@ const executeQuery = async () => {
 
 .queryList {
     margin: 10px 20px 10px 20px;
-    padding: 0px 15px 0px 15px;
+    padding: 10px 15px 0px 15px;
     border-radius: 10px;
     height: fit-content;
 }
 .queryList>h4 {
-    margin-bottom: 15px;
-    margin-top: 10px;
+    margin: 20px 20px 0px 20px;
 }
 .queryItem {
     display: grid;
@@ -147,7 +147,7 @@ const executeQuery = async () => {
     height: 290px;
 }
 .wrap {
-    height: 100%;
+    height: 95%;
     flex-wrap: wrap;
 }
 
