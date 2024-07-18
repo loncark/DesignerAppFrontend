@@ -69,7 +69,6 @@ const exportDesign = async () => {
         const result = await downloadDesign(props.design);
         
         if (result.success) {
-            console.log("I GOT HERE");
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = result.url;

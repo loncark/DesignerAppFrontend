@@ -9,3 +9,4 @@ Stuff I learned the hard way:
 (calendar -> datepicker, dropdown -> select)
 6. Dropdowns can take simple arrays, not necessarily arrays of objects with the optionLabel gymnastics
 7. How to add google font: insert link tag in index.html and make a class that google gives you in embed code 
+8. Use emits/buses when deleting components and trigerring multiple actions

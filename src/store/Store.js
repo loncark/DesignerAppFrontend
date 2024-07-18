@@ -6,6 +6,7 @@ export const useStore = defineStore('design', {
     design: JSON.parse(JSON.stringify(nullDesign)),
 
     // related to ExploreScreen
+    keyword_query_executed: false,
     serpapi_limit_exceeded: false,
     trends_date: new Date(),
     trends_nextDate: null,  //"yyyymmdd" format for backend
@@ -56,6 +57,7 @@ export const useStore = defineStore('design', {
       this.trademark_category_object = TRADEMARK_FILTERS[0];
     },
     resetExploreScreen() {
+      this.keyword_query_executed = false,
       this.keyword_search_keyword = '';
       this.daily_searches = null;
       this.related_queries = null;
