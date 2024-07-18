@@ -9,7 +9,7 @@
   import { ref, onMounted } from 'vue';
   import { Chart } from 'chart.js/auto';
   import 'chartjs-adapter-date-fns'; 
-  import { queryInterestOverTime } from '../../api/TrendsApi';
+  import { queryInterestOverTime } from '../../../api/TrendsApi';
   import ProgressSpinner from 'primevue/progressspinner';
   
   const props = defineProps(['keyword']);
@@ -76,7 +76,8 @@
   
 <style scoped>
 #chartCanvas {
-    width: 100%;
+    width: 800px;
 }  
+
 </style>
   
