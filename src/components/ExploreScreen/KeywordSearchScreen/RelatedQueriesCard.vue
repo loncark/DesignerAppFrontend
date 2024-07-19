@@ -20,6 +20,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useStore } from '../../../store/Store';
 import ProgressSpinner from 'primevue/progressspinner';
 import { queryRelatedQueries } from '../../../api/TrendsApi';
+import eventBus from '../../../utils/EventBus';
 
 const store = useStore();
 const loading = ref(true);
@@ -45,7 +46,11 @@ const fetchRelatedQueries = async () => {
 };
 
 onMounted(() => {
-    fetchRelatedQueries();
+  eventBus.on('execute-queries', fetchRelatedQueries);
+});
+
+onUnmounted(() => {
+  eventBus.off('execute-queries', fetchRelatedQueries);
 });
 </script>
 

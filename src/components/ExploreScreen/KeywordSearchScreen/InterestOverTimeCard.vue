@@ -6,13 +6,14 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { Line } from 'vue-chartjs';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import { queryInterestOverTime } from '../../../api/TrendsApi';
 import ProgressSpinner from 'primevue/progressspinner';
 import { useStore } from '../../../store/Store';
+import eventBus from '../../../utils/EventBus';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale);
 
@@ -65,8 +66,12 @@ const fetchChartData = async () => {
   }
 };
 
-onMounted(async () => {
-  await fetchChartData();
+onMounted(() => {
+  eventBus.on('execute-queries', fetchChartData);
+});
+
+onUnmounted(() => {
+  eventBus.off('execute-queries', fetchChartData);
 });
 </script>
 

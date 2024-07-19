@@ -16,10 +16,11 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useStore } from '../../../store/Store';
 import ProgressSpinner from 'primevue/progressspinner';
 import { queryInterestByRegion } from '../../../api/TrendsApi';
+import eventBus from '../../../utils/EventBus';
 
 const store = useStore();
 const loading = ref(true);
@@ -46,7 +47,11 @@ const fetchInterestByRegion = async () => {
 };
 
 onMounted(() => {
-    fetchInterestByRegion();
+  eventBus.on('execute-queries', fetchInterestByRegion);
+});
+
+onUnmounted(() => {
+  eventBus.off('execute-queries', fetchInterestByRegion);
 });
 </script>
 

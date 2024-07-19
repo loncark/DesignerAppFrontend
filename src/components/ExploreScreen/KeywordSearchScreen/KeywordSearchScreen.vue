@@ -5,9 +5,9 @@
             <Button label="Search" icon="pi pi-search" @click="executeAllQueries" :disabled="rateLimitExceeded"></Button>
         </div>
 
-        <span v-if="!store.keyword_query_executed">Awaiting input.</span>
+        <span v-show="!store.keyword_query_executed">Awaiting input.</span>
 
-        <div v-else class="keywordSearchLayout flex-row">
+        <div v-show="store.keyword_query_executed" class="keywordSearchLayout flex-row">
             <div class="leftPart flex-column">
                 <InterestOvertimeCard class="card"/>
                 <InterestByRegionCard class="card"/>                             
@@ -28,6 +28,7 @@ import { inputIsValid } from '../../../utils/validation';
 import InterestOvertimeCard from './InterestOverTimeCard.vue';
 import RelatedQueriesCard from './RelatedQueriesCard.vue';
 import InterestByRegionCard from './InterestByRegionCard.vue';
+import eventBus from '../../../utils/EventBus';
 
 const store = useStore();
 const keyword = ref(store.keyword_search_keyword);
@@ -37,6 +38,8 @@ const executeAllQueries = async () => {
     try {
         store.keyword_search_keyword = keyword.value;
         store.keyword_query_executed = true;
+
+        eventBus.emit('execute-queries');
         
     } catch (error) {
         console.log(`Error: ${error.message}`);
