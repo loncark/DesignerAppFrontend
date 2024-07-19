@@ -15,6 +15,7 @@ export const useStore = defineStore('design', {
     keyword_search_keyword: '',
     related_queries: null,
     interest_by_region: null,
+    raw_chart_data: [],
     etsy_keyword: '',
     etsy_order: 'Default',
     etsy_current_page: 1,
@@ -62,6 +63,7 @@ export const useStore = defineStore('design', {
       this.daily_searches = null;
       this.related_queries = null;
       this.interest_by_region = null;
+      this.raw_chart_data = [];
       this.etsy_keyword = '';
       this.etsy_order = 'Default';
       this.etsy_current_page = 1,

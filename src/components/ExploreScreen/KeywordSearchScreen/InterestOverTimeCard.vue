@@ -18,11 +18,10 @@ import eventBus from '../../../utils/EventBus';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale);
 
 const store = useStore();
-const loading = ref(true);
-const rawChartData = ref([]);
+const loading = ref(false);
 
-const chartData = computed(() => ({
-  labels: rawChartData.value.map(item => item.date),
+const chartData = computed(() => store.raw_chart_data? ({
+  labels: store.raw_chart_data.map(item => item.date),
   datasets: [
     {
       label: `Searches over time for phrase "${store.keyword_search_keyword}":`,
@@ -31,11 +30,11 @@ const chartData = computed(() => ({
       borderWidth: 1,
       hoverBackgroundColor: 'rgba(75, 192, 192, 0.4)',
       hoverBorderColor: 'rgba(75, 192, 192, 1)',
-      data: rawChartData.value.map(item => item.value),
+      data: store.raw_chart_data.map(item => item.value),
       fill: false,
     },
   ],
-}));
+}) : ({labels: [], datasets: []}));
 
 const chartOptions = {
   responsive: true,
@@ -58,7 +57,8 @@ const fetchChartData = async () => {
   try {
     loading.value = true;
     const response = await queryInterestOverTime(store.keyword_search_keyword);
-    rawChartData.value = response.data;
+    store.raw_chart_data = response.data;
+
   } catch (error) {
     console.error(error);
   } finally {

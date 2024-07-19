@@ -5,7 +5,7 @@
         <div v-else>
             <h4>Popular queries related to "{{ store.keyword_search_keyword }}":</h4>
             <div class="queryList flex-column">
-                <div class="queryItem" v-for="(query, index) in store.related_queries.slice(0, 25)" :key="index">
+                <div class="queryItem" v-for="(query, index) in itemsToDisplay" :key="index">
                     <span>{{ index + 1 }}</span>
                     <span>{{ query.query }}</span>
                     <span class="padding-left">+{{ query.extracted_value }}%</span>
@@ -23,8 +23,9 @@ import { queryRelatedQueries } from '../../../api/TrendsApi';
 import eventBus from '../../../utils/EventBus';
 
 const store = useStore();
-const loading = ref(true);
+const loading = ref(false);
 const noRelatedQueriesWereFound = computed(() => store.related_queries === undefined);
+const itemsToDisplay = computed(() => store.related_queries? store.related_queries.slice(0, 25) : []);
 
 const fetchRelatedQueries = async () => {
     try {

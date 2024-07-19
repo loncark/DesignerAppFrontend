@@ -5,7 +5,7 @@
         <div v-else class="container">
             <h4>Countries "{{ store.keyword_search_keyword }}" has been searched in most:</h4>
             <div class="queryList flex-column wrap">
-                <div class="queryItem" v-for="(item, index) in store.interest_by_region.slice(0, 18)" :key="index">
+                <div class="queryItem" v-for="(item, index) in itemsToDisplay" :key="index">
                     <span>{{ index + 1 }}</span>
                     <span>{{ item.location }}</span>
                     <span>{{ item.extracted_value }}</span>
@@ -23,8 +23,9 @@ import { queryInterestByRegion } from '../../../api/TrendsApi';
 import eventBus from '../../../utils/EventBus';
 
 const store = useStore();
-const loading = ref(true);
+const loading = ref(false);
 const noInterestByRegionWasFound = computed(() => store.interest_by_region === undefined);
+const itemsToDisplay = computed(() => store.interest_by_region? store.interest_by_region.slice(0, 18) : []);
 
 const fetchInterestByRegion = async () => {
     try {
