@@ -60,7 +60,7 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import ImageList from './ImageList.vue'
 import { useStore } from '../../store/Store';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import Chip from 'primevue/chip';
 import { uploadDesignToRealtimeDb } from '../../api/FirebaseApi'
 import { v4 as uuidv4 } from 'uuid';
@@ -149,6 +149,10 @@ const handleSaveClick = async () => {
         console.log(error);
     }
 }
+
+onMounted(() => {
+    store.main_active_tab = 2;
+})
 </script>
 
 <style scoped>

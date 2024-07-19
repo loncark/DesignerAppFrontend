@@ -17,12 +17,12 @@
 import TrendScreen from '../ExploreScreen/TrendScreen/TrendScreen.vue';
 import KeywordSearchScreen from '../ExploreScreen/KeywordSearchScreen/KeywordSearchScreen.vue';
 import EtsyScreen from '../ExploreScreen/EtsyScreen/EtsyScreen.vue';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useStore } from '../../store/Store';
 import TabMenu from 'primevue/tabmenu';
 
 const store = useStore();
-const active = computed(() => store.active_tab);
+const active = computed(() => store.explore_active_tab);
 
 const tabItems = ref([
   { label: 'Trends', icon: 'pi pi-chart-line', command: () => changeActiveTab(0) },
@@ -31,8 +31,12 @@ const tabItems = ref([
 ]);
 
 const changeActiveTab = (keyword) => {
-    store.active_tab = keyword;
+    store.explore_active_tab = keyword;
 }
+
+onMounted(() => {
+    store.main_active_tab = 1;
+})
 </script>
 
 <style scoped>

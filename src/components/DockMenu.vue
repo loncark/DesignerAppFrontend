@@ -1,30 +1,37 @@
 <template>
   <div class="dock">
-    <i class="pi pi-home dock-button" raised @click="goToDesignScreen"></i>
-    <i class="pi pi-compass dock-button" raised @click="goToKeywordSearchScreen"></i>
-    <i class="pi dock-button" raised @click="goToCreateScreen" 
-        :class="{
-        'pi-plus': store.design.design_id === null,
-        'pi-pen-to-square': store.design.design_id !== null
-      }"></i>
+    <Button icon="pi pi-home" raised rounded severity="contrast" @click="handleOnHomeClick" :outlined="active !== 0"></Button>
+    <Button icon="pi pi-compass" raised rounded severity="contrast" @click="handleOnExploreClick" :outlined="active !== 1"></Button>
+    <Button v-if="store.design.design_id === null" icon="pi pi-plus" raised rounded severity="contrast" @click="handleOnCreateClick" :outlined="active !== 2"></Button>
+    <Button v-else icon="pi pi-pen-to-square" raised rounded severity="contrast" @click="handleOnCreateClick" :outlined="active !== 2"></Button>
   </div>
 </template>
 
 <script setup>
+import Button from 'primevue/button';
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from '../store/Store';
 
 const router = useRouter();
 const store = useStore();
+const active = computed(() => store.main_active_tab);
 
-const goToDesignScreen = () => {
-    router.push('/');
+const changeActiveTab = (keyword) => {
+    store.main_active_tab = keyword;
 }
-const goToKeywordSearchScreen = () => {
-    router.push('/explore');
+
+const handleOnHomeClick = () => {
+  changeActiveTab(0);
+  router.push('/');
 }
-const goToCreateScreen = () => {
-    router.push('/create');
+const handleOnExploreClick = () => {
+  changeActiveTab(1);
+  router.push('/explore');
+}
+const handleOnCreateClick = () => {
+  changeActiveTab(2);
+  router.push('/create');
 }
 </script>
 
@@ -35,14 +42,11 @@ const goToCreateScreen = () => {
     padding: 20px 15px 20px 25px;
 }
 
-.dock-button {
-  padding: 15px;
+:deep(.pi) {
+  font-size: 1.5rem;
+}
+:deep(.p-button) {
+  padding: 28px;
   margin: 5px;
-
-  font-size: 1.5em;
-  border-radius: 30px;
-  border: 2px solid black;
-
-  cursor: pointer;
 }
 </style>

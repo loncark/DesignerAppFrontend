@@ -41,6 +41,7 @@
 
 
   onMounted(() => {
+    store.main_active_tab = 0;
     getAllDesigns();
 });
 </script>

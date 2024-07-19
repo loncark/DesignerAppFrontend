@@ -4,9 +4,10 @@ import { nullDesign, COUNTRY_CODES, TRADEMARK_FILTERS } from '../utils/constants
 export const useStore = defineStore('design', {
   state: () => ({
     design: JSON.parse(JSON.stringify(nullDesign)),
+    main_active_tab: 0,
 
     // related to ExploreScreen
-    active_tab: 0,
+    explore_active_tab: 0,
     keyword_query_executed: false,
     serpapi_limit_exceeded: false,
     trends_date: new Date(),
