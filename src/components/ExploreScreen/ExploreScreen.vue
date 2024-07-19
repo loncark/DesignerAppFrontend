@@ -5,23 +5,10 @@
             <h1 class="big-title">Explore</h1>
         </div>
         
-        <div class="flex-row">
-            <div class="tabItem" :class="{ 'active-tab': active === 'trends' }" @click="changeActiveTab('trends')">
-                <i class="pi pi-chart-line"></i>
-                <span>Trends</span>
-            </div>
-            <div class="tabItem" :class="{ 'active-tab': active === 'keywords' }" @click="changeActiveTab('keywords')">
-                <i class="pi pi-search"></i>
-                <span>Keywords</span>
-            </div>
-            <div class="tabItem" :class="{ 'active-tab': active === 'products' }" @click="changeActiveTab('products')">
-                <i class="pi pi-list"></i>
-                <span >Products</span>
-            </div>
-        </div>
+        <TabMenu :model="tabItems" v-model:activeIndex="active"/>
 
-        <TrendScreen v-if="active === 'trends'"/>
-        <KeywordSearchScreen v-else-if="active === 'keywords'"/>
+        <TrendScreen v-if="active === 0"/>
+        <KeywordSearchScreen v-else-if="active === 1"/>
         <EtsyScreen v-else/>
     </div>
 </template>
@@ -30,11 +17,18 @@
 import TrendScreen from '../ExploreScreen/TrendScreen/TrendScreen.vue';
 import KeywordSearchScreen from '../ExploreScreen/KeywordSearchScreen/KeywordSearchScreen.vue';
 import EtsyScreen from '../ExploreScreen/EtsyScreen/EtsyScreen.vue';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useStore } from '../../store/Store';
+import TabMenu from 'primevue/tabmenu';
 
 const store = useStore();
 const active = computed(() => store.active_tab);
+
+const tabItems = ref([
+  { label: 'Trends', icon: 'pi pi-chart-line', command: () => changeActiveTab(0) },
+  { label: 'Keywords', icon: 'pi pi-search', command: () => changeActiveTab(1) },
+  { label: 'Products', icon: 'pi pi-list', command: () => changeActiveTab(2) },
+]);
 
 const changeActiveTab = (keyword) => {
     store.active_tab = keyword;
@@ -60,17 +54,12 @@ const changeActiveTab = (keyword) => {
     font-size: 60px;
 }
 
-.tabItem {
-    padding: 10px 10px 10px 10px;
-    margin: 0px 15px 15px 0px;
-    border: solid transparent;
-    border-width: 0px 0px 1px 0px;
-    border-bottom-color: black;
+:deep(.p-menuitem-link) {
+    padding: 10px 15px 10px 15px;
 }
-.tabItem i {
-    margin-right: 10px;
-}
-.active-tab {
-    border-radius: 10px;
+:deep(.p-tabmenu) {
+    border: none;
+    margin-bottom: 15px;
+    width: fit-content;
 }
 </style>
