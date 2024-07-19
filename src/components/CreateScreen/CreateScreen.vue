@@ -2,7 +2,7 @@
     <div id="createScreen" >
         <div class="titlePart flex-row">
             <i class="pi pi-plus"></i>
-            <h1 class="big-title">Create new design</h1>
+            <h1 class="big-title">{{ title }} design</h1>
             <Button label="Save design" icon="pi pi-save" @click="handleSaveClick" :disabled="!nameIsValid(store.design.design_name) || !titleIsValid(store.design.title)"></Button>
         </div>
         <div class="flex-row">
@@ -86,6 +86,7 @@ import { titleIsValid, tagIsValid, linkIsValid, nameIsValid, inputIsValid } from
 const store = useStore();
 const router = useRouter();
 
+const title = ref(store.design.design_id !== null? 'Edit' : 'Create new');
 const newTag = ref('');
 const newLink = ref('');
 const active = ref('gemini');

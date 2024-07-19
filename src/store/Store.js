@@ -42,6 +42,7 @@ export const useStore = defineStore('design', {
       this.design = JSON.parse(JSON.stringify(nullDesign));
     },
     resetCreateScreen() {
+      this.resetDesign();
       this.new_images_buffer = [],
       this.deleted_images_buffer = [],
       this.sd_img_to_load = null;
