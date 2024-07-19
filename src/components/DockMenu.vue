@@ -2,14 +2,21 @@
   <div class="dock">
     <i class="pi pi-home dock-button" raised @click="goToDesignScreen"></i>
     <i class="pi pi-compass dock-button" raised @click="goToKeywordSearchScreen"></i>
-    <i class="pi pi-plus dock-button" raised @click="goToCreateScreen"></i>
+    <i class="pi dock-button" raised @click="goToCreateScreen" 
+        :class="{
+        'pi-plus': store.design.design_id === null,
+        'pi-pen-to-square': store.design.design_id !== null
+      }"></i>
   </div>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router';
+import { useStore } from '../store/Store';
 
 const router = useRouter();
+const store = useStore();
+
 const goToDesignScreen = () => {
     router.push('/');
 }
