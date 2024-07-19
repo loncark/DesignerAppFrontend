@@ -8,5 +8,6 @@ Stuff I learned the hard way:
 5. Some components are named differently in different primevue versions
 (calendar -> datepicker, dropdown -> select)
 6. Dropdowns can take simple arrays, not necessarily arrays of objects with the optionLabel gymnastics
-7. How to add google font: insert link tag in index.html and make a class that google gives you in embed code 
+7. How to add google font: insert link tag in index.html and make a css class that google gives you in embed code 
 8. Use emits/buses when deleting components and trigerring multiple actions
+9. Be careful with v-if vs v-show in parent component if the child has onMounted
