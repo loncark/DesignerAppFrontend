@@ -1,80 +1,72 @@
 <template>
   <div class="interestOverTimeCard">
-    <canvas v-if="!loading" ref="chartCanvas"></canvas>
+    <Line v-if="!loading" :data="chartData" :options="chartOptions" />
     <ProgressSpinner v-else />
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { Chart } from 'chart.js/auto';
+import { ref, computed, onMounted } from 'vue';
+import { Line } from 'vue-chartjs';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import { queryInterestOverTime } from '../../../api/TrendsApi';
 import ProgressSpinner from 'primevue/progressspinner';
 import { useStore } from '../../../store/Store';
 
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale);
+
 const store = useStore();
 const loading = ref(true);
+const rawChartData = ref([]);
 
-const chartCanvas = ref(null);
-const chartData = ref([]);
-const dates = computed(() => chartData.value.length > 0? chartData.value.map(item => item.date) : []);
-const values = computed(() => chartData.value.length > 0? chartData.value.map(item => item.value) : []);
+const chartData = computed(() => ({
+  labels: rawChartData.value.map(item => item.date),
+  datasets: [
+    {
+      label: `Searches over time for phrase "${store.keyword_search_keyword}":`,
+      backgroundColor: 'rgba(75, 192, 192, 0.2)',
+      borderColor: 'rgba(75, 192, 192, 1)',
+      borderWidth: 1,
+      hoverBackgroundColor: 'rgba(75, 192, 192, 0.4)',
+      hoverBorderColor: 'rgba(75, 192, 192, 1)',
+      data: rawChartData.value.map(item => item.value),
+      fill: false,
+    },
+  ],
+}));
+
+const chartOptions = {
+  responsive: true,
+  scales: {
+    x: {
+      type: 'time',
+      time: {
+        unit: 'month',
+      },
+    },
+    y: {
+      beginAtZero: true,
+      min: 0,
+      max: 100,
+    },
+  },
+};
 
 const fetchChartData = async () => {
   try {
     loading.value = true;
-
     const response = await queryInterestOverTime(store.keyword_search_keyword);
-    chartData.value = response.data;
-
+    rawChartData.value = response.data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   } finally {
     loading.value = false;
   }
-}
-
-const createChart = () => {
-  const ctx = chartCanvas.value.getContext('2d');
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: dates.value,
-      datasets: [
-        {
-          label: 'Searches over time for phrase "' + store.keyword_search_keyword + '":',
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 1,
-          hoverBackgroundColor: 'rgba(75, 192, 192, 0.4)',
-          hoverBorderColor: 'rgba(75, 192, 192, 1)',
-          data: values.value,
-          fill: false,
-        },
-      ],
-    },
-    options: {
-      scales: {
-        x: {
-          type: 'time',
-          time: {
-            unit: 'month',
-          },
-        },
-        y: {
-          beginAtZero: true,
-          min: 0,
-          max: 100,
-        },
-      },
-    },
-  });
-}
+};
 
 onMounted(async () => {
   await fetchChartData();
-  createChart();
 });
 </script>
 
