@@ -44,30 +44,18 @@
 
 
             <div id="rightPart">
-                <div class="flex-row">
-                    <div class="tabItem" :class="{ 'active-tab': active === 'gemini' }" @click="changeActiveTab('gemini')">
-                        <i class="pi pi-microchip-ai"></i>
-                        <span>Gemini</span>
-                    </div>
-                    <div class="tabItem" :class="{ 'active-tab': active === 'sd' }" @click="changeActiveTab('sd')">
-                        <i class="pi pi-image"></i>
-                        <span>Stable Diffusion</span>
-                    </div>
-                    <div class="tabItem" :class="{ 'active-tab': active === 'trademark' }" @click="changeActiveTab('trademark')">
-                        <i class="pi pi-briefcase"></i>
-                        <span>Trademarks</span>
-                    </div>
-                </div>
+                <TabMenu :model="tabItems" v-model:activeIndex="active"/>
 
-            <GeminiScreen v-if="active === 'gemini'"/>
-            <StableDiffusionScreen v-else-if="active === 'sd'"/>
-            <TrademarkScreen v-else/>
+                <GeminiScreen v-if="active === 0"/>
+                <StableDiffusionScreen v-else-if="active === 1"/>
+                <TrademarkScreen v-else/>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
+import TabMenu from 'primevue/tabmenu';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import ImageList from './ImageList.vue'
@@ -90,7 +78,13 @@ const router = useRouter();
 const title = computed(() => store.design.design_id !== null? 'Edit' : 'Create new');
 const newTag = ref('');
 const newLink = ref('');
-const active = ref('gemini');
+const active = ref(0);
+
+const tabItems = ref([
+  { label: 'Gemini', icon: 'pi pi-microchip-ai', command: () => changeActiveTab(0) },
+  { label: 'Stable Diffusion', icon: 'pi pi-image', command: () => changeActiveTab(1) },
+  { label: 'Trademarks', icon: 'pi pi-briefcase', command: () => changeActiveTab(2) },
+]);
 
 const changeActiveTab = (keyword) => {
     active.value = keyword;
@@ -254,17 +248,10 @@ const handleSaveClick = async () => {
     width: 700px;
 }
 
-.tabItem {
-    padding: 10px 10px 10px 10px;
-    margin: 15px;
-    border: solid transparent;
-    border-width: 0px 0px 1px 0px;
-    border-bottom-color: black;
+:deep(.p-menuitem-link) {
+    padding: 10px;
 }
-.tabItem i {
-    margin-right: 10px;
-}
-.active-tab {
-    border-radius: 10px;
+:deep(.p-tabmenu) {
+    border: none;
 }
 </style>
