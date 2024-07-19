@@ -145,11 +145,11 @@ const handleSaveClick = async () => {
 
         await uploadDesignToRealtimeDb(store.design);
 
-        store.resetDesign();
+        store.resetCreateScreen();
         newTag.value = '';
         newLink.value = '';
         
-        router.back();
+        router.push('/');
     }
     catch (error) {
         console.log(error);

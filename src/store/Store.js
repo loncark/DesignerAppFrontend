@@ -6,6 +6,7 @@ export const useStore = defineStore('design', {
     design: JSON.parse(JSON.stringify(nullDesign)),
 
     // related to ExploreScreen
+    active_tab: 'trends',
     keyword_query_executed: false,
     serpapi_limit_exceeded: false,
     trends_date: new Date(),

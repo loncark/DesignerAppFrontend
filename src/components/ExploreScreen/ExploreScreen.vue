@@ -30,18 +30,15 @@
 import TrendScreen from '../ExploreScreen/TrendScreen/TrendScreen.vue';
 import KeywordSearchScreen from '../ExploreScreen/KeywordSearchScreen/KeywordSearchScreen.vue';
 import EtsyScreen from '../ExploreScreen/EtsyScreen/EtsyScreen.vue';
-import { ref, onMounted } from 'vue';
+import { computed } from 'vue';
 import { useStore } from '../../store/Store';
 
-const active = ref('trends');
 const store = useStore();
+const active = computed(() => store.active_tab);
 
 const changeActiveTab = (keyword) => {
-    active.value = keyword;
+    store.active_tab = keyword;
 }
-onMounted(() => {
-    store.resetExploreScreen();
-})
 </script>
 
 <style scoped>
