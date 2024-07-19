@@ -55,7 +55,7 @@ const deleteDesign = async (id) => {
         }
 
         await deleteDesignFromDb(id);
-        emit('design-deleted');
+        emit('design-deleted', id);
     }
     catch (error) {
         console.log(error);

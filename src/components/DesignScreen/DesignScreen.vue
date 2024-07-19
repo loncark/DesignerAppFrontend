@@ -8,7 +8,7 @@
     <ProgressSpinner v-if="loading"></ProgressSpinner>
 
     <div v-else id="designCardList">
-        <DesignCard v-for="(design, index) in designArray" :key="index" :design="design" @design-deleted="getAllDesigns"/>    
+        <DesignCard v-for="(design, index) in designArray" :key="index" :design="design" @design-deleted="handleDesignDeleted"/>    
     </div>
 
   </div>
@@ -19,9 +19,11 @@
   import { getAllDesignsFromStorage } from '../../api/FirebaseApi';
   import DesignCard from './DesignCard.vue';
   import ProgressSpinner from 'primevue/progressspinner';
+  import { useStore } from '../../store/Store';
   
   const loading = ref(false);
-  const designArray = ref([])
+  const designArray = ref([]);
+  const store = useStore();
 
   const getAllDesigns = async () => {
     loading.value = true;
@@ -29,6 +31,14 @@
     designArray.value = response;
     loading.value = false;
   }
+
+  const handleDesignDeleted = (deletedId) => {
+    if(store.design.design_id === deletedId) {
+        store.resetCreateScreen();
+    }
+    getAllDesigns();
+}
+
 
   onMounted(() => {
     getAllDesigns();
