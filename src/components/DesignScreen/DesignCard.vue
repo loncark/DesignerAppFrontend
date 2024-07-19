@@ -43,7 +43,6 @@ const exportInProgress = ref(false);
 
 const goToCreateScreen = () => {
   store.design = props.design;
-  store.resetCreateScreen();
   router.push('/create');
 };
 

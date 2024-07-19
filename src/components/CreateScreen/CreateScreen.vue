@@ -3,6 +3,7 @@
         <div class="titlePart flex-row">
             <i class="pi pi-plus"></i>
             <h1 class="big-title">{{ title }} design</h1>
+            <Button label="Empty design" icon="pi pi-refresh" @click="store.resetCreateScreen" severity="secondary" id="resetButton"></Button>
             <Button label="Save design" icon="pi pi-save" @click="handleSaveClick" :disabled="!nameIsValid(store.design.design_name) || !titleIsValid(store.design.title)"></Button>
         </div>
         <div class="flex-row">
@@ -71,7 +72,7 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import ImageList from './ImageList.vue'
 import { useStore } from '../../store/Store';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import Chip from 'primevue/chip';
 import { uploadDesignToRealtimeDb } from '../../api/FirebaseApi'
 import { v4 as uuidv4 } from 'uuid';
@@ -86,7 +87,7 @@ import { titleIsValid, tagIsValid, linkIsValid, nameIsValid, inputIsValid } from
 const store = useStore();
 const router = useRouter();
 
-const title = ref(store.design.design_id !== null? 'Edit' : 'Create new');
+const title = computed(() => store.design.design_id !== null? 'Edit' : 'Create new');
 const newTag = ref('');
 const newLink = ref('');
 const active = ref('gemini');
@@ -174,10 +175,15 @@ const handleSaveClick = async () => {
 .titlePart .p-button {
     font-size: larger;
     padding: 20px;
-    margin-left: auto;
+    margin-left: 20px;
 }
 .big-title {
     margin-bottom: 10px;
+}
+#resetButton {
+    font-size: revert;
+    padding: 10px;
+    margin-left: auto;
 }
 
 #leftPart {
