@@ -60,10 +60,11 @@ onMounted(async () => {
             try {
                 loading.value = true;
                 store.sd_base64String = await convertImageUrlToBase64(store.sd_img_to_load); 
-                loading.value = false;
             }
             catch (error) {
                 console.log(error);
+            } finally {
+                loading.value = false;
             }
         }
         else {
@@ -98,8 +99,9 @@ const executeTxt2Img = async () => {
 
     } catch (error) {
         console.log(`Error: ${error.message}`); 
+    } finally {
+        loading.value = false;
     }
-    loading.value = false;
 };
 
 const executeImg2Img = async () => {
@@ -123,8 +125,9 @@ const executeImg2Img = async () => {
 
     } catch (error) {
         console.log(`Error: ${error.message}`); 
+    } finally {
+        loading.value = false;
     }
-    loading.value = false;
 };
 
 const discardImg = () => {

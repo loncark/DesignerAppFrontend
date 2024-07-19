@@ -60,7 +60,7 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import ImageList from './ImageList.vue'
 import { useStore } from '../../store/Store';
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import Chip from 'primevue/chip';
 import { uploadDesignToRealtimeDb } from '../../api/FirebaseApi'
 import { v4 as uuidv4 } from 'uuid';
@@ -75,7 +75,7 @@ import { titleIsValid, tagIsValid, linkIsValid, nameIsValid, inputIsValid } from
 const store = useStore();
 const router = useRouter();
 
-const title = computed(() => store.design.design_id !== null? 'Edit' : 'Create new');
+const title = ref(store.design.design_id !== null? 'Edit' : 'Create new');
 const newTag = ref('');
 const newLink = ref('');
 const active = ref(0);
