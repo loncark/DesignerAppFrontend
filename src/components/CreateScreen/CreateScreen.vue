@@ -249,9 +249,10 @@ const handleSaveClick = async () => {
 }
 
 :deep(.p-menuitem-link) {
-    padding: 10px;
+    padding: 10px 15px 10px 15px;
 }
 :deep(.p-tabmenu) {
     border: none;
+    margin-bottom: 15px;
 }
 </style>
