@@ -88,11 +88,12 @@ const executeTxt2Img = async () => {
         "prompt": store.sd_custom_prompt_input,
         "batch_size": 1,
         "steps": parseInt(store.sd_no_steps_input, 10),
-        "cfg_scale": 1,
+        "cfg_scale": 7,
         "width": parseInt(store.sd_width_input, 10),
         "height": parseInt(store.sd_height_input, 10),
         "restore_faces": false,
         "tiling": false,  
+        "sampler_name": "DPM++ 2M",
     }
         const response = await querySDtxt2img(params);
         store.sd_base64String = response.images[0];

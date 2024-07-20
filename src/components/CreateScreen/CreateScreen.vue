@@ -60,7 +60,7 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import ImageList from './ImageList.vue'
 import { useStore } from '../../store/Store';
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import Chip from 'primevue/chip';
 import { uploadDesignToRealtimeDb } from '../../api/FirebaseApi'
 import { v4 as uuidv4 } from 'uuid';
@@ -75,7 +75,8 @@ import { titleIsValid, tagIsValid, linkIsValid, nameIsValid, inputIsValid } from
 const store = useStore();
 const router = useRouter();
 
-const title = ref(store.design.design_id !== null? 'Edit' : 'Create new');
+const title = computed(() => (store.design.design_id === null || isSaving.value) ? 'Create new' : 'Edit');
+const isSaving = ref(false);
 const newTag = ref('');
 const newLink = ref('');
 const active = ref(0);
@@ -121,6 +122,7 @@ const addLink = () => {
 }
 
 const handleSaveClick = async () => {
+    isSaving.value = true;
     if (store.design.design_id === null) {
         store.design.design_id = uuidv4();
     }
@@ -147,6 +149,8 @@ const handleSaveClick = async () => {
     }
     catch (error) {
         console.log(error);
+    } finally {
+        isSaving.value = false;
     }
 }
 
