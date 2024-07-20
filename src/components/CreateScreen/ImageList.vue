@@ -18,7 +18,6 @@
 </template>
 
 <script setup>
-import Button from 'primevue/button';
 import { useStore } from '../../store/Store';
 
 const props = defineProps(["images", "newImages"])
@@ -46,7 +45,7 @@ const addToDeletedImagesQueue = (imgUrl) => {
 <style scoped>
 #imageList {
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 20px 20px;
     width: 100%;
 }

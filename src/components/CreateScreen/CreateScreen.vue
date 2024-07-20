@@ -192,6 +192,7 @@ onMounted(() => {
     margin-right: 20px;
     padding-right: 20px;
     border-right: solid black 2px;
+    width: 622px;
 }
 
 
