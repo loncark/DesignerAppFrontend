@@ -72,7 +72,7 @@ const executeQuery = async () => {
         }
         
     } catch (error) {
-        response.value = `Error: ${error.message}`;
+        console.log(error);
     }
     finally {
         loading.value = false;
