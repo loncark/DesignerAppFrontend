@@ -3,7 +3,7 @@
         <div class="titlePart flex-row">
             <i class="pi pi-plus"></i>
             <h1 class="big-title">{{ title }} design</h1>
-            <Button label="Empty design" icon="pi pi-refresh" @click="store.resetCreateScreen" severity="secondary" id="resetButton"></Button>
+            <Button label="Empty design" icon="pi pi-refresh" @click="handleEmptyDesignClick" severity="secondary" id="resetButton"></Button>
             <Button label="Save design" icon="pi pi-save" @click="handleSaveClick" :disabled="!nameIsValid(store.design.design_name) || !titleIsValid(store.design.title)"></Button>
         </div>
         <div class="flex-row">
@@ -68,14 +68,14 @@ import { useRouter } from 'vue-router';
 import StableDiffusionScreen from './StableDiffusionScreen.vue';
 import GeminiScreen from './GeminiScreen.vue';
 import TrademarkScreen from './TrademarkScreen/TrademarkScreen.vue';
-import { uploadImgToFirebaseStorage } from '../../api/FirebaseApi'
+import { uploadImgToFirebaseStorage, deleteImageFromStorage } from '../../api/FirebaseApi';
 import Textarea from 'primevue/textarea';
 import { titleIsValid, tagIsValid, linkIsValid, nameIsValid, inputIsValid } from '../../utils/validation';
 
 const store = useStore();
 const router = useRouter();
 
-const title = computed(() => (store.design.design_id === null || isSaving.value) ? 'Create new' : 'Edit');
+const title = ref(store.design.design_id === null? 'Create new' : 'Edit');
 const isSaving = ref(false);
 const newTag = ref('');
 const newLink = ref('');
@@ -119,6 +119,11 @@ const addLink = () => {
     if(newLink.value === '' || !linkIsValid(newLink.value)) return;
     store.design.related_links.push(newLink.value);
     newLink.value = "";
+}
+
+const handleEmptyDesignClick = () => {
+    store.resetCreateScreen();
+    title.value = "Create new";
 }
 
 const handleSaveClick = async () => {
