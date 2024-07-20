@@ -145,9 +145,8 @@ const amendResults = async () => {
     margin: revert;
 }
 
-.p-progress-spinner {
-  position: fixed;
-  top: 40vh;
-  left: 45vw;
+#trendScreen>.p-progress-spinner {
+    margin-top: 12%;
+    margin-left: 40%;
 }
 </style>
