@@ -29,11 +29,10 @@ export const useStore = defineStore('design', {
     gemini_input: '',
     gemini_response: 'Awaiting prompt.',
     sd_img_to_load: null,
-    sd_no_steps_input: '1',
-    sd_width_input: '64',
-    sd_height_input: '64',
-    sd_custom_prompt_input: 'Yellow triangle',
+    sd_prompt_input: "(((simple)))) (((black))) background, decorated (green) christmas tree",
+    sd_negative_prompt_input: "blurry, deformed, noisy, ugly",
     sd_base64String: null,
+    sd_loading: false,
     trademark_input: '',
     trademark_count: 0,
     trademark_items: null,
@@ -50,10 +49,9 @@ export const useStore = defineStore('design', {
       this.sd_img_to_load = null;
       this.gemini_input = '';
       this.gemini_response = 'Awaiting prompt.';
-      this.sd_no_steps_input = '1';
-      this.sd_width_input = '64';
-      this.sd_height_input = '64';
-      this.sd_custom_prompt_input = 'Yellow triangle';
+      this.sd_prompt_input = "(((simple)))) (((black))) background, decorated (green) christmas tree";
+      this.sd_negative_prompt_input = "blurry, deformed, noisy, ugly";
+      this.sd_loading = false;
       this.sd_base64String = null;
       this.trademark_input = '';
       this.trademark_count = 0;

@@ -107,7 +107,7 @@ const addTag = () => {
         }
         newTag.value = badTags.join(',');
     }
-    else if(tagIsValid(tag)) {
+    else if(tagIsValid(newTag.value)) {
         store.design.tags.push(newTag.value);
         newTag.value = "";
     }

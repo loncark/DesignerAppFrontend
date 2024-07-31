@@ -1,24 +1,19 @@
 <template>
     <div id="sdScreen" class="flex-row">
-        <div id="sdScreenInputFields">
-            <label>Width</label>
-            <InputText v-model="store.sd_width_input" :class="{'invalid-input': !dimesionInputIsValid(store.sd_width_input)}"></InputText>
-            <label>Height</label>
-            <InputText v-model="store.sd_height_input" :class="{'invalid-input': !dimesionInputIsValid(store.sd_height_input)}"></InputText>
-            <label>Steps</label>
-            <InputText v-model="store.sd_no_steps_input" :class="{'invalid-input': !stepInputIsValid(store.sd_no_steps_input)}"></InputText>
-
-            <label class="customPromptLabel">Custom prompt</label>
-            <Textarea class="customPromptTextArea" v-model="store.sd_custom_prompt_input" :class="{'invalid-input': !inputIsValid(store.sd_custom_prompt_input)}"></Textarea>
+        <div class="sdScreenInputFields flex-column">
+            <label>Prompt</label>
+            <Textarea class="promptTextArea" v-model="store.sd_prompt_input" :class="{'invalid-input': !inputIsValid(store.sd_prompt_input)}"></Textarea>
+            <label>Negative prompt</label>
+            <Textarea class="promptTextArea" v-model="store.sd_negative_prompt_input" :class="{'invalid-input': !inputIsValid(store.sd_negative_prompt_input)}"></Textarea>
 
             <Button class="generateButton" 
                 icon="pi pi-play-circle" 
                 :label="generateBtnLabel" 
                 @click="handleGenerateClick"
-                :disabled="!dimesionInputIsValid(store.sd_width_input) || !dimesionInputIsValid(store.sd_height_input) || !stepInputIsValid(store.sd_no_steps_input) || !inputIsValid(store.sd_custom_prompt_input)"/>
+                :disabled="!inputIsValid(store.sd_prompt_input) || !inputIsValid(store.sd_negative_prompt_input)"/>
         </div>
 
-        <ProgressSpinner v-if="loading"></ProgressSpinner>
+        <ProgressSpinner v-if="loading"/>
 
         <div v-else id="imagePart">
             <img v-if="base64Image" :src="base64Image">
@@ -45,7 +40,7 @@ import { dimesionInputIsValid, stepInputIsValid, inputIsValid } from "../../util
 const placeholderImagePath = ref(placeholderImage);
 
 const store = useStore();
-const loading = ref(false);
+const loading = computed (() => store.sd_loading);
 
 const generateBtnLabel = computed(() => {
     return store.sd_base64String ? 'Modify' : 'Generate';
@@ -83,33 +78,79 @@ const handleGenerateClick = () => {
 
 const executeTxt2Img = async () => {
     try {
-        loading.value = true;
+        store.sd_loading = true;
         let params = {
-        "prompt": store.sd_custom_prompt_input,
+        "prompt": "store.sd_prompt_input",
         "batch_size": 1,
-        "steps": parseInt(store.sd_no_steps_input, 10),
+        "steps": "parseInt(store.sd_no_steps_input, 10)",
         "cfg_scale": 7,
-        "width": parseInt(store.sd_width_input, 10),
-        "height": parseInt(store.sd_height_input, 10),
+        "width": "parseInt(store.sd_width_input, 10)",
+        "height": "parseInt(store.sd_height_input, 10)",
         "restore_faces": false,
         "tiling": false,  
-        "sampler_name": "DPM++ 2M",
+        "sampler_name": "DPM++ 2M Karras",
+        
     }
-        const response = await querySDtxt2img(params);
+
+        let params2 = {
+            "alwayson_scripts": {
+                "API payload": {"args": []}, 
+                "Extra options": {"args": []}, 
+                "Refiner": {"args": [false, "", 0.8]}, 
+                "Seed": {"args": [456789123, false, -1, 0, 0, 0]}}, 
+                "batch_size": 1, 
+                "cfg_scale": 7, 
+                "comments": {}, 
+                "disable_extra_networks": false, 
+                "do_not_save_grid": false, 
+                "do_not_save_samples": false, 
+                "enable_hr": false, 
+                "height": 512, 
+                "hr_negative_prompt": "", 
+                "hr_prompt": "", 
+                "hr_resize_x": 0, 
+                "hr_resize_y": 0, 
+                "hr_scale": 2, 
+                "hr_second_pass_steps": 0, 
+                "hr_upscaler": "Latent", 
+                "n_iter": 1, 
+                "negative_prompt": store.sd_negative_prompt_input, 
+                "override_settings": {}, 
+                "override_settings_restore_afterwards": true, 
+                "prompt": "printdesign, " + store.sd_prompt_input, 
+                "s_churn": 0.0, 
+                "s_min_uncond": 0.0, 
+                "s_noise": 1.0, 
+                "s_tmax": null, 
+                "s_tmin": 0.0, 
+                "sampler_name": "DPM++ 2M Karras", 
+                "script_args": ["None", "None", "CPU", true, "DPM++ 2M Karras", false, false, "None", 0.8], 
+                "script_name": "accelerate with openvino", 
+                "seed": 456789123, 
+                "seed_enable_extras": true, 
+                "seed_resize_from_h": -1, 
+                "seed_resize_from_w": -1, 
+                "steps": 20, 
+                "styles": [], 
+                "subseed": -1, 
+                "subseed_strength": 0, 
+                "width": 512
+            }
+        const response = await querySDtxt2img(params2);
         store.sd_base64String = response.images[0];
 
     } catch (error) {
         console.log(`Error: ${error.message}`); 
     } finally {
-        loading.value = false;
+        store.sd_loading = false;
     }
 };
 
 const executeImg2Img = async () => {
     try {
-        loading.value = true;
+        store.sd_loading = true;
         let params = {
-        "prompt": store.sd_custom_prompt_input,
+        "prompt": store.sd_prompt_input,
         "batch_size": 1,
         "steps": parseInt(store.sd_no_steps_input, 10),
         "cfg_scale": 1,
@@ -127,7 +168,7 @@ const executeImg2Img = async () => {
     } catch (error) {
         console.log(`Error: ${error.message}`); 
     } finally {
-        loading.value = false;
+        store.sd_loading = false;
     }
 };
 
@@ -146,51 +187,23 @@ const acceptImage = async () => {
 </script>
 
 <style scoped>
-#sdScreenInputFields {
-    display: grid;
-    grid-template-columns: 80px auto 80px auto;
-    grid-template-rows: 50px 50px 30px 170px auto;
-    grid-gap : 5px 0px;
+.sdScreenInputFields {
+    height: 450px;
 }
 
-.p-inputtext {
-    height: 35px;
-    width: 60px;
-    margin: auto;
-
-    text-align: center;
-}
-
-#sdScreenInputFields>label {
-    width: fit-content;
-    height: fit-content;
-    margin: auto;
-}
-
-.customPromptLabel {
-    grid-row: 3;
-    grid-column: 1 / 3;
-    margin-left: 0px !important;
-    margin-top: 20px !important;
-}
-.customPromptTextArea {
-    grid-row: 4;
-    grid-column: 1 / 5;
-
+.promptTextArea {
     width: 100%;
     height: 150px;
     padding: 10px;
+    margin: auto;
+    margin-top: 8px !important;
 
     text-align: left;
 }
 .generateButton {
-    grid-row: 5;
-    grid-column: 1 / 5;
-
     width: 100%;
     padding: 10px;
     height: fit-content;
-    margin-top: 20px;
 }
 
 
