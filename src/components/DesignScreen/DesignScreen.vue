@@ -66,7 +66,7 @@
 #designCardList {
     display: grid;
     grid-template-columns: 240px 240px 240px 240px;
-    grid-gap: 50px 50px;
+    grid-gap: 25px 50px;
 }
 
 .p-progress-spinner {
