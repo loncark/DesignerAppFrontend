@@ -19,12 +19,14 @@
 
 <script setup>
 import { useStore } from '../../store/Store';
+import eventBus from '../../utils/EventBus';
 
 const props = defineProps(["images", "newImages"])
 const store = useStore();
 
 const transferImgToSD = (url) => {
     store.sd_img_to_load = url;
+    eventBus.emit('load-image');
 }
 
 const removeFromNewImages = (base64String) => {

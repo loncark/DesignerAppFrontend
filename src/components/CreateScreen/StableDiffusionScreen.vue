@@ -26,16 +26,16 @@
 </template>
 
 <script setup>
-import InputText from "primevue/inputtext";
 import Button from 'primevue/button';
 import Textarea from "primevue/textarea";
 import { querySDtxt2img, querySDimg2img } from '../../api/StableDiffusionApi'
 import { convertImageUrlToBase64 } from '../../api/FirebaseApi'
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useStore } from '../../store/Store';
 import placeholderImage from '../../assets/placeholder.svg';
 import ProgressSpinner from 'primevue/progressspinner';
 import { dimesionInputIsValid, stepInputIsValid, inputIsValid } from "../../utils/validation";
+import eventBus from '../../utils/EventBus'
 
 const placeholderImagePath = ref(placeholderImage);
 
@@ -49,7 +49,14 @@ const base64Image = computed(() => {
     return store.sd_base64String ? `data:image/png;base64,${store.sd_base64String}` : '';
 });
 
-onMounted(async () => {
+onMounted(() => {
+  eventBus.on('load-image', loadImage);
+});
+onUnmounted(() => {
+  eventBus.off('load-image', loadImage);
+});
+
+const loadImage = async () => {
     if(store.sd_img_to_load) {
         if(store.sd_img_to_load.includes("storage.googleapis.com")) {
             try {
@@ -63,10 +70,10 @@ onMounted(async () => {
             }
         }
         else {
-            store.sd_base64String = imgUrl;
+            store.sd_base64String = store.sd_img_to_load;
         }
     }
-});
+}
 
 const handleGenerateClick = () => {
     if (store.sd_base64String === null) {
@@ -79,20 +86,8 @@ const handleGenerateClick = () => {
 const executeTxt2Img = async () => {
     try {
         store.sd_loading = true;
-        let params = {
-        "prompt": "store.sd_prompt_input",
-        "batch_size": 1,
-        "steps": "parseInt(store.sd_no_steps_input, 10)",
-        "cfg_scale": 7,
-        "width": "parseInt(store.sd_width_input, 10)",
-        "height": "parseInt(store.sd_height_input, 10)",
-        "restore_faces": false,
-        "tiling": false,  
-        "sampler_name": "DPM++ 2M Karras",
-        
-    }
 
-        let params2 = {
+        let params = {
             "alwayson_scripts": {
                 "API payload": {"args": []}, 
                 "Extra options": {"args": []}, 
@@ -136,7 +131,7 @@ const executeTxt2Img = async () => {
                 "subseed_strength": 0, 
                 "width": 512
             }
-        const response = await querySDtxt2img(params2);
+        const response = await querySDtxt2img(params);
         store.sd_base64String = response.images[0];
 
     } catch (error) {
@@ -149,19 +144,56 @@ const executeTxt2Img = async () => {
 const executeImg2Img = async () => {
     try {
         store.sd_loading = true;
+        
         let params = {
-        "prompt": store.sd_prompt_input,
-        "batch_size": 1,
-        "steps": parseInt(store.sd_no_steps_input, 10),
-        "cfg_scale": 1,
-        "width": parseInt(store.sd_width_input, 10),
-        "height": parseInt(store.sd_height_input, 10),
-        "restore_faces": false,
-        "tiling": false,  
-        "init_images": [
-            store.sd_base64String
-        ],
-    }
+            "alwayson_scripts": {
+                "API payload": {"args": []}, 
+                "Extra options": {"args": []}, 
+                "Refiner": {"args": [false, "", 0.8]}, 
+                "Seed": {"args": [456789123, false, -1, 0, 0, 0]}}, 
+                "batch_size": 1, 
+                "cfg_scale": 7, 
+                "comments": {}, 
+                "denoising_strength": 0.65, 
+                "disable_extra_networks": false, 
+                "do_not_save_grid": false, 
+                "do_not_save_samples": false, 
+                "height": 512, 
+                "image_cfg_scale": 1.5, 
+                "init_images": [store.sd_base64String], 
+                "initial_noise_multiplier": 1.0, 
+                "inpaint_full_res": 0, 
+                "inpaint_full_res_padding": 32, 
+                "inpainting_fill": 1, 
+                "inpainting_mask_invert": 0, 
+                "mask_blur": 4, 
+                "mask_blur_x": 4, 
+                "mask_blur_y": 4, 
+                "n_iter": 1, 
+                "negative_prompt": store.sd_negative_prompt_input, 
+                "override_settings": {}, 
+                "override_settings_restore_afterwards": true, 
+                "prompt": "printdesign, " + store.sd_prompt_input, //Christmas tree, red needles, decorated with colorful ornaments, star on top, snowflakes, simple background 
+                "resize_mode": 0, 
+                "s_churn": 0.0, 
+                "s_min_uncond": 0.0, 
+                "s_noise": 1.0, 
+                "s_tmax": null, 
+                "s_tmin": 0.0, 
+                "sampler_name": "DPM++ 2M Karras", 
+                "script_args": ["None", "None", "CPU", true, "DPM++ 2M Karras", false, false, "None", 0.8], 
+                "script_name": "accelerate with openvino", 
+                "seed": 456789123, 
+                "seed_enable_extras": true, 
+                "seed_resize_from_h": -1, 
+                "seed_resize_from_w": -1, 
+                "steps": 20, 
+                "styles": [], 
+                "subseed": -1, 
+                "subseed_strength": 0, 
+                "width": 512
+            }
+
         const response = await querySDimg2img(params);
         store.sd_base64String = response.images[0];
 
