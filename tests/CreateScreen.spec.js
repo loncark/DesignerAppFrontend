@@ -13,6 +13,7 @@ import GeminiScreen from '../src/components/CreateScreen/GeminiScreen.vue';
 import ImageList from '../src/components/CreateScreen/ImageList.vue';
 import InputText from 'primevue/inputtext';
 import { nullDesign } from '../src/utils/constants';
+import ProgressSpinner from 'primevue/progressspinner';
 
 vi.mock('uuid', () => ({
   v4: vi.fn(() => 'mock-uuid')
@@ -49,6 +50,7 @@ describe('CreateScreen', () => {
             StableDiffusionScreen,
             GeminiScreen,
             ImageList,
+            ProgressSpinner: true,
             InputText: true,
           },
       }
@@ -66,8 +68,9 @@ describe('CreateScreen', () => {
     expect(wrapper.find('.big-title').text()).toBe('Create new design');
   });
 
-  it('renders the correct title for editing a design', () => {
+  it('renders the correct title for editing a design', async () => {
     store.design.design_id = 'some-id';
+    await wrapper.vm.$nextTick(); 
     expect(wrapper.find('.big-title').text()).toBe('Edit design');
   });
 
