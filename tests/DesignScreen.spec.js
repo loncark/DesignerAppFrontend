@@ -52,11 +52,14 @@ describe('DesignScreen', () => {
     expect(designCards.length).toBe(2);
   });
 
-  it('calls getAllDesigns on mount', async () => {
+  it('calls getAllDesigns on mount and on design-deleted emit', async () => {
     const mocked = vi.mocked(getAllDesignsFromStorage);
     expect(mocked).toHaveBeenCalledTimes(1);
     await nextTick();
-    expect(wrapper.vm.designArray).toHaveLength(2) 
+    expect(wrapper.vm.designArray).toHaveLength(2);
+
+    wrapper.findComponent(DesignCard).vm.$emit('design-deleted', 'some-design-id');
+    expect(mocked).toHaveBeenCalledTimes(2);
   })
 
   it('updates store when handleDesignDeleted is called with current design ID', async () => {
