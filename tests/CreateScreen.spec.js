@@ -24,11 +24,16 @@ vi.mock('../src/api/FirebaseApi', () => ({
   deleteImageFromStorage: vi.fn(() => true)
 }));
 
-vi.mock('vue-router', () => ({
-    useRouter: vi.fn(() => ({
-      push: vi.fn(),
-    })),
-  }));
+const mockRoutePush = vi.fn()
+vi.mock('vue-router', async () => {
+  return {
+    useRouter: () => {
+      return {
+        push: mockRoutePush
+      }
+    }
+  }
+})
 
 describe('CreateScreen', () => {
   let wrapper;
@@ -102,23 +107,27 @@ describe('CreateScreen', () => {
   it('calls handleSaveClick and processes saving new design correctly', async () => {
     store.design.design_id = null;
     store.new_images_buffer = ["link1", "link2", "link3"];
+
     await wrapper.vm.handleSaveClick();
+
     expect(uuidv4).toHaveBeenCalledTimes(1);
     expect(uploadImgToFirebaseStorage).toHaveBeenCalledTimes(store.new_images_buffer.length);
     expect(uploadDesignToRealtimeDb).toHaveBeenCalledTimes(1);
-    expect(router.push).toHaveBeenCalled();
+    expect(mockRoutePush).toHaveBeenCalled();
     expect(store.resetCreateScreen).toHaveBeenCalled();
   });
 
   it('calls handleSaveClick and processes saving existing design correctly', async () => {
     store.design = getAllDesignsFromStorageMockData[0];
     store.new_images_buffer = ["link1", "link2", "link3"];
+
     await wrapper.vm.handleSaveClick();
+
     expect(uuidv4).not.toHaveBeenCalled();
     expect(uploadImgToFirebaseStorage).toHaveBeenCalledTimes(store.new_images_buffer.length);
     expect(deleteImageFromStorage).toHaveBeenCalledTimes(store.deleted_images_buffer.length);
     expect(uploadDesignToRealtimeDb).toHaveBeenCalledTimes(1);
-    expect(router.push).toHaveBeenCalled();
+    expect(mockRoutePush).toHaveBeenCalled();
     expect(store.resetCreateScreen).toHaveBeenCalled();
   });
 
