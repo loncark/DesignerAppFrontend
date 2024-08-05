@@ -1,57 +1,60 @@
 <template>
-    <div id="createScreen" >
-        <div class="titlePart flex-row">
-            <i class="pi pi-plus"></i>
-            <h1 class="big-title">{{ title }} design</h1>
-            <Button label="Empty design" icon="pi pi-refresh" @click="handleEmptyDesignClick" severity="secondary" id="resetButton"></Button>
-            <Button label="Save design" icon="pi pi-save" @click="handleSaveClick" :disabled="!nameIsValid(store.design.design_name) || !titleIsValid(store.design.title)"></Button>
-        </div>
-        <div class="flex-row">
-            <div id="leftPart">
-                <div id="leftPartInputFields">
-                    <InputText class="first-row" v-model="store.design.design_name" placeholder="Design name" :class="{'invalid-input': !nameIsValid(store.design.design_name)}"></InputText>
-                
-                    <label id="listingTitleLabel">Listing title</label>
-                    <Textarea v-model="store.design.title" :class="{'invalid-input': !titleIsValid(store.design.title)}"></Textarea>
+    <div class="container">
+        <ProgressSpinner v-if="isSaving"/>
+        <div v-else id="createScreen" >
+            <div class="titlePart flex-row">
+                <i class="pi pi-plus"></i>
+                <h1 class="big-title">{{ title }} design</h1>
+                <Button label="Empty design" icon="pi pi-refresh" @click="handleEmptyDesignClick" severity="secondary" id="resetButton"></Button>
+                <Button label="Save design" icon="pi pi-save" @click="handleSaveClick" :disabled="!nameIsValid(store.design.design_name) || !titleIsValid(store.design.title)"></Button>
+            </div>
+            <div class="flex-row">
+                <div id="leftPart">
+                    <div id="leftPartInputFields">
+                        <InputText class="first-row" v-model="store.design.design_name" placeholder="Design name" :class="{'invalid-input': !nameIsValid(store.design.design_name)}"></InputText>
+                    
+                        <label id="listingTitleLabel">Listing title</label>
+                        <Textarea v-model="store.design.title" :class="{'invalid-input': !titleIsValid(store.design.title)}"></Textarea>
 
-                    <label>Tags</label>
-                    <div>
-                        <div class="flex-row">
-                            <InputText v-model="newTag" placeholder="Type tag and click 'Add'" @keyup.enter="addTag" :class="{'invalid-input': !inputIsValid(newTag)}"/>
-                            <Button icon="pi pi-plus" aria-label="Add" severity="secondary" @click="addTag" title="Copy the answer from gemini to add all generated tags"></Button>
+                        <label>Tags</label>
+                        <div>
+                            <div class="flex-row">
+                                <InputText v-model="newTag" placeholder="Type tag and click 'Add'" @keyup.enter="addTag" :class="{'invalid-input': !inputIsValid(newTag)}"/>
+                                <Button icon="pi pi-plus" aria-label="Add" severity="secondary" @click="addTag" title="Copy the answer from gemini to add all generated tags"></Button>
+                            </div>
+                            <div class="chipSet flex-row">
+                                <Chip v-for="(tag, index) in store.design.tags" :key="tag" :label="tag" removable @remove="removeTag(index)" class="flex-row"/>
+                            </div>
                         </div>
-                        <div class="chipSet flex-row">
-                            <Chip v-for="(tag, index) in store.design.tags" :key="tag" :label="tag" removable @remove="removeTag(index)" class="flex-row"/>
+
+                        <label>Related links</label>
+                        <div>
+                            <div class="flex-row">
+                                <InputText v-model="newLink" placeholder="Paste url and click 'Add'" @keyup.enter="addLink" :class="{'invalid-input': !linkIsValid(newLink)}"></InputText>
+                                <Button icon="pi pi-plus" aria-label="Add" severity="secondary" @click="addLink"></Button>
+                            </div>
+                            <div class="chipSet flex-row">
+                                <Chip v-for="(link, index) in store.design.related_links" :key="link" :label="link" removable @remove="removeLink(index)" class="flex-row"/>
+                            </div>
                         </div>
                     </div>
 
-                    <label>Related links</label>
-                    <div>
-                        <div class="flex-row">
-                            <InputText v-model="newLink" placeholder="Paste url and click 'Add'" @keyup.enter="addLink" :class="{'invalid-input': !linkIsValid(newLink)}"></InputText>
-                            <Button icon="pi pi-plus" aria-label="Add" severity="secondary" @click="addLink"></Button>
-                        </div>
-                        <div class="chipSet flex-row">
-                            <Chip v-for="(link, index) in store.design.related_links" :key="link" :label="link" removable @remove="removeLink(index)" class="flex-row"/>
-                        </div>
-                    </div>
+                    <h1 id="imagesTitle">Images</h1>
+                    <ImageList v-if="store.design.image_links.length > 0 || store.new_images_buffer.length > 0" :images="store.design.image_links" :newImages="store.new_images_buffer"/>
+                    <span v-else>No images present.</span>
                 </div>
 
-                <h1 id="imagesTitle">Images</h1>
-                <ImageList v-if="store.design.image_links.length > 0 || store.new_images_buffer.length > 0" :images="store.design.image_links" :newImages="store.new_images_buffer"/>
-                <span v-else>No images present.</span>
-            </div>
 
+                <div id="rightPart">
+                    <TabMenu :model="tabItems" v-model:activeIndex="active"/>
 
-            <div id="rightPart">
-                <TabMenu :model="tabItems" v-model:activeIndex="active"/>
-
-                <GeminiScreen v-if="active === 0"/>
-                <StableDiffusionScreen v-else-if="active === 1"/>
-                <TrademarkScreen v-else/>
+                    <GeminiScreen v-if="active === 0"/>
+                    <StableDiffusionScreen v-else-if="active === 1"/>
+                    <TrademarkScreen v-else/>
+                </div>
             </div>
         </div>
-    </div>
+</div>
 </template>
 
 <script setup>
@@ -75,7 +78,7 @@ import { titleIsValid, tagIsValid, linkIsValid, nameIsValid, inputIsValid } from
 const store = useStore();
 const router = useRouter();
 
-const title = ref(store.design.design_id === null? 'Create new' : 'Edit');
+const title = computed(() => store.design.design_id === null? 'Create new' : 'Edit');
 const isSaving = ref(false);
 const newTag = ref('');
 const newLink = ref('');
@@ -123,7 +126,6 @@ const addLink = () => {
 
 const handleEmptyDesignClick = () => {
     store.resetCreateScreen();
-    title.value = "Create new";
 }
 
 const handleSaveClick = async () => {
@@ -165,7 +167,12 @@ onMounted(() => {
 </script>
 
 <style scoped>
-#createScreen {
+.p-progress-spinner {
+    margin-top: 20vh;
+    margin-left: 30vh;
+}
+
+#createScreen, .container {
     margin-left: 20px;
     margin-top: 10px;
 }
