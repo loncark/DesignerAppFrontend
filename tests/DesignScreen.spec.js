@@ -6,10 +6,11 @@ import ProgressSpinner from 'primevue/progressspinner'
 import DesignCard from '../src/components/DesignScreen/DesignCard.vue'
 import { useStore } from '../src/store/Store'
 import { nextTick } from 'vue'
+import { getAllDesignsFromStorage } from '../src/api/FirebaseApi';
 
-// Mock the FirebaseApi
-vi.mock('@/api/FirebaseApi', () => ({
-  getAllDesignsFromStorage: vi.fn(() => Promise.resolve([{
+vi.mock('../src/api/FirebaseApi', () => ({
+  getAllDesignsFromStorage: vi.fn(() => {
+    return Promise.resolve([{
     "design_id": "94ece9bf-2057-49be-931c-ba06dcb1fe00",
     "design_name": "Testin Stable Diffusion Steps",
     "image_links": [
@@ -39,13 +40,13 @@ vi.mock('@/api/FirebaseApi', () => ({
       "easter"
     ],
     "title": "Holiday Shirts"
-  }]))
+  }])})
 }))
 
 describe('DesignScreen', () => {
   let wrapper
 
-  beforeEach(async () => {
+  beforeEach(() => {
     wrapper = shallowMount(DesignScreen, {
       global: {
         plugins: [createTestingPinia()],
@@ -57,29 +58,34 @@ describe('DesignScreen', () => {
     });
   })
 
+  afterEach(() => {
+    vi.clearAllMocks();
+  })
+
   it('renders the title correctly', () => {
     expect(wrapper.find('.big-title').text()).toBe('Designs')
   })
 
   it('shows ProgressSpinner when loading', async () => {
-    await wrapper.setProps({ loading: true })
-    await nextTick()
+    wrapper.vm.loading = true;
+    await nextTick();
+
     expect(wrapper.findComponent(ProgressSpinner).exists()).toBe(true)
   })
-/*
+
   it('renders DesignCard components when not loading', async () => {
-    // Simulate loading complete
-    await wrapper.setData({ loading: false });
-    await nextTick(); // Ensure DOM updates
+    wrapper.vm.loading = false;
+    await nextTick();
     const designCards = wrapper.findAllComponents(DesignCard);
     expect(designCards.length).toBe(2);
   });
 
-  it('calls getAllDesigns on mount', () => {
-    const getAllDesignsSpy = vi.spyOn(wrapper.vm, 'getAllDesigns')
-    wrapper.vm.$options.mounted.call(wrapper.vm)
-    expect(getAllDesignsSpy).toHaveBeenCalled()
-  })*/
+  it('calls getAllDesigns on mount', async () => {
+    const mocked = vi.mocked(getAllDesignsFromStorage);
+    expect(mocked).toHaveBeenCalledTimes(1);
+    await nextTick();
+    expect(wrapper.vm.designArray).toHaveLength(2) 
+  })
 
   it('updates store when handleDesignDeleted is called with current design ID', async () => {
     const store = useStore()
