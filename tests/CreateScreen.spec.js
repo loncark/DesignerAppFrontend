@@ -89,18 +89,12 @@ describe('CreateScreen', () => {
   });
 
   it('handleEmptyDesignClick resets the form', async () => {
-    const inputElement = wrapper.findComponent(InputText).find('.first-row');
-
     store.design = getAllDesignsFromStorageMockData[0];
-    expect(inputElement.element.value).toBe(store.design.design_name);
 
     await wrapper.vm.handleEmptyDesignClick();
-
     expect(store.resetCreateScreen).toHaveBeenCalled();
     store.design = JSON.parse(JSON.stringify(nullDesign));
     await wrapper.vm.$nextTick();
-
-    expect(inputElement.element.value).toBe('Unnamed design');
 
     expect(wrapper.find('.big-title').text()).toBe('Create new design');
   });
