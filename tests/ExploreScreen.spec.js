@@ -7,39 +7,37 @@ import EtsyScreen from '../src/components/ExploreScreen/EtsyScreen/EtsyScreen.vu
 import TrendScreen from '../src/components/ExploreScreen/TrendScreen/TrendScreen.vue';
 import { createTestingPinia } from '@pinia/testing';
 import TabMenu from 'primevue/tabmenu';
-
-
-vi.mock('../src/store/Store', () => ({
-  useStore: vi.fn(),
-}));
+import { nextTick, ref } from 'vue'
 
 describe('ExploreScreen.vue', () => {
-  let storeMock;
   let wrapper;
+  let store;
 
   beforeEach(() => {
-    storeMock = {
+    store = {
       explore_active_tab: 0,
       main_active_tab: 0,
       products: [],
       trends_date: new Date(),
     };
-    useStore.mockReturnValue(storeMock);
-
     wrapper = shallowMount(ExploreScreen, {
         global: {
-          plugins: [createTestingPinia({ createSpy: vi.fn })],
+          plugins: [createTestingPinia()],
           stubs: {
               KeywordSearchScreen,
               EtsyScreen,
               TrendScreen,
               ProgressSpinner: true,
               InputText: true,
-              TabMenu: true
+              TabMenu: true,
             },
         }
       });
   });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+  })
 
   it('renders the component', () => {
     expect(wrapper.exists()).toBe(true);
@@ -51,7 +49,7 @@ describe('ExploreScreen.vue', () => {
   });
 
   it('initializes with the correct active tab', () => {
-    expect(storeMock.explore_active_tab).toBe(0);
+    expect(store.explore_active_tab).toBe(0);
   });
 
   it('updates the active tab when a tab is clicked', async () => {
@@ -68,15 +66,11 @@ describe('ExploreScreen.vue', () => {
     
     tabItems[0].command();
     await wrapper.vm.$nextTick();
-    
-    // Force a re-render
-    await wrapper.vm.$forceUpdate();
-    await wrapper.vm.$nextTick();
-    
+
     expect(wrapper.findComponent({ name: 'TrendScreen' }).exists()).toBe(true);
   });
 
-  it('renders KeywordSearchScreen when the Keyword tab is clicked', async () => {
+  it('renders KeywordSearchScreen when the Keywords tab is clicked', async () => {
     const tabItems = wrapper.vm.tabItems;
     
     tabItems[1].command();
@@ -95,6 +89,6 @@ describe('ExploreScreen.vue', () => {
   });
 
   it('sets main_active_tab to 1 on mount', () => {
-    expect(storeMock.main_active_tab).toBe(1);
+    expect(store.main_active_tab).toBe(1);
   });
 });
