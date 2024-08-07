@@ -6,23 +6,24 @@ import KeywordSearchScreen from '../src/components/ExploreScreen/KeywordSearchSc
 import EtsyScreen from '../src/components/ExploreScreen/EtsyScreen/EtsyScreen.vue';
 import TrendScreen from '../src/components/ExploreScreen/TrendScreen/TrendScreen.vue';
 import { createTestingPinia } from '@pinia/testing';
+import { setActivePinia, createPinia } from 'pinia'
 import TabMenu from 'primevue/tabmenu';
 import { nextTick, ref } from 'vue'
+import Dropdown from 'primevue/dropdown';
+import Calendar from 'primevue/calendar';
 
 describe('ExploreScreen.vue', () => {
   let wrapper;
   let store;
 
   beforeEach(() => {
-    store = {
-      explore_active_tab: 0,
-      main_active_tab: 0,
-      products: [],
-      trends_date: new Date(),
-    };
-    wrapper = shallowMount(ExploreScreen, {
+    const pinia = createPinia()
+    setActivePinia(createPinia())
+    store = useStore();
+
+    wrapper = mount(ExploreScreen, {
         global: {
-          plugins: [createTestingPinia()],
+          plugins: [pinia],
           stubs: {
               KeywordSearchScreen,
               EtsyScreen,
@@ -30,9 +31,12 @@ describe('ExploreScreen.vue', () => {
               ProgressSpinner: true,
               InputText: true,
               TabMenu: true,
+              Dropdown: true,
+              Calendar: true,
             },
         }
       });
+
   });
 
   afterEach(() => {
@@ -48,7 +52,8 @@ describe('ExploreScreen.vue', () => {
     expect(title.text()).toBe('Explore');
   });
 
-  it('initializes with the correct active tab', () => {
+  it('initializes with the correct active tab', async () => {
+    await nextTick();
     expect(store.explore_active_tab).toBe(0);
   });
 
@@ -58,7 +63,7 @@ describe('ExploreScreen.vue', () => {
     tabItems[1].command();
     await wrapper.vm.$nextTick();
     
-    expect(storeMock.explore_active_tab).toBe(1);
+    expect(wrapper.vm.store.explore_active_tab).toBe(1);
   });
 
   it('renders TrendScreen when the Trends tab is clicked', async () => {
@@ -88,7 +93,8 @@ describe('ExploreScreen.vue', () => {
     expect(wrapper.findComponent({ name: 'EtsyScreen' }).exists()).toBe(true);
   });
 
-  it('sets main_active_tab to 1 on mount', () => {
-    expect(store.main_active_tab).toBe(1);
+  it('sets main_active_tab to 1 on mount', async () => {
+    await nextTick();
+    expect(wrapper.vm.store.main_active_tab).toBe(1);
   });
 });
