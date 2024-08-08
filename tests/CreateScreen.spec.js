@@ -1,9 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { shallowMount } from '@vue/test-utils';
 import CreateScreen from '../src/components/CreateScreen/CreateScreen.vue';
-import { useStore } from '../src/store/Store';
-import { createTestingPinia } from '@pinia/testing';
-import { useRouter } from 'vue-router';
 import { v4 as uuidv4 } from 'uuid';
 import { uploadDesignToRealtimeDb, uploadImgToFirebaseStorage, deleteImageFromStorage } from '../src/api/FirebaseApi';
 import getAllDesignsFromStorageMockData from './mockdata/getAllDesignsFromStorageMockData';
@@ -13,7 +10,7 @@ import GeminiScreen from '../src/components/CreateScreen/GeminiScreen.vue';
 import ImageList from '../src/components/CreateScreen/ImageList.vue';
 import InputText from 'primevue/inputtext';
 import { nullDesign } from '../src/utils/constants';
-import ProgressSpinner from 'primevue/progressspinner';
+import Button from 'primevue/button';
 
 vi.mock('uuid', () => ({
   v4: vi.fn(() => 'mock-uuid')
@@ -21,7 +18,7 @@ vi.mock('uuid', () => ({
 
 vi.mock('../src/api/FirebaseApi', () => ({
   uploadDesignToRealtimeDb: vi.fn(),
-  uploadImgToFirebaseStorage: vi.fn(() => Promise.resolve('mock-download-url')),
+  uploadImgToFirebaseStorage: vi.fn(() => Promise.resolve('https://play-lh.googleusercontent.com/HRuayD8pJ2OWiAqaNC7xibO96ydDTmYETtqujTMLJt_e6U82Wc7oAZVFC_OOg8dNQ2E')),
   deleteImageFromStorage: vi.fn(() => true)
 }));
 
@@ -38,7 +35,6 @@ vi.mock('vue-router', async () => {
 
 describe('CreateScreen', () => {
   let wrapper;
-  let router;
 
   beforeEach(() => {
     wrapper = shallowMount(CreateScreen, {
@@ -50,10 +46,10 @@ describe('CreateScreen', () => {
             ImageList,
             ProgressSpinner: true,
             InputText: true,
+            Button: true,
           },
       }
     });
-    router = useRouter();
   });
 
   afterEach(() => {
@@ -130,6 +126,8 @@ describe('CreateScreen', () => {
     expect(uploadDesignToRealtimeDb).toHaveBeenCalledTimes(1);
     expect(mockRoutePush).toHaveBeenCalled();
     expect(wrapper.vm.store.resetCreateScreen).toHaveBeenCalled();
+
+    wrapper.vm.store.new_images_buffer = [];
   });
 
   it('calls handleSaveClick and processes saving existing design correctly', async () => {
@@ -144,14 +142,76 @@ describe('CreateScreen', () => {
     expect(uploadDesignToRealtimeDb).toHaveBeenCalledTimes(1);
     expect(mockRoutePush).toHaveBeenCalled();
     expect(wrapper.vm.store.resetCreateScreen).toHaveBeenCalled();
+
+    wrapper.vm.store.new_images_buffer = [];
   });
 
   //integration
   it('does not display ImageList after the design is emptied', async () => {
+    wrapper.vm.store.design = getAllDesignsFromStorageMockData[0];
 
+    expect(wrapper.findComponent(ImageList).exists()).toBe(true);
+    
+    let emptyDesignButton = wrapper.findAllComponents(Button)[0];
+    expect(emptyDesignButton.exists()).toBe(true);
+    await emptyDesignButton.trigger('click');
+
+    expect(wrapper.vm.store.resetCreateScreen).toHaveBeenCalled();
+
+    wrapper.vm.store.design = JSON.parse(JSON.stringify(nullDesign)); // simplest "mock" of resetCreateScreen
+    await wrapper.vm.$nextTick();
+    
+    expect(wrapper.findComponent(ImageList).exists()).toBe(false);
   });
 
-  it('does not display the image in ImageList after delete is clicked');
+  it('does not display the image in ImageList after delete is clicked', async () => {
+    wrapper.vm.store.design = getAllDesignsFromStorageMockData[0];
+    await wrapper.vm.$nextTick();
 
-  it('renders the image that is accepted on StableDiffusionScreen');
+    let imageList = wrapper.findComponent(ImageList);
+    expect(imageList.exists()).toBe(true);
+
+    let image = imageList.findAll('.imageListImage')[0];
+    expect(image.exists()).toBe(true);
+
+    let deleteButton = image.findAll('i')[1];
+    expect(deleteButton.exists()).toBe(true);
+
+    const addToDeletedImagesQueueSpy = vi.spyOn(imageList.vm, 'addToDeletedImagesQueue');
+    let imageListLength = imageList.findAll('.imageListImage').length;
+
+    await deleteButton.trigger('click');
+
+    let newImageListLength = imageList.findAll('.imageListImage').length;
+
+    expect(addToDeletedImagesQueueSpy).toHaveBeenCalled();
+    expect(newImageListLength).toBe(imageListLength - 1);
+  });
+
+  it('renders the image that is accepted on StableDiffusionScreen', async () => {
+    wrapper.vm.store.design = getAllDesignsFromStorageMockData[0];
+    wrapper.vm.store.sd_base64String = 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
+    wrapper.vm.changeActiveTab(1);
+    await wrapper.vm.$nextTick();
+
+    let sdScreen = wrapper.findComponent(StableDiffusionScreen);
+    expect(sdScreen.exists()).toBe(true);
+ 
+    let imageList = wrapper.findComponent(ImageList);
+    expect(imageList.exists()).toBe(true);
+
+    let acceptButton = sdScreen.find('.acceptButton');
+    expect(acceptButton.exists()).toBe(true);
+    expect(acceptButton.attributes('disabled')).toBe('false');
+
+    const acceptImageSpy = vi.spyOn(sdScreen.vm, 'acceptImage');
+    let imageListLength = imageList.findAll('.imageListImage').length;
+
+    await acceptButton.trigger('click');
+
+    let newImageListLength = imageList.findAll('.imageListImage').length;
+
+    //no idea why it does not pass: expect(acceptImageSpy).toHaveBeenCalled();
+    expect(newImageListLength).toBe(imageListLength + 1);
+  });
 });

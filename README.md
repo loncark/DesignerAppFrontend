@@ -14,4 +14,5 @@ Stuff I learned the hard way:
 
 10. TESTING: Mock the store if the purpose of the test is isolation and control (@pinia/testing). 
 Test with the real store for integration (by accessing wrapper.vm.store, e.g. the store within the component).
+Be aware that in the second case the store will be reused by different tests.
 11. wrapper.findComponent does not work with CSS selectors
