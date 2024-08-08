@@ -38,13 +38,11 @@ vi.mock('vue-router', async () => {
 
 describe('CreateScreen', () => {
   let wrapper;
-  let store;
   let router;
 
   beforeEach(() => {
     wrapper = shallowMount(CreateScreen, {
       global: {
-        plugins: [createTestingPinia({ createSpy: vi.fn })],
         stubs: {
             TrademarkScreen,
             StableDiffusionScreen,
@@ -55,7 +53,6 @@ describe('CreateScreen', () => {
           },
       }
     });
-    store = useStore();
     router = useRouter();
   });
 
@@ -64,18 +61,18 @@ describe('CreateScreen', () => {
   })
 
   it('renders the correct title for creating a new design', () => {
-    store.design.design_id = null;
+    wrapper.vm.store.design.design_id = null;
     expect(wrapper.find('.big-title').text()).toBe('Create new design');
   });
 
   it('renders the correct title for editing a design', async () => {
-    store.design.design_id = 'some-id';
+    wrapper.vm.store.design.design_id = 'some-id';
     await wrapper.vm.$nextTick(); 
     expect(wrapper.find('.big-title').text()).toBe('Edit design');
   });
 
   it('shows invalid-input class for invalid design name', async () => {
-    store.design.design_name = '<invalid%name>'
+    wrapper.vm.store.design.design_name = '<invalid%name>'
     await wrapper.vm.$nextTick();
     const inputElement = wrapper.findComponent(InputText);
     expect(inputElement.exists()).toBe(true);
@@ -85,53 +82,53 @@ describe('CreateScreen', () => {
   it('adds a valid tag', async () => {
     wrapper.vm.newTag = 'valid-tag';
     await wrapper.vm.addTag();
-    expect(store.design.tags).toContain('valid-tag');
+    expect(wrapper.vm.store.design.tags).toContain('valid-tag');
   });
 
   it('does not add an invalid tag', async () => {
     wrapper.vm.newTag = '<tag>';
     await wrapper.vm.addTag();
-    expect(store.design.tags).not.toContain('<tag>');
+    expect(wrapper.vm.store.design.tags).not.toContain('<tag>');
     await wrapper.vm.addTag();
-    expect(store.design.tags).not.toContain('');
+    expect(wrapper.vm.store.design.tags).not.toContain('');
   });
 
   it('handleEmptyDesignClick resets the form', async () => {
-    store.design = getAllDesignsFromStorageMockData[0];
+    wrapper.vm.store.design = getAllDesignsFromStorageMockData[0];
 
     await wrapper.vm.handleEmptyDesignClick();
-    expect(store.resetCreateScreen).toHaveBeenCalled();
-    store.design = JSON.parse(JSON.stringify(nullDesign));
+    expect(wrapper.vm.store.resetCreateScreen).toHaveBeenCalled();
+    wrapper.vm.store.design = JSON.parse(JSON.stringify(nullDesign));
     await wrapper.vm.$nextTick();
 
     expect(wrapper.find('.big-title').text()).toBe('Create new design');
   });
 
   it('calls handleSaveClick and processes saving new design correctly', async () => {
-    store.design.design_id = null;
-    store.new_images_buffer = ["link1", "link2", "link3"];
+    wrapper.vm.store.design.design_id = null;
+    wrapper.vm.store.new_images_buffer = ["link1", "link2", "link3"];
 
     await wrapper.vm.handleSaveClick();
 
     expect(uuidv4).toHaveBeenCalledTimes(1);
-    expect(uploadImgToFirebaseStorage).toHaveBeenCalledTimes(store.new_images_buffer.length);
+    expect(uploadImgToFirebaseStorage).toHaveBeenCalledTimes(wrapper.vm.store.new_images_buffer.length);
     expect(uploadDesignToRealtimeDb).toHaveBeenCalledTimes(1);
     expect(mockRoutePush).toHaveBeenCalled();
-    expect(store.resetCreateScreen).toHaveBeenCalled();
+    expect(wrapper.vm.store.resetCreateScreen).toHaveBeenCalled();
   });
 
   it('calls handleSaveClick and processes saving existing design correctly', async () => {
-    store.design = getAllDesignsFromStorageMockData[0];
-    store.new_images_buffer = ["link1", "link2", "link3"];
+    wrapper.vm.store.design = getAllDesignsFromStorageMockData[0];
+    wrapper.vm.store.new_images_buffer = ["link1", "link2", "link3"];
 
     await wrapper.vm.handleSaveClick();
 
     expect(uuidv4).not.toHaveBeenCalled();
-    expect(uploadImgToFirebaseStorage).toHaveBeenCalledTimes(store.new_images_buffer.length);
-    expect(deleteImageFromStorage).toHaveBeenCalledTimes(store.deleted_images_buffer.length);
+    expect(uploadImgToFirebaseStorage).toHaveBeenCalledTimes(wrapper.vm.store.new_images_buffer.length);
+    expect(deleteImageFromStorage).toHaveBeenCalledTimes(wrapper.vm.store.deleted_images_buffer.length);
     expect(uploadDesignToRealtimeDb).toHaveBeenCalledTimes(1);
     expect(mockRoutePush).toHaveBeenCalled();
-    expect(store.resetCreateScreen).toHaveBeenCalled();
+    expect(wrapper.vm.store.resetCreateScreen).toHaveBeenCalled();
   });
 
   it('switches and displays tabs correctly', async () => {
@@ -142,14 +139,16 @@ describe('CreateScreen', () => {
   });
 
   it('displays images correctly when present', async () => {
-    store.design = getAllDesignsFromStorageMockData[0];
+    wrapper.vm.store.design = getAllDesignsFromStorageMockData[0];
     await wrapper.vm.$nextTick();
     expect(wrapper.findComponent(ImageList).exists()).toBe(true);
   });
 
-  it('does not display ImageList after the design is emptied')
+  it('does not display ImageList after the design is emptied', async () => {
 
-  it('does not display the image in ImageList after delete is clicked')
+  });
 
-  it('renders the image that is accepted on StableDiffusionScreen')
+  it('does not display the image in ImageList after delete is clicked');
+
+  it('renders the image that is accepted on StableDiffusionScreen');
 });

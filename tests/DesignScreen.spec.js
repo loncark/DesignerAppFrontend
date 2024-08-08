@@ -80,10 +80,9 @@ describe('DesignScreen', () => {
   })
 
   it('resets CreateScreen when handleDesignDeleted is called with current design ID', async () => {
-    const store = useStore();
-    store.design.design_id = '123';
+    wrapper.vm.store.design.design_id = '123';
     await wrapper.vm.handleDesignDeleted('123');
-    expect(store.resetCreateScreen).toHaveBeenCalled();
+    expect(wrapper.vm.store.resetCreateScreen).toHaveBeenCalled();
   })
 
   //integration
