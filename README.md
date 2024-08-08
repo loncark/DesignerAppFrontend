@@ -11,3 +11,7 @@ Stuff I learned the hard way:
 7. How to add google font: insert link tag in index.html and make a css class that google gives you in embed code 
 8. Use emits/buses when deleting components and trigerring multiple actions
 9. Be careful with v-if vs v-show in parent component if the child has onMounted
+
+10. TESTING: Mock the store if the purpose of the test is isolation and control (@pinia/testing). 
+Test with the real store for integration (by accessing wrapper.vm.store, e.g. the store within the component).
+11. wrapper.findComponent does not work with CSS selectors

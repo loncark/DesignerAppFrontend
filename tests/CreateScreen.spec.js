@@ -146,4 +146,10 @@ describe('CreateScreen', () => {
     await wrapper.vm.$nextTick();
     expect(wrapper.findComponent(ImageList).exists()).toBe(true);
   });
+
+  it('does not display ImageList after the design is emptied')
+
+  it('does not display the image in ImageList after delete is clicked')
+
+  it('renders the image that is accepted on StableDiffusionScreen')
 });
