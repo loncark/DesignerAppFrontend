@@ -27,15 +27,7 @@ describe('ExploreScreen.vue', () => {
     vi.clearAllMocks();
   })
 
-  it('renders the component', () => {
-    expect(wrapper.exists()).toBe(true);
-  });
-
-  it('displays the title correctly', () => {
-    const title = wrapper.find('.big-title');
-    expect(title.text()).toBe('Explore');
-  });
-
+  //unit
   it('initializes with the correct active tab', async () => {
     await nextTick();
     expect(wrapper.vm.store.explore_active_tab).toBe(0);
@@ -48,6 +40,21 @@ describe('ExploreScreen.vue', () => {
     await wrapper.vm.$nextTick();
     
     expect(wrapper.vm.store.explore_active_tab).toBe(1);
+  });
+
+  it('sets main_active_tab to 1 on mount', async () => {
+    await nextTick();
+    expect(wrapper.vm.store.main_active_tab).toBe(1);
+  });
+
+  //ui
+  it('renders the component', () => {
+    expect(wrapper.exists()).toBe(true);
+  });
+
+  it('displays the title correctly', () => {
+    const title = wrapper.find('.big-title');
+    expect(title.text()).toBe('Explore');
   });
 
   it('renders TrendScreen when the Trends tab is clicked', async () => {
@@ -75,10 +82,5 @@ describe('ExploreScreen.vue', () => {
     await wrapper.vm.$nextTick();
 
     expect(wrapper.findComponent({ name: 'EtsyScreen' }).exists()).toBe(true);
-  });
-
-  it('sets main_active_tab to 1 on mount', async () => {
-    await nextTick();
-    expect(wrapper.vm.store.main_active_tab).toBe(1);
   });
 });

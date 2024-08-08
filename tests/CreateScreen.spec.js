@@ -60,6 +60,7 @@ describe('CreateScreen', () => {
     vi.clearAllMocks();
   })
 
+  //ui
   it('renders the correct title for creating a new design', () => {
     wrapper.vm.store.design.design_id = null;
     expect(wrapper.find('.big-title').text()).toBe('Create new design');
@@ -79,6 +80,20 @@ describe('CreateScreen', () => {
     expect(inputElement.classes()).toContain('invalid-input');
   });
 
+  it('switches and displays tabs correctly', async () => {
+    wrapper.vm.changeActiveTab(1);
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.active).toBe(1);
+    expect(wrapper.findComponent(StableDiffusionScreen).exists()).toBe(true);
+  });
+
+  it('displays images correctly when present', async () => {
+    wrapper.vm.store.design = getAllDesignsFromStorageMockData[0];
+    await wrapper.vm.$nextTick();
+    expect(wrapper.findComponent(ImageList).exists()).toBe(true);
+  });
+
+  //unit
   it('adds a valid tag', async () => {
     wrapper.vm.newTag = 'valid-tag';
     await wrapper.vm.addTag();
@@ -131,19 +146,7 @@ describe('CreateScreen', () => {
     expect(wrapper.vm.store.resetCreateScreen).toHaveBeenCalled();
   });
 
-  it('switches and displays tabs correctly', async () => {
-    wrapper.vm.changeActiveTab(1);
-    await wrapper.vm.$nextTick();
-    expect(wrapper.vm.active).toBe(1);
-    expect(wrapper.findComponent(StableDiffusionScreen).exists()).toBe(true);
-  });
-
-  it('displays images correctly when present', async () => {
-    wrapper.vm.store.design = getAllDesignsFromStorageMockData[0];
-    await wrapper.vm.$nextTick();
-    expect(wrapper.findComponent(ImageList).exists()).toBe(true);
-  });
-
+  //integration
   it('does not display ImageList after the design is emptied', async () => {
 
   });
