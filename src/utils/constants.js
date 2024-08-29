@@ -1,7 +1,8 @@
 export const BACKEND_BASE_URL = "http://localhost:5000/"
 export const TAGS_PROMPT = "Generate me a list of tags I could use for Etsy SEO optimization of my -INSERT IDEA HERE- listing. Separate these tags using a comma and write out nothing else."
 export const TITLE_PROMPT = "Generate me a list of synonyms I could use in the title of my -INSERT IDEA HERE- listing of Etsy. They should be some phrases that people usually type in the search bar when looking for similar items. The first letter of every word in a synonym should be capitalized. Separate these tags using a comma and write out nothing else."
-export const IDEA_PROMPT = "Generate me a list of ideas about -INSERT TREND HERE- that are funny and could be put on a t-shirt."
+export const IDEA_PROMPT = "Generate me a list of ideas about -INSERT TREND HERE- that are funny and could be put on a t-shirt. Write out the list only."
+export const DESCRIPTION_PROMPT = "Generate me a description for my -INSERT IDEA HERE- Etsy listing that would encourage customers to buy it. Write out the description only."
 export const nullDesign = Object.freeze({
       "design_name": "Unnamed design",
       "design_id": null,

@@ -5,7 +5,8 @@
             <Button icon="pi pi-hashtag" label="Tags prompt" severity="secondary" @click="fillIn(TAGS_PROMPT)"></Button>
             <Button icon="pi pi-bars" label="Title prompt" severity="secondary" @click="fillIn(TITLE_PROMPT)"></Button>
             <Button icon="pi pi-lightbulb" label="Idea prompt" severity="secondary" @click="fillIn(IDEA_PROMPT)"></Button>
-            <Button icon="pi pi-play" label="Generate" @click="executeQuery" :disabled="!inputIsValid(store.gemini_input) || store.gemini_input === ''"></Button>
+            <Button icon="pi pi-bars" label="Description" severity="secondary" @click="fillIn(DESCRIPTION_PROMPT)"></Button>
+            <Button icon="pi pi-play" label="Generate" id="generateBtn" @click="executeQuery" :disabled="!inputIsValid(store.gemini_input) || store.gemini_input === ''"></Button>
         </div>
 
         <ProgressSpinner v-if="loading" ></ProgressSpinner>
@@ -19,7 +20,7 @@
 import Textarea from 'primevue/textarea';
 import Button from 'primevue/button';
 import { queryGemini } from '../../api/GeminiApi';
-import {TAGS_PROMPT, TITLE_PROMPT, IDEA_PROMPT} from '../../utils/constants';
+import {TAGS_PROMPT, TITLE_PROMPT, IDEA_PROMPT, DESCRIPTION_PROMPT} from '../../utils/constants';
 import { useStore } from '../../store/Store';
 import { ref } from 'vue';
 import ProgressSpinner from 'primevue/progressspinner';
@@ -52,7 +53,7 @@ const executeQuery = async () => {
 .geminiGrid {
     display: grid;
     grid-template-columns: auto 150px 150px;
-    grid-template-rows: 50px 50px;
+    grid-template-rows: 50px 50px 50px;
     align-items: center;
     grid-gap: 0px 10px;
 
@@ -68,8 +69,12 @@ const executeQuery = async () => {
     padding: 10px;
 }
 
+#generateBtn {
+    grid-column: 2 / 4;
+}
+
 .geminiGrid>.p-inputtextarea {
-    grid-row: 1 / 3;
+    grid-row: 1 / 4;
     height: 100%;
     padding: 5px;
 }
