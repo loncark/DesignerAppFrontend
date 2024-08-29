@@ -9,7 +9,8 @@ export const nullDesign = Object.freeze({
       "related_links": [],
       "image_links": [],
       "tags": [],
-      "title": ""
+      "title": "",
+      "description": ""
     })
 
 export const COUNTRY_CODES = [

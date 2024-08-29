@@ -16,6 +16,9 @@
                         <label id="listingTitleLabel">Listing title</label>
                         <Textarea v-model="store.design.title" :class="{'invalid-input': !titleIsValid(store.design.title)}"></Textarea>
 
+                        <label id="listingDescriptionLabel">Description</label>
+                        <Textarea v-model="store.design.description" :class="{'invalid-input': !inputIsValid(store.design.description)}"></Textarea>
+
                         <label>Tags</label>
                         <div>
                             <div class="flex-row">
@@ -225,7 +228,7 @@ onMounted(() => {
     margin: auto;
     margin-top: 15px;
 }
-#listingTitleLabel {
+#listingTitleLabel, #listingDescriptionLabel {
     margin: auto !important;
 }
 
