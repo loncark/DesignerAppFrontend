@@ -25,7 +25,7 @@
 import Button from 'primevue/button';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from '../../store/Store';
+import { useStore } from '../../store/store';
 import { deleteImageFromStorage, deleteDesignFromDb } from '../../api/FirebaseApi';
 import { defineProps, defineEmits } from 'vue';
 import placeholderImage from '../../assets/placeholder.svg';

@@ -17,7 +17,7 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { useStore } from '../../../store/Store';
+import { useStore } from '../../../store/store';
 import ProgressSpinner from 'primevue/progressspinner';
 import { queryInterestByRegion } from '../../../api/TrendsApi';
 import eventBus from '../../../utils/EventBus';

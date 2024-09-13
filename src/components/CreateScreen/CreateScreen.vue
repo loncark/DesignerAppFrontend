@@ -65,7 +65,7 @@ import TabMenu from 'primevue/tabmenu';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import ImageList from './ImageList.vue'
-import { useStore } from '../../store/Store';
+import { useStore } from '../../store/store';
 import { ref, computed, onMounted } from 'vue';
 import Chip from 'primevue/chip';
 import { uploadDesignToRealtimeDb } from '../../api/FirebaseApi'

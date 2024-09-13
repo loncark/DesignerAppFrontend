@@ -31,7 +31,7 @@ import Textarea from "primevue/textarea";
 import { querySDtxt2img, querySDimg2img } from '../../api/StableDiffusionApi'
 import { convertImageUrlToBase64 } from '../../api/FirebaseApi'
 import { ref, computed, onMounted, onUnmounted } from "vue";
-import { useStore } from '../../store/Store';
+import { useStore } from '../../store/store';
 import placeholderImage from '../../assets/placeholder.svg';
 import ProgressSpinner from 'primevue/progressspinner';
 import { dimesionInputIsValid, stepInputIsValid, inputIsValid } from "../../utils/validation";

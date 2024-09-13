@@ -18,7 +18,7 @@ import TrendScreen from '../ExploreScreen/TrendScreen/TrendScreen.vue';
 import KeywordSearchScreen from '../ExploreScreen/KeywordSearchScreen/KeywordSearchScreen.vue';
 import EtsyScreen from '../ExploreScreen/EtsyScreen/EtsyScreen.vue';
 import { computed, onMounted, ref } from 'vue';
-import { useStore } from '../../store/Store';
+import { useStore } from '../../store/store';
 import TabMenu from 'primevue/tabmenu';
 
 const store = useStore();

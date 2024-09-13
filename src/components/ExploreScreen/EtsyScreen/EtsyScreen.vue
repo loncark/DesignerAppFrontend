@@ -36,7 +36,7 @@ import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import { queryEtsy } from '../../../api/EtsyApi';
 import { ref, computed } from 'vue';
-import { useStore } from '../../../store/Store';
+import { useStore } from '../../../store/store';
 import ProgressSpinner from 'primevue/progressspinner';
 import { orderBy } from '../../../utils/functions';
 import { inputIsValid } from '../../../utils/validation';

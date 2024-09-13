@@ -21,7 +21,7 @@ import Textarea from 'primevue/textarea';
 import Button from 'primevue/button';
 import { queryGemini } from '../../api/GeminiApi';
 import {TAGS_PROMPT, TITLE_PROMPT, IDEA_PROMPT, DESCRIPTION_PROMPT} from '../../utils/constants';
-import { useStore } from '../../store/Store';
+import { useStore } from '../../store/store';
 import { ref } from 'vue';
 import ProgressSpinner from 'primevue/progressspinner';
 import { inputIsValid } from '../../utils/validation';

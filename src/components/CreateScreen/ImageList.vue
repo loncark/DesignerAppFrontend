@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import { useStore } from '../../store/Store';
+import { useStore } from '../../store/store';
 import eventBus from '../../utils/EventBus';
 
 const props = defineProps(["images", "newImages"])

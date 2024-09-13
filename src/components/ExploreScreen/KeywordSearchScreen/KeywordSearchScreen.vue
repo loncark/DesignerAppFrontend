@@ -23,7 +23,7 @@
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import { ref, computed } from 'vue';
-import { useStore } from '../../../store/Store';
+import { useStore } from '../../../store/store';
 import { inputIsValid } from '../../../utils/validation';
 import InterestOvertimeCard from './InterestOverTimeCard.vue';
 import RelatedQueriesCard from './RelatedQueriesCard.vue';

@@ -4,7 +4,7 @@ import { createTestingPinia } from '@pinia/testing'
 import DesignScreen from '../src/components/DesignScreen/DesignScreen.vue'
 import ProgressSpinner from 'primevue/progressspinner'
 import DesignCard from '../src/components/DesignScreen/DesignCard.vue'
-import { useStore } from '../src/store/Store'
+import { useStore } from '../src/store/store'
 import { nextTick } from 'vue'
 import { deleteDesignFromDb, getAllDesignsFromStorage } from '../src/api/FirebaseApi';
 import getAllDesignsFromStorageMockData from './mockdata/getAllDesignsFromStorageMockData';

@@ -19,7 +19,7 @@
   import { getAllDesignsFromStorage } from '../../api/FirebaseApi';
   import DesignCard from './DesignCard.vue';
   import ProgressSpinner from 'primevue/progressspinner';
-  import { useStore } from '../../store/Store';
+  import { useStore } from '../../store/store';
   
   const loading = ref(false);
   const designArray = ref([]);

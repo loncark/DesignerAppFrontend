@@ -11,7 +11,7 @@
 import Button from 'primevue/button';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from '../store/Store';
+import { useStore } from '../store/store';
 
 const router = useRouter();
 const store = useStore();

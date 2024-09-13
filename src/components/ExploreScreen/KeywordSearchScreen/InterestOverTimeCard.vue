@@ -12,7 +12,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 import 'chartjs-adapter-date-fns';
 import { queryInterestOverTime } from '../../../api/TrendsApi';
 import ProgressSpinner from 'primevue/progressspinner';
-import { useStore } from '../../../store/Store';
+import { useStore } from '../../../store/store';
 import eventBus from '../../../utils/EventBus';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale);

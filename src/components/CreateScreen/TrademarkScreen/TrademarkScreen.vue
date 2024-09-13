@@ -28,7 +28,7 @@ import Button from 'primevue/button';
 import ResultCard from './ResultCard.vue';
 import { ref, computed } from 'vue';
 import { queryTESS } from '../../../api/TrademarkApi'
-import { useStore } from '../../../store/Store';
+import { useStore } from '../../../store/store';
 import ProgressSpinner from 'primevue/progressspinner';
 import { inputIsValid } from '../../../utils/validation';
 import InputText from 'primevue/inputtext';
