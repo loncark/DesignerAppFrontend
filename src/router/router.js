@@ -17,12 +17,12 @@ const routes = [
   },
   {
     path: '/explore',
-    name: 'ExploreScreen',
+    name: 'Explore',
     component: ExploreScreen
   },
   {
     path: '/:catchAll(.*)',
-    name: 'NotFound',
+    name: 'Not Found',
     component: NotFound
   },
 ];
