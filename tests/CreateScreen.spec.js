@@ -3,7 +3,7 @@ import { shallowMount } from '@vue/test-utils';
 import CreateScreen from '../src/components/CreateScreen/CreateScreen.vue';
 import { v4 as uuidv4 } from 'uuid';
 import { uploadDesignToRealtimeDb, uploadImgToFirebaseStorage, deleteImageFromStorage } from '../src/api/FirebaseApi';
-import getAllDesignsFromStorageMockData from './mockdata/getAllDesignsFromStorageMockData';
+import getAllDesignsFromDbMockData from './mockdata/getAllDesignsFromDbMockData';
 import TrademarkScreen from '../src/components/CreateScreen/TrademarkScreen/TrademarkScreen.vue';
 import StableDiffusionScreen from '../src/components/CreateScreen/StableDiffusionScreen.vue';
 import GeminiScreen from '../src/components/CreateScreen/GeminiScreen.vue';
@@ -84,7 +84,7 @@ describe('CreateScreen', () => {
   });
 
   it('displays images correctly when present', async () => {
-    wrapper.vm.store.design = getAllDesignsFromStorageMockData[0];
+    wrapper.vm.store.design = getAllDesignsFromDbMockData[0];
     await wrapper.vm.$nextTick();
     expect(wrapper.findComponent(ImageList).exists()).toBe(true);
   });
@@ -105,7 +105,7 @@ describe('CreateScreen', () => {
   });
 
   it('handleEmptyDesignClick resets the form', async () => {
-    wrapper.vm.store.design = getAllDesignsFromStorageMockData[0];
+    wrapper.vm.store.design = getAllDesignsFromDbMockData[0];
 
     await wrapper.vm.handleEmptyDesignClick();
     expect(wrapper.vm.store.resetCreateScreen).toHaveBeenCalled();
@@ -131,7 +131,7 @@ describe('CreateScreen', () => {
   });
 
   it('calls handleSaveClick and processes saving existing design correctly', async () => {
-    wrapper.vm.store.design = getAllDesignsFromStorageMockData[0];
+    wrapper.vm.store.design = getAllDesignsFromDbMockData[0];
     wrapper.vm.store.new_images_buffer = ["link1", "link2", "link3"];
 
     await wrapper.vm.handleSaveClick();
@@ -148,7 +148,7 @@ describe('CreateScreen', () => {
 
   //integration
   it('does not display ImageList after the design is emptied', async () => {
-    wrapper.vm.store.design = getAllDesignsFromStorageMockData[0];
+    wrapper.vm.store.design = getAllDesignsFromDbMockData[0];
 
     expect(wrapper.findComponent(ImageList).exists()).toBe(true);
     
@@ -165,7 +165,7 @@ describe('CreateScreen', () => {
   });
 
   it('does not display the image in ImageList after delete is clicked', async () => {
-    wrapper.vm.store.design = getAllDesignsFromStorageMockData[0];
+    wrapper.vm.store.design = getAllDesignsFromDbMockData[0];
     await wrapper.vm.$nextTick();
 
     let imageList = wrapper.findComponent(ImageList);
@@ -189,7 +189,7 @@ describe('CreateScreen', () => {
   });
 
   it('renders the image that is accepted on StableDiffusionScreen', async () => {
-    wrapper.vm.store.design = getAllDesignsFromStorageMockData[0];
+    wrapper.vm.store.design = getAllDesignsFromDbMockData[0];
     wrapper.vm.store.sd_base64String = 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
     wrapper.vm.changeActiveTab(1);
     await wrapper.vm.$nextTick();

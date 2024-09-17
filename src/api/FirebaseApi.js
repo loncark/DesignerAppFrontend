@@ -28,7 +28,7 @@ export const uploadImgToFirebaseStorage = async (base64String, design_id) => {
     }
 }
 
-export const getAllDesignsFromStorage = async () => {
+export const getAllDesignsFromDb = async () => {
     return await query('db/allDesigns', 'GET', null);
 }
 

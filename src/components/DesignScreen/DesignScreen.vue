@@ -16,7 +16,7 @@
   
 <script setup>
   import { ref, onMounted } from 'vue';
-  import { getAllDesignsFromStorage } from '../../api/FirebaseApi';
+  import { getAllDesignsFromDb } from '../../api/FirebaseApi';
   import DesignCard from './DesignCard.vue';
   import ProgressSpinner from 'primevue/progressspinner';
   import { useStore } from '../../store/store';
@@ -27,7 +27,7 @@
 
   const getAllDesigns = async () => {
     loading.value = true;
-    const response = await getAllDesignsFromStorage();
+    const response = await getAllDesignsFromDb();
     designArray.value = response;
     loading.value = false;
   }

@@ -6,15 +6,15 @@ import ProgressSpinner from 'primevue/progressspinner'
 import DesignCard from '../src/components/DesignScreen/DesignCard.vue'
 import { useStore } from '../src/store/store'
 import { nextTick } from 'vue'
-import { deleteDesignFromDb, getAllDesignsFromStorage } from '../src/api/FirebaseApi';
-import getAllDesignsFromStorageMockData from './mockdata/getAllDesignsFromStorageMockData';
+import { deleteDesignFromDb, getAllDesignsFromDb } from '../src/api/FirebaseApi';
+import getAllDesignsFromDbMockData from './mockdata/getAllDesignsFromDbMockData';
 import Button from 'primevue/button'
 import { useRouter } from 'vue-router';
 
 
 vi.mock('../src/api/FirebaseApi', () => ({
-  getAllDesignsFromStorage: vi.fn(() => {
-    return Promise.resolve(getAllDesignsFromStorageMockData);
+  getAllDesignsFromDb: vi.fn(() => {
+    return Promise.resolve(getAllDesignsFromDbMockData);
   }),
   deleteDesignFromDb: vi.fn(() => "Design deleted successfully")
 }))
@@ -70,7 +70,7 @@ describe('DesignScreen', () => {
 
   //unit
   it('calls getAllDesigns on mount and on design-deleted emit', async () => {
-    const mocked = vi.mocked(getAllDesignsFromStorage);
+    const mocked = vi.mocked(getAllDesignsFromDb);
     expect(mocked).toHaveBeenCalledTimes(1);
     await nextTick();
     expect(wrapper.vm.designArray).toHaveLength(2);
