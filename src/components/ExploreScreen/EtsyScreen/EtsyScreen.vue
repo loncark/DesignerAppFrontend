@@ -76,8 +76,9 @@ const getProductsByKeyword = async () => {
 const amendResults = async () => {
     try {
         loadingMoreContent.value = true;
+        store.etsy_current_page += 1;
 
-        const response = await queryEtsy(store.etsy_keyword, store.etsy_current_page + 1);
+        const response = await queryEtsy(store.etsy_keyword, store.etsy_current_page);
 
         let productsToAdd = orderBy(response.response, store.etsy_order);
         productsToAdd.filter(product => product.reviews !== undefined && product.rating !== '');
